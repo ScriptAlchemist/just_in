@@ -221,8 +221,190 @@ work.
 * Use the top template for each `.md` file.
 * Write markdown below and the webpage will just work.
 
+## Problems start to come up
+
+* How do we search?
+* Are there styles?
+* Are there code block highlights?
+
+This isn't a finished package. This is a minimal blog that needs to be
+build up on. Yes it's Next.js, but it's a basic version with tailwind
+baked in. Use CSS or use tailwind. As you'll see later on.
+
+Some of these problems we will have to come back to in the future. How
+do we index, how do we search? All problems we can come up with for a
+later post. Right now, we just want to have a basic working blog. With 1
+post about making the blog.
+
+### How can we get the code highlighting setup?
+
+We want to start in the `/lib/markdownToHtml.ts` and completely remove
+what we have going on there right now and replace it with.
+
+```javascript
+import {unified} from 'unified'
+//import stream from 'unified-stream'
+import remarkParse from 'remark-parse'
+//import remarkToc from 'remark-toc'
+import remarkRehype from 'remark-rehype'
+import rehypeDocument from 'rehype-document'
+import rehypeFormat from 'rehype-format'
+import rehypeStringify from 'rehype-stringify'
+import rehypeHighlight from 'rehype-highlight'
+
+export default async function markdownToHtml(markdown: string) {
+  const result = await unified()
+    .use(remarkParse)
+    //.use(remarkToc)
+    .use(remarkRehype)
+    .use(rehypeDocument, {title: 'Contents'})
+    .use(rehypeFormat)
+    .use(rehypeHighlight)
+    .use(rehypeStringify)
+    .process(markdown);
+  return result.toString()
+}
+```
+
+This is going to be the setup to take our markdown and label everything
+inside of the code blocks.
+
+We start with [remark](https://github.com/remarkjs/remark) and we will
+also need the css from [highlight.js](https://highlightjs.org/) for the
+highlight coloring. For right now we can just take the css directly into
+the styles folder.
 
 
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+body {
+  background-color: #2e2a24;
+  color: white;
+}
 
+.hljs{
+    padding:.5em;
+    @apply bg-gray-900 block overflow-x-auto;
+}
+.hljs,.hljs-subst{
+    @apply text-white;
+}
+.hljs-comment{
+    @apply text-gray-300;
+}
+.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{
+    font-weight:bold
+}
+.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{
+    @apply text-red-300;
 
+}
+.hljs-title,.hljs-section{
+    @apply text-indigo-300;
+    font-weight:bold
+}
+.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{
+    @apply text-sky-300;
+}
+.hljs-literal{
+    color:#78A960
+}
+.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{
+    @apply text-blue-300;
+}
+.hljs-meta{
+    color:#1f7199
+}
+.hljs-meta-string{
+    color:#4d99bf
+}
+.hljs-emphasis{
+    font-style:italic
+}
+.hljs-strong{
+    font-weight:bold
+}
+
+```
+
+It seems that remark is a bit older and the new tool to use is. [rehype
+highlight](https://github.com/rehypejs/rehype-highlight#unifieduserehypehighlight-options)
+which directly connects to remark. Which are shown in the example above
+the css. As this point we have a cleaned up application with the very
+minimum styling.
+
+At this point you should have a working blog. With an idea of how to add
+more blog posts. There is not much to using this tool. If you have any
+questions about it. Feel free to reach out.
+
+We can even get it setup in github pages with a `workflow`. Which I'll
+share. So you get get your own blogs up and running.
+`.\.github\workflows\nextjs.yml`
+
+```yaml
+# Sample workflow for building and deploying a Next.js site to GitHub Pages
+#
+# To get started with Next.js see: https://nextjs.org/docs/getting-started
+#
+name: Deploy Next.js site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build with Next.js
+        run: npm run build
+      - name: Static HTML export with Next.js
+        run: npm run export
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./out
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+```
+
+I'm going to finish with this post. I'm tired. 🧙 I have a working blog. I explained how you can too. I plan to go deeper into more things Rust, JavaScript and more. So I hope you enjoy as I learn to communicate better by failing.
