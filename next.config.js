@@ -1,6 +1,6 @@
 module.exports = {
-  basePath: '/',
-  assetPrefix: '/',
+  basePath: '',
+  assetPrefix: '',
   images: {
     path: '/assets',
     loader: 'default',
