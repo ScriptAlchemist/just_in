@@ -3,13 +3,14 @@ title: 'Making a Blog'
 excerpt: "Today is the day that we start working on the blog. After
 looking around for the right tools. I have settled, now it's time to
 write. I'll teach you how to make your own for day one."
-coverImage: 'assets/blog/first_post/cover.jpg'
+coverImage: 'https://scriptalchemist.github.io/just_in/assets/blog/first_post/cover.jpg'
 date: '2023-06-06T01:31:19.993Z'
 author:
   name: Justin Bender
-  picture: 'assets/blog/authors/bender.png'
+  picture: 'https://scriptalchemist.github.io/just_in/assets/blog/authors/bender.png'
 ogImage:
-  url: 'assets/blog/first_post/cover.jpg'
+  url:
+  'https://scriptalchemist.github.io/just_in/assets/blog/first_post/cover.jpg'
 ---
 
 ## Setting up the blog
