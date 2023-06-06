@@ -1,5 +1,5 @@
 ---
-title: 'Making a Blog'
+title: 'Making a Blog with Next.JS and Markdown'
 excerpt: "Today is the day that we start working on the blog. After
 looking around for the right tools. I have settled, now it's time to
 write. I'll teach you how to make your own for day one."
@@ -25,9 +25,26 @@ It's to read, understand and build your own mental model.
 ### Prerequisites
 
 * Make sure you have [Node.js](https://nodejs.org/en) installed.
-* Make sure you know about Markdown
-* Make sure you know about JavaScript, React and Next.Js
+* Make sure you know about [Markdown Guide - Learn and Use Markdown](https://www.markdownguide.org/)
+* Make sure you know about
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/javascript),
+[Next.js](https://nextjs.org/docs), and
+[React](https://reactjs.org/docs/getting-started.html).
 
-If you don't know those. This might not be the reading for you.
+If you don't know those prerequisites. This might be a bit above you
+level. Come back after a little bit of reading. This project setup took
+a bit longer than expected. I'll try to cover everything here.
+
+I started with the Next.js blog template, but quickly realized that I
+needed to make updates.
+
+```bash
+npx create-next-app@latest --example blog-starter your_app_name
+```
+
+This will give the basic setup ready for you. But understand, it's just
+a template. It's missing pieces and is using some outdated flows.
+
+Let's start with how you can create, and add in blog posts.
 
 
