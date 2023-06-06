@@ -7,7 +7,7 @@ coverImage: 'assets/blog/first_post/cover.jpg'
 date: '2023-06-06T01:31:19.993Z'
 author:
   name: Justin Bender
-  picture: 'assets/blog/authors/Bender.png'
+  picture: 'assets/blog/authors/bender.png'
 ogImage:
   url: 'assets/blog/first_post/cover.jpg'
 ---
