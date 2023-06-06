@@ -3,11 +3,11 @@
 const Intro = () => {
   return (
     <>
-    <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
-      <h1 className="text-5xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
+    <section className="flex-col md:flex-row flex items-center md:justify-around mt-16 mb-16 md:mb-12">
+      <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
         Some<span className="text-red-500">(</span>Scripting<span className="text-red-500">)</span>
       </h1>
-      <h4 className="text-center md:text-left text-lg mt-5 md:pl-8">
+      <div className="flex flex-col space-y-4 text-center md:text-left text-lg mt-5 md:pl-8">
         <div>
           LinkedIn :{' '}
           <a
@@ -38,7 +38,7 @@ const Intro = () => {
             ScriptAlchemist
           </a>
         </div>
-      </h4>
+      </div>
     </section>
       <section>
         <p className="pb-5">The page philosophy: always keep an open mind. My views are my own. They may be flawed. The point isn't to disagree and argue. It's to read, understand and build your own mental model.</p>
