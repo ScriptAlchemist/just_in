@@ -3,13 +3,13 @@ title: 'Making a Blog'
 excerpt: "Today is the day that we start working on the blog. After
 looking around for the right tools. I have settled, now it's time to
 write. I'll teach you how to make your own for day one."
-coverImage: 'public/assets/blog/first_post/cover.jpg'
+coverImage: 'assets/blog/first_post/cover.jpg'
 date: '2023-06-06T01:31:19.993Z'
 author:
   name: Justin Bender
-  picture: 'public/assets/blog/authors/Bender.png'
+  picture: 'assets/blog/authors/Bender.png'
 ogImage:
-  url: 'public/assets/blog/first_post/cover.jpg'
+  url: 'assets/blog/first_post/cover.jpg'
 ---
 
 ## Setting up the blog
