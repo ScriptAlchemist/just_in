@@ -3,13 +3,13 @@ title: 'Making a Blog with Next.JS and Markdown'
 excerpt: "Today is the day that we start working on the blog. After
 looking around for the right tools. I have settled, now it's time to
 write. I'll teach you how to make your own for day one."
-coverImage: '/just_in/assets/blog/first_post/cover.jpg'
+coverImage: '/assets/blog/first_post/cover.jpg'
 date: '2023-06-06T01:31:19.993Z'
 author:
   name: Justin Bender
-  picture: '/just_in/assets/blog/authors/bender.png'
+  picture: '/assets/blog/authors/bender.png'
 ogImage:
-  url: '/just_in/assets/blog/first_post/cover.jpg'
+  url: '/assets/blog/first_post/cover.jpg'
 ---
 
 ## Setting up the blog
@@ -333,7 +333,7 @@ body {
 It seems that remark is a bit older and the new tool to use is. [rehype
 highlight](https://github.com/rehypejs/rehype-highlight#unifieduserehypehighlight-options)
 which directly connects to remark. Which are shown in the example above
-the css. As this point we have a cleaned up application with the very
+the css. At this point we have a cleaned up application with the very
 minimum styling.
 
 At this point you should have a working blog. With an idea of how to add

@@ -1,8 +1,8 @@
 module.exports = {
-  basePath: '/just_in',
-  assetPrefix: '/just_in/',
+  basePath: './',
+  assetPrefix: './',
   images: {
-    path: '/just_in/assets',
+    path: '/assets',
     loader: 'default',
     unoptimized: true
   },
