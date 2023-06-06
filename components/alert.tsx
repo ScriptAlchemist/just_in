@@ -1,6 +1,6 @@
 import Container from './container'
 import cn from 'classnames'
-import { EXAMPLE_PATH } from '../lib/constants'
+//import { EXAMPLE_PATH } from '../lib/constants'
 
 type Props = {
   preview?: boolean
@@ -11,7 +11,7 @@ const Alert = ({ preview }: Props) => {
     <div
       className={cn('border-b', {
         'bg-neutral-800 border-neutral-800 text-white': preview,
-        'bg-neutral-50 border-neutral-200': !preview,
+        'bg-gray-800 border-neutral-200': !preview,
       })}
     >
       <Container>
@@ -29,12 +29,12 @@ const Alert = ({ preview }: Props) => {
             </>
           ) : (
             <>
-              The source code for this blog is{' '}
+              Welcome to my blog{' '}
               <a
-                href={`https://github.com/vercel/next.js/tree/canary/examples/${EXAMPLE_PATH}`}
+                href={`https://twitter.com/ScriptAlchemist`}
                 className="underline hover:text-blue-600 duration-200 transition-colors"
               >
-                available on GitHub
+                some say Hello on Twitter
               </a>
               .
             </>

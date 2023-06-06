@@ -1,19 +1,33 @@
 ---
-title: 'Preview Mode for Static Generation'
-excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus.'
-coverImage: '/assets/blog/preview/cover.jpg'
-date: '2020-03-16T05:35:07.322Z'
+title: 'Making a Blog'
+excerpt: "Today is the day that we start working on the blog. After
+looking around for the right tools. I have settled, now it's time to
+write. I'll teach you how to make your own for day one."
+coverImage: '/assets/blog/first_post/cover.jpg'
+date: '2023-06-06T01:31:19.993Z'
 author:
-  name: Joe Haddad
-  picture: '/assets/blog/authors/joe.jpeg'
+  name: Justin Bender
+  picture: '/assets/blog/authors/Bender.png'
 ogImage:
-  url: '/assets/blog/preview/cover.jpg'
+  url: '/assets/blog/first_post/cover.jpg'
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
+## Setting up the blog
 
-Venenatis cras sed felis eget velit. Consectetur libero id faucibus nisl tincidunt. Gravida in fermentum et sollicitudin ac orci phasellus egestas tellus. Volutpat consequat mauris nunc congue nisi vitae. Id aliquet risus feugiat in ante metus dictum at tempor. Sed blandit libero volutpat sed cras. Sed odio morbi quis commodo odio aenean sed adipiscing. Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in. Nibh cras pulvinar mattis nunc sed. Luctus accumsan tortor posuere ac ut consequat semper viverra. Fringilla ut morbi tincidunt augue interdum velit euismod.
+Let's go over how you can also setup a similar blog like this. It is
+still very simple and there needs to be lots more styling. That's fine
+for now. The main idea is getting the ideas out.
 
-## Lorem Ipsum
+The philosophy we should have is, always keep an open mind. My views are
+my own and they can be flawed. The point isn't to disagree and argue.
+It's to read, understand and build your own mental model.
 
-Tristique senectus et netus et malesuada fames ac turpis. Ridiculous mus mauris vitae ultricies leo integer malesuada nunc vel. In mollis nunc sed id semper. Egestas tellus rutrum tellus pellentesque. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Quis blandit turpis cursus in hac habitasse platea dictumst quisque. Eros donec ac odio tempor orci dapibus ultrices. Aliquam sem et tortor consequat id porta nibh. Adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla. Diam vulputate ut pharetra sit amet. Ut tellus elementum sagittis vitae et leo. Arcu non odio euismod lacinia at quis risus sed vulputate.
+### Prerequisites
+
+* Make sure you have [Node.js](https://nodejs.org/en) installed.
+* Make sure you know about Markdown
+* Make sure you know about JavaScript, React and Next.Js
+
+If you don't know those. This might not be the reading for you.
+
+
