@@ -6,3 +6,46 @@ body {
   background-color: #2e2a24;
   color: white;
 }
+
+.hljs{
+    padding:.5em;
+    @apply bg-gray-900 block overflow-x-auto;
+}
+.hljs,.hljs-subst{
+    @apply text-white;
+}
+.hljs-comment{
+    @apply text-gray-300;
+}
+.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{
+    font-weight:bold
+}
+.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{
+    @apply text-red-300;
+
+}
+.hljs-title,.hljs-section{
+    @apply text-indigo-300;
+    font-weight:bold
+}
+.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{
+    @apply text-sky-300;
+}
+.hljs-literal{
+    color:#78A960
+}
+.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{
+    @apply text-blue-300;
+}
+.hljs-meta{
+    color:#1f7199
+}
+.hljs-meta-string{
+    color:#4d99bf
+}
+.hljs-emphasis{
+    font-style:italic
+}
+.hljs-strong{
+    font-weight:bold
+}
