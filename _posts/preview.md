@@ -45,6 +45,184 @@ npx create-next-app@latest --example blog-starter your_app_name
 This will give the basic setup ready for you. But understand, it's just
 a template. It's missing pieces and is using some outdated flows.
 
-Let's start with how you can create, and add in blog posts.
+Let's start with how you can create, and add in blog posts. We can start
+at the file structure you should see.
+
+```bash
+ @types/
+   remark-html.d.ts
+ _posts/
+   preview.md
+ components/
+   alert.tsx
+   avatar.tsx
+   container.tsx
+   cover-image.tsx
+   date-formatter.tsx
+   footer.tsx
+   header.tsx
+   hero-post.tsx
+   intro.tsx
+   layout.tsx
+   markdown-styles.module.
+   meta.tsx
+   more-stories.tsx
+   post-body.tsx
+   post-header.tsx
+   post-preview.tsx
+   post-title.tsx
+   section-separator.tsx
+ interfaces/
+   author.ts
+   post.ts
+ lib/
+   api.ts
+   constants.ts
+   markdownToHtml.ts
+ node_modules/
+ out/
+ pages/
+   posts/
+   _app.tsx
+   _document.tsx
+   index.tsx
+ public/
+   assets/blog/
+ ~   authors/
+       bender.png
+ ~   first_post/
+       cover.jpg
+   favicon/
+     android-chrome-192x19
+     android-chrome-512x51
+     apple-touch-icon.png
+     browserconfig.xml
+     favicon-16x16.png
+     favicon-32x32.png
+     favicon.ico
+     mstile-150x150.png
+     safari-pinned-tab.svg
+     site.webmanifest
+ styles/
+   index.css
+ LICENSE
+ next-env.d.ts
+ next.config.js
+ package-lock.json
+ package.json
+ postcss.config.js
+ README.md
+ tailwind.config.js
+ tsconfig.json
+```
+
+There is too much in this folder to go over it all. It's past the scope
+of this post. What I want us to focus on is the assets in the public
+folder. We will also checkout some css, auto generation scripts and the
+`_posts` folder.
+
+First let's start with an auto generation script using Rust. We want to
+automatically create new posts in some sort of order. If we look into
+the code. We find that the `_posts` folder is flat. You aren't supposed
+to make folder. You want the folder structure to be flat and ordered by
+date.
+
+* Create and isosec based name.
+* Use that same isosec to generation the required date format.
+* Create the new file with template post format.
+
+```rust
+use std::fs::File;
+use std::io::Write;
+use std::process::Command;
+use chrono::{Utc, Datelike, Timelike};
+
+fn main() -> Result<(), std::io::Error> {
+    let now = Utc::now();
+    let filename = format!("{}{}{}{}{}{}.md",
+        now.year(),
+        format!("{:02}", now.month()),
+        format!("{:02}", now.day()),
+        format!("{:02}", now.hour()),
+        format!("{:02}", now.minute()),
+        format!("{:02}", now.second()));
+
+    let mut file = File::create(filename.clone())?;
+    let formatted_now = now.to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+
+    let content = format!(r#"---
+title: ''
+excerpt: ''
+coverImage: '/assets/blog/'
+date: '{}'
+author:
+  name: Justin Bender
+  picture: '/assets/blog/authors/Bender.png'
+ogImage:
+  url: '/assets/blog/'
+---
+
+## Title
+
+    "#, formatted_now);
+
+    file.write_all(content.as_bytes())?;
+
+    // Open Vim
+    let mut child = Command::new("vim.bat")
+        .arg(&filename)
+        .spawn()
+        .expect("Failed to open file in Vim");
+
+    let _ = child.wait();
+    Ok(())
+}
+
+```
+
+I won't explain how to use `cargo` or `rust` in this post.
+
+This current script only works with `vim.bat` but you could easily
+change it around to `vim.exe` or `nvim.exe`. Whatever editor you like to
+use.
+
+I want to point out the template a little deeper.
+
+```text
+---
+title: ''
+excerpt: ''
+coverImage: '/assets/blog/'
+date: '{}'
+author:
+  name: Justin Bender
+  picture: '/assets/blog/authors/Bender.png'
+ogImage:
+  url: '/assets/blog/'
+---
+## Title
+
+```
+
+* Starts and ends with `---` for page data.
+* Fill in a title.
+* Fill in the excerpt for the theme of post/hook.
+* Path to the image assets. Using the `/assets/` or `/images/` style for
+  direction.
+* Date in a very specific format. Which you can see in the other 3
+  examples. I've since deleted, but trust me. We will look at it later.
+* Author data, name, and directions to image.
+* The ogImage url directions to the image.
+
+That's is going to be what is require. To make the blog functionality
+work.
+
+* Keep the `_posts` folder flat.
+* Use the top template for each `.md` file.
+* Write markdown below and the webpage will just work.
+
+
+
+
 
 
