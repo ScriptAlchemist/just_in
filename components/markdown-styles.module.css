@@ -9,8 +9,24 @@
   @apply my-6;
 }
 
+.markdown blockquote p {
+  @apply bg-sky-800 p-3 rounded;
+}
+
+.markdown code {
+  @apply bg-gray-900 p-1 rounded;
+}
+
 .markdown ul {
   list-style-type: disc;
+}
+
+.markdown ol {
+  list-style-type: number;
+}
+
+.markdown ol li::marker {
+  @apply text-red-300;
 }
 
 .markdown ul li::marker {
