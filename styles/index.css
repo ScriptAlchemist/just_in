@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 body {
-  background-color: #2e2a24;
-  color: white;
+    @apply text-white bg-gray-800;
 }
 
 .hljs{
     padding:.5em;
-    @apply bg-gray-900 block overflow-x-auto;
+    @apply block overflow-x-auto;
 }
 .hljs,.hljs-subst{
     @apply text-white;
@@ -38,7 +37,7 @@ body {
     @apply text-blue-300;
 }
 .hljs-meta{
-    color:#1f7199
+    @apply text-emerald-300;
 }
 .hljs-meta-string{
     color:#4d99bf
