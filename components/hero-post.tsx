@@ -22,11 +22,11 @@ const HeroPost = ({
   slug,
 }: Props) => {
   return (
-    <section className="flex flex-col md:flex-row items-center">
+    <section className="flex flex-col lg:flex-row items-center">
       <div className="mb-8 md:mb-16 w-full mx-auto flex-grow">
         <CoverImage title={title} src={coverImage} slug={slug} />
       </div>
-      <div className="ml-20 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28 flex-grow">
+      <div className="mx-auto lg:ml-20 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28 flex-grow">
         <div>
           <h3 className="mb-4 text-4xl lg:text-5xl leading-tight">
             <Link
