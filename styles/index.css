@@ -7,11 +7,11 @@ body {
 }
 
 .hljs{
-    padding:.5em;
+    padding: 0.2em 0.8em !important;
     @apply block overflow-x-auto;
 }
 .hljs,.hljs-subst{
-    @apply text-white;
+    @apply text-white/70;
 }
 .hljs-comment{
     @apply text-gray-300;
