@@ -19,10 +19,12 @@
 
 .markdown ul {
   list-style-type: disc;
+  @apply mx-7;
 }
 
 .markdown ol {
   list-style-type: number;
+  @apply mx-7;
 }
 
 .markdown ol li::marker {
