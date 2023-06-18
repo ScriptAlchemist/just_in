@@ -39,10 +39,22 @@
   @apply text-red-300 hover:text-blue-200;
 }
 
+.markdown h1 {
+  @apply text-4xl text-indigo-300 mt-12 mb-4 leading-snug;
+}
+
 .markdown h2 {
   @apply text-3xl text-indigo-300 mt-12 mb-4 leading-snug;
 }
 
 .markdown h3 {
   @apply text-2xl text-sky-300 mt-8 mb-4 leading-snug;
+}
+
+.markdown h4 {
+  @apply text-xl text-indigo-300 mt-8 mb-4 leading-snug;
+}
+
+.markdown hr {
+  @apply border-dashed border-red-300;
 }
