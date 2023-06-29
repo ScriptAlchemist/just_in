@@ -13,7 +13,7 @@ export default async function markdownToHtml(markdown: string) {
     .use(remarkParse)
     //.use(remarkToc)
     .use(remarkRehype)
-    .use(rehypeDocument, {title: 'Contents'})
+    .use(rehypeDocument)
     .use(rehypeFormat)
     .use(rehypeHighlight)
     .use(rehypeStringify)
