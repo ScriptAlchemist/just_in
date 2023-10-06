@@ -10,11 +10,11 @@
 }
 
 .markdown blockquote p {
-  @apply bg-sky-800 p-3 rounded;
+  @apply bg-violet-900/50 p-3 rounded;
 }
 
 .markdown code {
-  @apply bg-gray-900 px-[0.1em] py-[0.1em] rounded;
+  @apply bg-stone-800 px-[0.1em] py-[0.1em] rounded;
 }
 
 .markdown ul {
