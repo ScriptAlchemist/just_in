@@ -1,6 +1,6 @@
 //import { CMS_NAME } from '../lib/constants'
 import Image from 'next/image';
-import JustinImg from '../public/assets/blog/authors/blackandwhite.jpg';
+import JustinImg from '../public/assets/blog/authors/skydiver_justin.jpeg';
 
 const Intro = () => {
   return (
