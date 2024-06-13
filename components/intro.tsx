@@ -53,16 +53,15 @@ const Intro = () => {
         />
         </div>
         <div className='flex flex-col w-full mt-5 md:w-3/5 mx-auto'>
-        <p className="pb-5">
-          Understanding and growing ideas is how we progress as humans. In my time on this Earth I hope to share some of my experinces.
-          In the hopes that someone else in this world can learn. I'm into technology, physics, mathematics and everything about life.
-          I'm an expert at very few topics, but mediocre at many. I love to learn.</p>
-        <p className="pb-5">These opinions are my own. They may be flawed. The point isn't to disagree and argue. It's to read, understand and build your own mental model.</p>
-        <p className="pb-5 underline decoration-indigo-500">All of the articles will be listed below. With the most recent one at the top. Please enjoy, if you need me reach out on social media.</p>
+        <p className="pb-5 font-semibold">
+          <span className="text-red-500 text-2xl">Hello</span>, my name is <span className="text-indigo-500 text-2xl">Justin</span>
+        </p>
+        <p className="pb-5 font-thin">These opinions are my own. Not for any employer that I currently work.</p>
+        <p className="pb-5 font-semibold">All of the posts will be listed below using a timestamp. With the most recent one at the top. If you have any questions, you can message me.</p>
       </div>
       </section>
       <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 m-5 pb-5">
-        Blog Posts<span className="text-red-500">(</span>V<span className="text-red-500">)</span>
+        What is on my mind<span className="text-indigo-500">?</span>
       </h2>
       </>
   )

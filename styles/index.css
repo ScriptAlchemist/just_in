@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply text-white bg-stone-950;
+    @apply text-gray-300 bg-stone-900;
 }
 
 .hljs{

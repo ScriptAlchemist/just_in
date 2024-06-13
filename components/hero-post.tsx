@@ -22,20 +22,16 @@ const HeroPost = ({
   slug,
 }: Props) => {
   return (
-    <section className="flex flex-col lg:flex-row items-center">
-      <div className="mb-8 md:mb-16 w-full mx-auto flex-grow">
-        <CoverImage title={title} src={coverImage} slug={slug} />
-      </div>
-      <div className="mx-auto lg:ml-20 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28 flex-grow">
+    <section className="border border-red-500 hover:border-indigo-500 flex flex-col lg:flex-row items-center justify-center bg-stone-800 hover:bg-stone-700 rounded-xl">
+      <Link
+        as={`/posts/${slug}`}
+        href="/posts/[slug]"
+        className=""
+      >
+      <div className="mx-4 my-4 lg:ml-20 md:gap-x-16 lg:gap-x-8 flex-grow">
         <div>
           <h3 className="mb-4 text-4xl lg:text-5xl leading-tight">
-            <Link
-              as={`/posts/${slug}`}
-              href="/posts/[slug]"
-              className="hover:underline"
-            >
               {title}
-            </Link>
           </h3>
           <div className="mb-4 md:mb-0 text-lg">
             <DateFormatter dateString={date} />
@@ -46,6 +42,10 @@ const HeroPost = ({
           <Avatar name={author.name} picture={author.picture} />
         </div>
       </div>
+      <div className=" w-full mx-auto flex-grow">
+        <CoverImage title={title} src={coverImage} slug={slug} />
+      </div>
+      </Link>
     </section>
   )
 }
