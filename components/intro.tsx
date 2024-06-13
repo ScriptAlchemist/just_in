@@ -59,11 +59,11 @@ const Intro = () => {
         <p className="pb-5 font-semibold">
           <span className="text-red-500 text-2xl">Hello</span>, my name is <span className="text-indigo-500 text-2xl">Justin</span>
         </p>
-        <p className="pb-5 font-thin">These opinions are my own. Not for any employer that I currently work.</p>
-        <p className="font-semibold">All of the posts will be listed below using a timestamp. With the most recent one at the top. If you have any questions, you can message me.</p>
+        <p className="text-sm sm:text-lg pb-5 font-thin">These opinions are my own. Not for any employer that I currently work.</p>
+        <p className="text-sm sm:text-lg font-semibold">All of the posts will be listed below using a timestamp. With the most recent one at the top. If you have any questions, you can message me.</p>
       </div>
       </section>
-      <h2 className="ml-0 sm:ml-20 text-xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 my-8 md:my-14">
+      <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 my-8 md:my-14">
         What is on my mind<span className="text-indigo-500">?</span>
       </h2>
       </>
