@@ -46,13 +46,13 @@ const Intro = () => {
       </div>
     </section>
       <section className="text-lg flex gap-x-4">
-      <div className='hidden sm:block w-1/4 my-auto'>
+      <div className='hidden sm:flex w-1/4 justify-end items-end lg:mr-10'>
         <Image
           src={JustinImg}
-          style={{objectFit: "contain"}}
+          style={{objectFit: "fill"}}
           alt="Picture of Justin Bender"
           placeholder="blur"
-          className='rounded-2xl h-52'
+          className='rounded-full h-40 w-40 md:h-52 md:w-52'
         />
         </div>
         <div className='flex flex-col mt-5 w-full md:w-3/4 mx-auto'>
