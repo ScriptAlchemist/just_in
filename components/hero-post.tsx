@@ -31,7 +31,7 @@ const HeroPost = ({
         >
         <div className="mx-6 my-4 md:gap-x-16 lg:gap-x-8 flex-grow">
           <div>
-            <h3 className="mb-4 text-2xl lg:text-3xl lg:text-5xl leading-tight">
+            <h3 className="mb-4 text-2xl lg:text-3xl leading-tight">
                 {title}
             </h3>
             <div className="mb-4 md:mb-0 text-sm">
