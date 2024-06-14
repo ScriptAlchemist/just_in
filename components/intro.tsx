@@ -1,8 +1,16 @@
 //import { CMS_NAME } from '../lib/constants'
 import Image from 'next/image';
 import JustinImg from '../public/assets/blog/authors/skydiver_justin.jpeg';
+import { useTypewriter, Cursor } from 'react-simple-typewriter'
 
 const Intro = () => {
+  const [text] = useTypewriter({
+    words: ['What did I write about', 'What is interesting today', 'What is on my mind'],
+    deleteSpeed: 80,
+    loop: 1,
+    onLoopDone: () => console.log(`loop completed after 3 runs.`)
+  })
+
   return (
     <>
     <section className="flex-col md:flex-row flex items-center md:justify-around mt-8 md:mb-12">
@@ -64,7 +72,8 @@ const Intro = () => {
       </div>
       </section>
       <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 my-8 md:my-14">
-        What is on my mind<span className="text-indigo-500">?</span>
+        
+        <span>{text}</span><span className="text-indigo-500">?</span>
       </h2>
       </>
   )
