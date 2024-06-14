@@ -22,7 +22,7 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <div className='border border-indigo-500 hover:border-red-500 hover:motion-safe:animate-[pulse_5s_ease-in-out_infinite] bg-stone-800 hover:bg-stone-700 rounded-xl p-5 mb-auto h-80 md:h-96'>
+    <div className='border border-indigo-500 hover:border-red-500 transition-transform duration-300 ease-in-out transform hover:scale-105  bg-stone-800 hover:bg-stone-700 rounded-xl p-5 mb-auto h-80 md:h-96'>
       <Link
         as={`/posts/${slug}`}
         href="/posts/[slug]"
