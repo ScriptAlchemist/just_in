@@ -11,7 +11,7 @@ type Props = {
 
 const MoreStories = ({ posts }: Props) => {
   const [filteredPosts, setPostsFilter, filterValue] = useFuzzyFilter(posts, ['title']);
-  const [showPosts, setShowPosts] = useState(false);
+  const [showPosts, setShowPosts] = useState(true);
 
   return (
     <section>
@@ -30,7 +30,7 @@ const MoreStories = ({ posts }: Props) => {
             />
           </div>
           {filteredPosts.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4">
               {filteredPosts.map((post) => (
                 <PostPreview
                   key={post.slug}
