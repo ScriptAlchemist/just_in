@@ -15,19 +15,24 @@ const MoreStories = ({ posts }: Props) => {
 
   return (
     <section>
-      <Button onClick={() => setShowPosts(!showPosts)} variant='outline' className="w-full py-10 px-4 my-8 text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
-        More Posts
-        {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
-      </Button>
+      <div className='flex justify-center'>
+        <Button onClick={() => setShowPosts(!showPosts)} variant='outline' className="w-full py-10 px-4 mt-8 mb-4 text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
+          More Posts
+          {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
+        </Button>
+      </div>
       {showPosts ? (
         <>
-          <div className="relative mb-6">
+          <div className="flex flex-row mb-4 items-center gap-x-4 w-5/6 mx-auto">
             <input
               onChange={(event) => setPostsFilter(event.target.value)}
               value={filterValue}
               placeholder="Filter posts by title..."
               className="rounded-md text-2xl w-full border-indigo-500 h-10 text-indigo-500 p-4"
             />
+            <Button onClick={() => setPostsFilter('')} variant='outline' className="">
+              Clear filter
+            </Button>
           </div>
           {filteredPosts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4">
