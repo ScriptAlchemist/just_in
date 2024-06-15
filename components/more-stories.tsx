@@ -12,6 +12,8 @@ type Props = {
 const MoreStories = ({ posts }: Props) => {
   const [filteredPosts, setPostsFilter, filterValue] = useFuzzyFilter(posts, ['title']);
   const [showPosts, setShowPosts] = useState(true);
+  const [showMoreThan4, setShowMoreThan4] = useState(false);
+  const thePosts = showMoreThan4 ? filteredPosts : filteredPosts.slice(0, 4);
 
   return (
     <section>
@@ -35,8 +37,9 @@ const MoreStories = ({ posts }: Props) => {
             </Button>
           </div>
           {filteredPosts.length > 0 ? (
+            <>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4">
-              {filteredPosts.map((post) => (
+              {thePosts.map((post) => (
                 <PostPreview
                   key={post.slug}
                   title={post.title}
@@ -48,6 +51,12 @@ const MoreStories = ({ posts }: Props) => {
                 />
               ))}
             </div>
+            <div className='flex justify-center my-14'>
+              <Button onClick={() => setShowMoreThan4(!showMoreThan4)} variant='outline' className="w-4/6">
+              {showMoreThan4 ? 'Hide all posts, but 4' : 'Show all posts...' }
+              </Button>
+            </div>
+            </>
           ) : (
             <Button onClick={() => setPostsFilter('')} variant="outline" className='flex text-center w-full h-48 items-center justify-center font-semibold text-4xl'>
               No posts with that title
