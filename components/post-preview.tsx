@@ -22,7 +22,7 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <div className='border border-indigo-500 hover:border-red-500 transition-transform duration-300 ease-in-out transform hover:scale-105  bg-stone-800 hover:bg-stone-700 rounded-xl p-5 mb-auto h-80 md:h-96'>
+    <div className='border border-indigo-500 hover:border-red-500 transition-transform duration-300 ease-in-out transform hover:scale-105  bg-stone-800 hover:bg-stone-700 rounded-xl p-5 mb-auto '>
       <Link
         as={`/posts/${slug}`}
         href="/posts/[slug]"
@@ -31,8 +31,8 @@ const PostPreview = ({
       <div className="">
         <CoverImage slug={slug} title={title} src={coverImage} />
       </div>
-      <div className="mt-4 flex flex-col h-36 md:h-52 gap-y-2">
-        <h3 className="text-lg mb-3 leading-snug truncate">
+      <div className="mt-4 flex flex-col gap-y-2">
+        <h3 className="text-lg mb-3 leading-snug h-20">
             {title}
         </h3>
         <div className="hidden sm:block text-sm">
