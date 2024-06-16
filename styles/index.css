@@ -71,33 +71,43 @@
       @apply border-border;
     }
     body {
-      @apply bg-background text-foreground;
+      @apply text-gray-300 bg-stone-900;
     }
   }
-body {
-    @apply text-gray-300 bg-stone-900;
-}
 
 .hljs{
     padding: 0.2em 0.8em !important;
     @apply block overflow-x-auto;
 }
 .hljs,.hljs-subst{
-    @apply text-white/70;
+    @apply text-stone-300;
 }
 .hljs-comment{
-    @apply text-gray-300;
+    @apply text-emerald-400;
+}
+.hljs-keyword{
+    @apply text-red-400;
+}
+.hljs-attr{
+    @apply text-yellow-600;
 }
 .hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{
     font-weight:bold
+    @apply text-red-400;
+}
+.hljs-name{
+    @apply text-teal-400;
 }
 .hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{
     @apply text-red-300;
 
 }
 .hljs-title,.hljs-section{
-    @apply text-indigo-300;
+    @apply text-indigo-400;
     font-weight:bold
+}
+.function_{
+    @apply text-green-600;
 }
 .hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{
     @apply text-sky-300;
