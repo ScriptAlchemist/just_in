@@ -23,12 +23,12 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <BackgroundGradient className='border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-3xl p-5 mb-auto '>
       <Link
         as={`/posts/${slug}`}
         href="/posts/[slug]"
         className=""
       >
+      <BackgroundGradient className='border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-3xl p-5 mb-auto '>
       <div className="">
         <CoverImage slug={slug} title={title} src={coverImage} />
       </div>
@@ -42,8 +42,8 @@ const PostPreview = ({
         <p className="text-sm leading-relaxed truncate-lines">{excerpt}</p>
         <div className='hidden md:block mt-auto'><Avatar name={author.name} picture={author.picture} /></div>
       </div>
-      </Link>
     </BackgroundGradient>
+    </Link>
   )
 }
 

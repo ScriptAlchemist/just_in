@@ -4,6 +4,7 @@ import { useFuzzyFilter } from '../hooks/useFuzzyFilter'
 import { Button } from './ui/button'
 import { useState } from 'react'
 import { Minus, Plus } from 'lucide-react'
+import { BackgroundGradient } from './ui/backgroundGradiant'
 
 type Props = {
   posts: Post[]
@@ -17,10 +18,14 @@ const MoreStories = ({ posts }: Props) => {
 
   return (
     <section>
-      <div className='flex justify-center'>
-        <Button onClick={() => setShowPosts(!showPosts)} variant='outline' className="w-full py-10 px-4 mt-8 mb-4 text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
-          More Posts
-          {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
+      <div className='my-10'>
+        <Button onClick={() => setShowPosts(!showPosts)} variant='unstyled' className="text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
+          <BackgroundGradient className='w-[600px] text-white px-5 bg-black rounded-3xl'>
+            <div className='flex w-full justify-center items-center'>
+                More Posts
+                {showPosts ? <Minus className='ml-5 h-10 w-10'/> :  <Plus className='ml-5 h-10 w-10'/> } 
+            </div>
+          </BackgroundGradient>
         </Button>
       </div>
       {showPosts ? (
@@ -58,9 +63,13 @@ const MoreStories = ({ posts }: Props) => {
             </div>
             </>
           ) : (
-            <Button onClick={() => setPostsFilter('')} variant="outline" className='flex text-center w-full h-48 items-center justify-center font-semibold text-4xl'>
-              No posts with that title
-            </Button>
+            <div className='my-10'>
+              <BackgroundGradient className='text-white p-3 bg-black rounded-3xl'>
+                <Button onClick={() => setPostsFilter('')} variant="unstyled" className='flex text-center w-full h-48 items-center justify-center font-semibold text-4xl'>
+                  No posts with that title
+                </Button>
+              </BackgroundGradient>
+            </div>
           )}
         </>
       ) : (<div className='h-60'></div>)}
