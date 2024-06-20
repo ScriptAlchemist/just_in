@@ -11,6 +11,7 @@ import Head from 'next/head'
 import { CMS_NAME } from '../../lib/constants'
 import markdownToHtml from '../../lib/markdownToHtml'
 import type PostType from '../../interfaces/post'
+import { TracingBeam } from '../../components/ui/tracingBeam'
 
 type Props = {
   post: PostType
@@ -25,6 +26,7 @@ export default function Post({ post, morePosts, preview }: Props) {
     return <ErrorPage statusCode={404} />
   }
   return (
+    <div className='flex flex-col bg-black bg-dot-white/[0.2]'>
     <Layout preview={preview}>
       <Container>
         <Header />
@@ -33,6 +35,7 @@ export default function Post({ post, morePosts, preview }: Props) {
         ) : (
           <>
             <article className="mb-32">
+              <TracingBeam>
               <Head>
                 <title>{title}</title>
                 <meta property="og:image" content={post.ogImage.url} />
@@ -45,11 +48,13 @@ export default function Post({ post, morePosts, preview }: Props) {
                 author={post.author}
               />
               <PostBody content={post.content} />
+              </TracingBeam>
             </article>
           </>
         )}
       </Container>
     </Layout>
+    </div>
   )
 }
 

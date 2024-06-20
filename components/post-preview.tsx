@@ -3,6 +3,7 @@ import DateFormatter from './date-formatter'
 import CoverImage from './cover-image'
 import Link from 'next/link'
 import type Author from '../interfaces/author'
+import { BackgroundGradient } from './ui/backgroundGradiant'
 
 type Props = {
   title: string
@@ -22,7 +23,7 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <div className='border border-indigo-500 hover:border-red-500 transition-transform duration-300 ease-in-out transform hover:scale-105  bg-stone-800 hover:bg-stone-700 rounded-xl p-5 mb-auto '>
+    <BackgroundGradient className='border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-xl p-5 mb-auto '>
       <Link
         as={`/posts/${slug}`}
         href="/posts/[slug]"
@@ -42,7 +43,7 @@ const PostPreview = ({
         <div className='hidden md:block mt-auto'><Avatar name={author.name} picture={author.picture} /></div>
       </div>
       </Link>
-    </div>
+    </BackgroundGradient>
   )
 }
 
