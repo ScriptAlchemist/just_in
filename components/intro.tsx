@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import JustinImg from '../public/assets/blog/authors/skydiver_justin.jpeg';
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
+import { BackgroundGradient } from './ui/backgroundGradiant';
 
 const Intro = () => {
   const [text] = useTypewriter({
@@ -18,39 +19,33 @@ const Intro = () => {
         <span className="underline decoration-indigo-500">Some</span><span className="text-red-500">(</span>Scripting<span className="text-red-500">)</span><div className='text-sm tracking-wider'>By Justin Bender</div>
       </h1>
       <div className="flex gap-x-8 text-center text-lg mt-5">
-        <div>
+        <BackgroundGradient className='text-black px-2'>
           <a
             title="Visit Justins LinkedIn"
             href="https://www.linkedin.com/in/benderjustin"
-            className="hover:text-indigo-500 duration-200 transition-colors"
+            className="duration-200 transition-colors"
           >
-            <span className='text-red-500'>(</span>
               LinkedIn
-            <span className='text-red-500'>)</span>
           </a>
-        </div>
-        <div>
+        </BackgroundGradient>
+        <BackgroundGradient className='text-black px-2'>
           <a
             title="Visit Justins Twitter"
             href="https://twitter.com/ScriptAlchemist"
-            className="hover:text-indigo-500 duration-200 transition-colors"
+            className="duration-200 transition-colors"
           >
-            <span className='text-red-500'>(</span>
               Twitter
-            <span className='text-red-500'>)</span>
           </a>
-        </div>
-        <div>
+        </BackgroundGradient>
+        <BackgroundGradient className='text-black px-2'>
           <a
             title="Visit Justins Github"
             href="https://github.com/ScriptAlchemist"
-            className="hover:text-indigo-500 duration-200 transition-colors"
+            className="duration-200 transition-colors"
           >
-            <span className='text-red-500'>(</span>
               Github
-            <span className='text-red-500'>)</span>
           </a>
-        </div>
+        </BackgroundGradient>
       </div>
     </section>
       <section className="text-lg flex gap-x-4">

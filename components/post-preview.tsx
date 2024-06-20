@@ -23,7 +23,7 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <BackgroundGradient className='border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-xl p-5 mb-auto '>
+    <BackgroundGradient className='border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-3xl p-5 mb-auto '>
       <Link
         as={`/posts/${slug}`}
         href="/posts/[slug]"
