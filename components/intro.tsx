@@ -3,6 +3,7 @@ import Image from 'next/image';
 import JustinImg from '../public/assets/blog/authors/skydiver_justin.jpeg';
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
 import { BackgroundGradient } from './ui/backgroundGradiant';
+import Link from 'next/link';
 
 const Intro = () => {
   const [text] = useTypewriter({
@@ -19,33 +20,33 @@ const Intro = () => {
         <span className="underline decoration-indigo-500">Some</span><span className="text-red-500">(</span>Scripting<span className="text-red-500">)</span><div className='text-sm tracking-wider'>By Justin Bender</div>
       </h1>
       <div className="flex gap-x-8 text-center text-lg mt-5">
-        <BackgroundGradient className='text-black px-2'>
-          <a
+          <Link
             title="Visit Justins LinkedIn"
             href="https://www.linkedin.com/in/benderjustin"
             className="duration-200 transition-colors"
           >
+            <BackgroundGradient className='px-3 bg-black text-white rounded-3xl'>
               LinkedIn
-          </a>
-        </BackgroundGradient>
-        <BackgroundGradient className='text-black px-2'>
-          <a
+            </BackgroundGradient>
+          </Link>
+          <Link
             title="Visit Justins Twitter"
             href="https://twitter.com/ScriptAlchemist"
             className="duration-200 transition-colors"
           >
+            <BackgroundGradient className='px-3 bg-black text-white rounded-3xl'>
               Twitter
-          </a>
-        </BackgroundGradient>
-        <BackgroundGradient className='text-black px-2'>
-          <a
+            </BackgroundGradient>
+          </Link>
+          <Link
             title="Visit Justins Github"
             href="https://github.com/ScriptAlchemist"
             className="duration-200 transition-colors"
           >
+            <BackgroundGradient className='px-2 bg-black text-white rounded-3xl'>
               Github
-          </a>
-        </BackgroundGradient>
+            </BackgroundGradient>
+          </Link>
       </div>
     </section>
       <section className="text-lg flex gap-x-4">

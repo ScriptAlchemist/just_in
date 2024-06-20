@@ -25,13 +25,13 @@ const HeroPost = ({
   return (
     <div className='flex justify-center'>
       <section className="lg:mr-32 rotate-3 flex flex-col lg:flex-row items-center justify-center rounded-xl lg:w-3/5">
-        <BackgroundGradient className='text-black'>
           <Link
             as={`/posts/${slug}`}
             href="/posts/[slug]"
             className=""
           >
-          <div className="mx-6 my-4 md:gap-x-16 lg:gap-x-8 flex-grow">
+          <BackgroundGradient className='text-black'>
+          <div className="p-6 md:gap-x-16 lg:gap-x-8 flex-grow bg-black bg-grid-white/[0.1] rounded-3xl text-white">
             <div>
               <h3 className="mb-4 text-2xl lg:text-3xl leading-tight">
                   {title}
@@ -45,8 +45,8 @@ const HeroPost = ({
               <Avatar name={author.name} picture={author.picture} />
             </div>
           </div>
+          </BackgroundGradient>
           </Link>
-        </BackgroundGradient>
       </section>
     </div>
   )
