@@ -5,6 +5,8 @@ import { useTypewriter, Cursor } from 'react-simple-typewriter'
 import { BackgroundGradient } from './ui/backgroundGradiant';
 import Link from 'next/link';
 import { CardBody, CardContainer, CardItem } from './ui/3dCard';
+import { motion, useTime, useTransform } from "framer-motion";
+
 
 const Intro = () => {
   const [text] = useTypewriter({
@@ -70,7 +72,7 @@ const Intro = () => {
               style={{objectFit: "contain"}}
               alt="Picture of Justin Bender"
               placeholder="blur"
-              className='bg-blue-400 rounded-2xl hidden md:block h-52 w-fit lg:ml-20'
+              className='rounded-2xl hidden md:block h-52 w-fit lg:ml-20'
             />
             <div className='flex flex-col mt-5 w-5/6 md:w-3/4 mx-auto'>
               <p className="pb-5 font-semibold">

@@ -11,7 +11,7 @@ import Head from 'next/head'
 import { CMS_NAME } from '../../lib/constants'
 import markdownToHtml from '../../lib/markdownToHtml'
 import type PostType from '../../interfaces/post'
-import { TracingBeam } from '../../components/ui/tracingBeam'
+import { motion, useScroll } from "framer-motion";
 
 type Props = {
   post: PostType
@@ -20,6 +20,7 @@ type Props = {
 }
 
 export default function Post({ post, morePosts, preview }: Props) {
+  const { scrollYProgress } = useScroll();
   const router = useRouter()
   const title = `${post.title} | Justin Bender post on ${CMS_NAME}`
   if (!router.isFallback && !post?.slug) {
@@ -27,6 +28,10 @@ export default function Post({ post, morePosts, preview }: Props) {
   }
   return (
     <div className='flex flex-col bg-black bg-dot-white/[0.2]'>
+    <motion.div
+        className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
+        style={{ scaleY: scrollYProgress }}
+    />
     <Layout preview={preview}>
       <Container>
         <Header />
