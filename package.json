@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
+    "@tabler/icons-react": "^3.6.0",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.1",
     "clsx": "^2.1.1",
