@@ -18,7 +18,19 @@ const Intro = () => {
     <>
     <section className="flex-col md:flex-row flex items-center md:justify-around mt-8">
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
-        <span className="underline decoration-indigo-500">Some</span><span className="text-red-500">(</span>Scripting<span className="text-red-500">)</span><div className='text-sm tracking-wider'>By Justin Bender</div>
+        <span className="underline decoration-indigo-500">
+          Some
+        </span>
+        <span className="text-red-500">
+          (
+        </span>
+        <span className="underline decoration-indigo-500">
+        Scripting
+        </span>
+        <span className="text-red-500">
+          )
+        </span>
+        <div className='text-sm tracking-wider'>By Justin Bender</div>
       </h1>
       <div className="flex gap-x-8 text-center text-lg mt-5 md:mt-0">
           <Link
@@ -44,7 +56,7 @@ const Intro = () => {
             href="https://github.com/ScriptAlchemist"
             className="duration-200 transition-colors"
           >
-            <BackgroundGradient className='px-2 bg-black text-white rounded-3xl'>
+            <BackgroundGradient className='px-3 bg-black text-white rounded-3xl'>
               Github
             </BackgroundGradient>
           </Link>

@@ -4,6 +4,7 @@ import { useFuzzyFilter } from '../hooks/useFuzzyFilter'
 import { Button } from './ui/button'
 import { useState } from 'react'
 import { Minus, Plus } from 'lucide-react'
+import { BackgroundGradient } from './ui/backgroundGradiant'
 
 type Props = {
   posts: Post[]
@@ -17,10 +18,12 @@ const MoreStories = ({ posts }: Props) => {
 
   return (
     <section>
-      <div className='flex justify-center'>
-        <Button onClick={() => setShowPosts(!showPosts)} variant='outline' className="w-full py-10 px-4 mt-8 mb-4 text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
-          More Posts
-          {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
+      <div className='flex w-full justify-end'>
+        <Button onClick={() => setShowPosts(!showPosts)} variant='unstyled' className="w-full md:w-4/6 my-12">
+          <BackgroundGradient containerClassName='w-full' className='bg-black px-4 rounded-3xl flex flex-row items-center text-5xl md:text-7xl font-bold tracking-tighter leading-tight'>
+            More Posts
+            {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
+          </BackgroundGradient>
         </Button>
       </div>
       {showPosts ? (

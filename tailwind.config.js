@@ -82,6 +82,15 @@ module.exports = {
   plugins: [
     require("tailwindcss-animate"), 
     addVariablesForColors,
+    function ({ addUtilities }) {
+      addUtilities({
+        '.text-clip': {
+          'background-clip': 'text',
+          '-webkit-background-clip': 'text',
+          'color': 'transparent',
+        },
+      })
+    },
     function ({ matchUtilities, theme }) {
       matchUtilities(
         {
