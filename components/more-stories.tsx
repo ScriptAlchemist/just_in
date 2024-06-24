@@ -5,6 +5,7 @@ import { Button } from './ui/button'
 import { useState } from 'react'
 import { Minus, Plus } from 'lucide-react'
 import { BackgroundGradient } from './ui/backgroundGradiant'
+import { MovingBorderButton } from './ui/movingBorder'
 
 type Props = {
   posts: Post[]
@@ -28,16 +29,18 @@ const MoreStories = ({ posts }: Props) => {
       </div>
       {showPosts ? (
         <>
-          <div className="flex flex-row mb-4 items-center gap-x-4 w-5/6 mx-auto">
+          <div className='flex flex-col sm:flex-row w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
+          <BackgroundGradient containerClassName='w-full sm:w-5/6' className="p-[1px]">
             <input
               onChange={(event) => setPostsFilter(event.target.value)}
               value={filterValue}
               placeholder="Filter posts by title..."
-              className="rounded-md text-2xl w-full border-indigo-500 h-10 text-indigo-500 p-4"
+              className="rounded-3xl text-2xl w-full border-indigo-500 h-10 text-indigo-500 p-4"
             />
-            <Button onClick={() => setPostsFilter('')} variant='outline' className="">
+          </BackgroundGradient>
+            <MovingBorderButton onClick={() => setPostsFilter('')} className="">
               Clear filter
-            </Button>
+            </MovingBorderButton>
           </div>
           {filteredPosts.length > 0 ? (
             <>
