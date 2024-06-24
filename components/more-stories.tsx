@@ -32,19 +32,11 @@ const MoreStories = ({ posts }: Props) => {
       {showPosts ? (
         <>
           <div className='flex flex-col sm:flex-row w-full sm:w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
-          <BackgroundGradient containerClassName='hidden sm:block sm:w-5/6' className="p-[1px]">
+          <BackgroundGradient containerClassName='w-full sm:w-5/6' className="p-[1px]">
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
               onChange={(event) => setPostsFilter(event.target.value)}
               value={filterValue}
-            />
-          </BackgroundGradient>
-          <BackgroundGradient containerClassName='sm:hidden w-full' className="p-[1px]">
-            <input
-              placeholder="Search by title..."
-              onChange={(event) => setPostsFilter(event.target.value)}
-              value={filterValue}
-              className="w-full bg-white relative text-sm sm:text-base z-50 border-none dark:text-white bg-transparent text-black h-10 rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20"
             />
           </BackgroundGradient>
             <MovingBorderButton onClick={() => setPostsFilter('')} className="">
@@ -66,16 +58,16 @@ const MoreStories = ({ posts }: Props) => {
                 />
               ))}
             </div>
-            <div className='flex flex-col sm:flex-row justify-center items-center gap-4 my-14'>
+            <div className='flex flex-col sm:flex-row justify-center items-center gap-10 my-14 max-w-4xl mx-auto'>
             {limitShowingPosts < filteredPosts.length &&
-              <Button onClick={() => setLimitShowingPosts((limitShowingPosts + 8 > filteredPosts.length) ? filteredPosts.length : limitShowingPosts + 8)} variant='outline' className="w-4/6">
+              <Button onClick={() => setLimitShowingPosts((limitShowingPosts + 8 > filteredPosts.length) ? filteredPosts.length : limitShowingPosts + 8)} variant='outline' className="w-full">
                 Show more
               </Button>
             }
               <Button onClick={() => {
                 setShowPosts(false);
                 setLimitShowingPosts(4)
-              }} variant='outline' className="w-4/6 bg-red-500/50 text-white">
+              }} variant='outline' className="w-full bg-red-500/50 text-white">
                 hide posts
               </Button>
             </div>
