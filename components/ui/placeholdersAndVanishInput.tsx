@@ -38,7 +38,7 @@ export function PlaceholdersAndVanishInput({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = 800;
+    canvas.width = window.innerWidth < 600 ? window.innerWidth : 800;
     canvas.height = 800;
     ctx.clearRect(0, 0, 800, 800);
     const computedStyles = getComputedStyle(inputRef.current);
@@ -131,11 +131,11 @@ export function PlaceholdersAndVanishInput({
     animateFrame(start);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !animating) {
-      vanishAndSubmit();
-    }
-  };
+  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter" && !animating) {
+  //     vanishAndSubmit();
+  //   }
+  // };
 
   const vanishAndSubmit = () => {
     setAnimating(true);
@@ -154,13 +154,13 @@ export function PlaceholdersAndVanishInput({
   return (
     <div
       className={cn(
-        "w-full relative  mx-auto bg-white dark:bg-zinc-800 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+        "w-full relative mx-auto bg-white dark:bg-zinc-800 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
         value && "bg-gray-50"
       )}
     >
       <canvas
         className={cn(
-          "absolute pointer-events-none  text-base transform top-[20%] left-2 sm:left-8 origin-top-left filter invert dark:invert-0 pr-20",
+          "absolute pointer-events-none text-base transform top-[20%] left-2 sm:left-8 origin-top-left filter invert dark:invert-0 pr-20",
           !animating ? "opacity-0" : "opacity-100"
         )}
         ref={canvasRef}
@@ -171,7 +171,6 @@ export function PlaceholdersAndVanishInput({
             onChange && onChange(e);
           }
         }}
-        onKeyDown={handleKeyDown}
         ref={inputRef}
         value={value}
         type="text"
