@@ -16,7 +16,7 @@ const Layout = ({ preview, children }: Props) => {
       <Meta />
       <div className="flex flex-col w-full">
         {/*<Alert preview={preview} />*/}
-        <section className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl mx-auto px-20 lg:px-0">
+        <section className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl mx-auto ">
           <Link href='/'>
             <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8"> <span className="underline decoration-indigo-500">
                 Some
