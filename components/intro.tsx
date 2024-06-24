@@ -18,7 +18,7 @@ const Intro = () => {
 
   return (
     <>
-    <section className="flex flex-col sm:flex-row items-center md:justify-around mt-8">
+    <section className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl mx-auto">
       <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
         <span className="underline decoration-indigo-500">
           Some
