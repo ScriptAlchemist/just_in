@@ -15,20 +15,20 @@ type Props = {
 const MoreStories = ({ posts }: Props) => {
   const [filteredPosts, setPostsFilter, filterValue] = useFuzzyFilter(posts, ['title']);
   const [showPosts, setShowPosts] = useState(true);
-  const [showMoreThan4, setShowMoreThan4] = useState(false);
-  const thePosts = showMoreThan4 ? filteredPosts : filteredPosts.slice(0, 4);
-  const placeholders = filteredPosts.slice(4, 10).map(post => post.title);
+  const [limitShowingPosts, setLimitShowingPosts] = useState(4);
+  const thePosts = filteredPosts.slice(0, limitShowingPosts);
+  const placeholders = filteredPosts.slice(4, 25).map(post => post.title);
 
   return (
-    <section>
-      <div className='flex w-full justify-end'>
+    <section className='mt-10'>
+    {!showPosts && <div className='flex w-full justify-end'>
         <Button onClick={() => setShowPosts(!showPosts)} variant='unstyled' className="w-7/8 md:w-4/6 my-12">
           <BackgroundGradient containerClassName='w-full' className='bg-black px-4 rounded-3xl flex flex-row items-center text-5xl md:text-7xl font-bold tracking-tighter leading-tight'>
             More Posts
             {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
           </BackgroundGradient>
         </Button>
-      </div>
+      </div>}
       {showPosts ? (
         <>
           <div className='flex flex-col sm:flex-row w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
@@ -58,9 +58,17 @@ const MoreStories = ({ posts }: Props) => {
                 />
               ))}
             </div>
-            <div className='flex justify-center my-14'>
-              <Button onClick={() => setShowMoreThan4(!showMoreThan4)} variant='outline' className="w-4/6">
-              {showMoreThan4 ? 'Hide all posts, but 4' : 'Show all posts...' }
+            <div className='flex flex-col sm:flex-row justify-center items-center gap-4 my-14'>
+            {limitShowingPosts < filteredPosts.length &&
+              <Button onClick={() => setLimitShowingPosts((limitShowingPosts + 8 > filteredPosts.length) ? filteredPosts.length : limitShowingPosts + 8)} variant='outline' className="w-4/6">
+                Show more
+              </Button>
+            }
+              <Button onClick={() => {
+                setShowPosts(false);
+                setLimitShowingPosts(4)
+              }} variant='outline' className="w-4/6 bg-red-500/50 text-white">
+                hide posts
               </Button>
             </div>
             </>
