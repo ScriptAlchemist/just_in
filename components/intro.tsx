@@ -34,14 +34,14 @@ const Intro = () => {
         </span>
         <div className='text-sm tracking-wider'>By Justin Bender</div>
       </h1>
-      <div className="flex flex-wrap gap-4 justify-center text-center text-lg mt-5 md:mt-0">
+      <div className="flex flex-wrap gap-4 justify-around w-full text-center text-lg mt-5 md:mt-0">
           <Link
             title="Visit Justins LinkedIn"
             href="https://www.linkedin.com/in/benderjustin"
             className="duration-200 transition-colors text-blue-500 group"
           >
             <BackgroundGradient className='px-3 bg-black text-white rounded-3xl flex items-center gap-x-2'>
-              <IconBrandLinkedin className='w-8 h-8 text-blue-500 m-3 group-hover:text-blue-900' />
+              <IconBrandLinkedin className='w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500' />
             </BackgroundGradient>
           </Link>
           <Link
@@ -50,7 +50,7 @@ const Intro = () => {
             className="duration-200 transition-colors group"
           >
             <BackgroundGradient className='px-3 bg-black text-white rounded-3xl flex items-center gap-x-2'>
-              <svg viewBox="0 0 1200 1227" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="none" className="fill-white w-8 h-8 m-3 group-hover:fill-stone-700"> 
+              <svg viewBox="0 0 1200 1227" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="none" className="fill-stone-300 w-5 h-5 md:w-8 md:h-8 m-3 group-hover:fill-stone-100"> 
                <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path> 
               </svg>
             </BackgroundGradient>
@@ -61,7 +61,7 @@ const Intro = () => {
             className="duration-200 transition-colors group"
           >
             <BackgroundGradient className='px-3 bg-black text-white rounded-3xl flex items-center gap-x-2'>
-              <IconBrandGithub className='w-8 h-8 text-orange-500 m-3 group-hover:text-orange-900' />
+              <IconBrandGithub className='w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500' />
             </BackgroundGradient>
           </Link>
       </div>

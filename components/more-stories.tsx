@@ -22,8 +22,8 @@ const MoreStories = ({ posts }: Props) => {
   return (
     <section className='mt-10'>
     {!showPosts && <div className='flex w-full justify-end'>
-        <Button onClick={() => setShowPosts(!showPosts)} variant='unstyled' className="w-7/8 md:w-4/6 my-12">
-          <BackgroundGradient containerClassName='w-full' className='bg-black px-4 rounded-3xl flex flex-row items-center text-5xl md:text-7xl font-bold tracking-tighter leading-tight'>
+        <Button onClick={() => setShowPosts(!showPosts)} variant='unstyled' className="bg-blue-200 px-0 w-7/8 md:w-4/6 my-12">
+          <BackgroundGradient containerClassName='w-full' className='bg-black px-4 rounded-3xl flex flex-row items-center text-2xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-tight'>
             More Posts
             {showPosts ? <Minus className='ml-5 mt-2 h-10 w-10'/> :  <Plus className='ml-5 mt-2 h-10 w-10'/> } 
           </BackgroundGradient>
