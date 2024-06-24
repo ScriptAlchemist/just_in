@@ -19,7 +19,7 @@ const Intro = () => {
   return (
     <>
     <section className="flex-col md:flex-row flex items-center md:justify-around mt-8">
-      <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
+      <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
         <span className="underline decoration-indigo-500">
           Some
         </span>
@@ -34,7 +34,7 @@ const Intro = () => {
         </span>
         <div className='text-sm tracking-wider'>By Justin Bender</div>
       </h1>
-      <div className="flex gap-x-8 text-center text-lg mt-5 md:mt-0">
+      <div className="flex flex-wrap gap-6 text-center text-lg mt-5 md:mt-0">
           <Link
             title="Visit Justins LinkedIn"
             href="https://www.linkedin.com/in/benderjustin"

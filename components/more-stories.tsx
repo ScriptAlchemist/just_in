@@ -32,11 +32,19 @@ const MoreStories = ({ posts }: Props) => {
       {showPosts ? (
         <>
           <div className='flex flex-col sm:flex-row w-full sm:w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
-          <BackgroundGradient containerClassName='w-full sm:w-5/6' className="p-[1px]">
+          <BackgroundGradient containerClassName='hidden sm:block sm:w-5/6' className="p-[1px]">
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
               onChange={(event) => setPostsFilter(event.target.value)}
               value={filterValue}
+            />
+          </BackgroundGradient>
+          <BackgroundGradient containerClassName='sm:hidden w-full' className="p-[1px]">
+            <input
+              placeholder="Search by title..."
+              onChange={(event) => setPostsFilter(event.target.value)}
+              value={filterValue}
+              className="w-full bg-white relative text-sm sm:text-base z-50 border-none dark:text-white bg-transparent text-black h-10 rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20"
             />
           </BackgroundGradient>
             <MovingBorderButton onClick={() => setPostsFilter('')} className="">
@@ -73,7 +81,7 @@ const MoreStories = ({ posts }: Props) => {
             </div>
             </>
           ) : (
-            <Button onClick={() => setPostsFilter('')} variant="outline" className='flex text-center w-full h-48 items-center justify-center font-semibold text-4xl'>
+            <Button onClick={() => setPostsFilter('')} variant="outline" className='flex text-center w-full h-48 items-center justify-center font-semibold text-xl sm:text-4xl'>
               No posts with that title
             </Button>
           )}
