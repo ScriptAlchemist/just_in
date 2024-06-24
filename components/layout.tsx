@@ -14,9 +14,9 @@ const Layout = ({ preview, children }: Props) => {
   return (
     <>
       <Meta />
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col min-h-screen w-full">
         {/*<Alert preview={preview} />*/}
-        <section className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
+        <nav className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
           <Link href='/'>
             <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8"> <span className="underline decoration-indigo-500">
                 Some
@@ -64,7 +64,7 @@ const Layout = ({ preview, children }: Props) => {
                 </BackgroundGradient>
               </Link>
           </div>
-        </section>
+        </nav>
         <main>{children}</main>
       </div>
       {/*<Footer />*/}
