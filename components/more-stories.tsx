@@ -31,7 +31,7 @@ const MoreStories = ({ posts }: Props) => {
       </div>}
       {showPosts ? (
         <>
-          <div className='flex flex-col sm:flex-row w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
+          <div className='flex flex-col sm:flex-row w-full sm:w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
           <BackgroundGradient containerClassName='w-full sm:w-5/6' className="p-[1px]">
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
