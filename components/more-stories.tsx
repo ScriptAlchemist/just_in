@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { Minus, Plus } from 'lucide-react'
 import { BackgroundGradient } from './ui/backgroundGradiant'
 import { MovingBorderButton } from './ui/movingBorder'
+import { PlaceholdersAndVanishInput } from './ui/placeholdersAndVanishInput'
 
 type Props = {
   posts: Post[]
@@ -16,6 +17,7 @@ const MoreStories = ({ posts }: Props) => {
   const [showPosts, setShowPosts] = useState(true);
   const [showMoreThan4, setShowMoreThan4] = useState(false);
   const thePosts = showMoreThan4 ? filteredPosts : filteredPosts.slice(0, 4);
+  const placeholders = filteredPosts.slice(4, 10).map(post => post.title);
 
   return (
     <section>
@@ -31,11 +33,10 @@ const MoreStories = ({ posts }: Props) => {
         <>
           <div className='flex flex-col sm:flex-row w-5/6 mx-auto mb-4 gap-4 items-center justify-center'>
           <BackgroundGradient containerClassName='w-full sm:w-5/6' className="p-[1px]">
-            <input
+            <PlaceholdersAndVanishInput
+              placeholders={placeholders}
               onChange={(event) => setPostsFilter(event.target.value)}
               value={filterValue}
-              placeholder="Filter posts by title..."
-              className="rounded-3xl text-2xl w-full border-indigo-500 h-10 text-indigo-500 p-4"
             />
           </BackgroundGradient>
             <MovingBorderButton onClick={() => setPostsFilter('')} className="">
