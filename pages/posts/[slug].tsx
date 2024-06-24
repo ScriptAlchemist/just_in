@@ -26,37 +26,38 @@ export default function Post({ post, morePosts, preview }: Props) {
     return <ErrorPage statusCode={404} />
   }
   return (
-    <div className='flex flex-col bg-black bg-dot-white/[0.2]'>
-    <motion.div
-        className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
-        style={{ scaleY: scrollYProgress }}
-    />
-      <Container>
-        <Header />
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
-            <article className="mb-32">
-              <Head>
-                <title>{title}</title>
-                <meta property="og:image" content={post.ogImage.url} />
-                <meta name="twitter:image" content={post.ogImage.url} />
-              </Head>
-              <PostHeader
-                title={post.title}
-                coverImage={post.coverImage}
-                date={post.date}
-                author={post.author}
-              />
-              <PostBody content={post.content} />
-            </article>
-          </>
-        )}
-      </Container>
-    </div>
+    <Container>
+      <div className='flex flex-col bg-black bg-dot-white/[0.2]'>
+      <motion.div
+          className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
+          style={{ scaleY: scrollYProgress }}
+      />
+          <Header />
+          {router.isFallback ? (
+            <PostTitle>Loading…</PostTitle>
+          ) : (
+            <>
+              <article className="mb-32">
+                <Head>
+                  <title>{title}</title>
+                  <meta property="og:image" content={post.ogImage.url} />
+                  <meta name="twitter:image" content={post.ogImage.url} />
+                </Head>
+                <PostHeader
+                  title={post.title}
+                  coverImage={post.coverImage}
+                  date={post.date}
+                  author={post.author}
+                />
+                <PostBody content={post.content} />
+              </article>
+            </>
+          )}
+      </div>
+    </Container>
   )
 }
+
 
 type Params = {
   params: {
