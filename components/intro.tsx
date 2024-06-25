@@ -2,18 +2,17 @@
 import Image from 'next/image';
 import JustinImg from '../public/assets/blog/authors/skydiver_justin.jpeg';
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
-import { BackgroundGradient } from './ui/backgroundGradiant';
-import Link from 'next/link';
 import { CardBody, CardContainer, CardItem } from './ui/3dCard';
-import { IconBrandGithub, IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react';
+import { useState } from 'react';
 
 
 const Intro = () => {
+  const [showQuestionMark, setShowQuestionMark] = useState(true);
   const [text] = useTypewriter({
-    words: ['What did I write about', 'What is interesting today', 'What is on my mind'],
+    words: ['What did I write about', 'What is interesting today', 'What is on my mind', 'Checkout my newest post'],
     deleteSpeed: 80,
     loop: 1,
-    onLoopDone: () => console.log(`loop completed after 3 runs.`)
+    onLoopDone: () => setShowQuestionMark(false)
   })
 
   return (
@@ -39,7 +38,7 @@ const Intro = () => {
         </CardBody>
       </CardContainer>
       <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 mb-8 md:mb-14">
-        <span>{text}</span><span className="text-indigo-500">?</span>
+        <span>{text}</span><span className="text-indigo-500">{showQuestionMark ? '?' : '!'}</span>
       </h2>
       </>
   )
