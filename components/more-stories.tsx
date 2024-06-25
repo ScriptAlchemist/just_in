@@ -66,7 +66,8 @@ const MoreStories = ({ posts }: Props) => {
             }
               <Button onClick={() => {
                 setShowPosts(false);
-                setLimitShowingPosts(4)
+                setLimitShowingPosts(4);
+                setPostsFilter('');
               }} variant='outline' className="w-full bg-red-500/50 text-white">
                 hide posts
               </Button>
