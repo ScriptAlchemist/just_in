@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 import Container from '../../components/container'
 import PostBody from '../../components/post-body'
-import Header from '../../components/header'
 import PostHeader from '../../components/post-header'
 import { getPostBySlug, getAllPosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
@@ -27,12 +26,11 @@ export default function Post({ post, morePosts, preview }: Props) {
   }
   return (
     <Container>
-      <div className='flex flex-col bg-black bg-dot-white/[0.2]'>
+      <div className='flex flex-col bg-black bg-dot-white/[0.2] mt-5 md:mt-10'>
       <motion.div
           className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
           style={{ scaleY: scrollYProgress }}
       />
-          <Header />
           {router.isFallback ? (
             <PostTitle>Loading…</PostTitle>
           ) : (
