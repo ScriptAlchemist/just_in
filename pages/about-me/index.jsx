@@ -28,11 +28,8 @@ export default function AboutMe() {
 
   return (
     <Container>
-      <div className='flex flex-col sm:flex-row'>
-        <div className='flex text-center items-center justify-center flex-1 my-20'>
-          <p>Hello {'&'} welcome to my website</p>
-        </div>
-        <div className='relative flex-1 ml-auto w-full sm:w-1/2 h-screen'>
+      <div className='flex flex-col h-screen max-w-lg'>
+        <div className='relative h-full w-full'>
           <Canvas className='' camera={{ position: [0, 0, 13], fov: 25 }}>
             <ambientLight intensity={Math.PI} />
             <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
@@ -45,7 +42,11 @@ export default function AboutMe() {
               <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
             </Environment>
           </Canvas>
-          {isSmallScreen && <div className='absolute inset-0 bg-transparent' />}
+            <div className='absolute inset-0 bg-transparent'>
+              <div className='flex text-center items-center justify-center flex-1 w-full sm:w-1/2 my-20'>
+                <p>Hello {'&'} welcome to my website</p>
+              </div>
+            </div>
         </div>
       </div>
     </Container>
