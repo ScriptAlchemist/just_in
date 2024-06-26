@@ -70,7 +70,7 @@ export const Navbar = () => {
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-              {/**/}
+              {/*
               <NavigationMenuItem className='flex-1'>
                 <Link href="/about-me" legacyBehavior passHref>
                   <NavigationMenuLink active={router.pathname === '/about-me'} className={navigationMenuTriggerStyle()}>
@@ -78,7 +78,7 @@ export const Navbar = () => {
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-            {/**/}
+            */}
             </div>
         </NavigationMenuList>
       </NavigationMenu>

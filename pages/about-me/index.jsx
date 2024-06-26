@@ -29,7 +29,7 @@ export default function AboutMe() {
   return (
     <Container>
       <div className='flex flex-col h-screen max-w-lg'>
-        <div className='relative h-full w-full'>
+        <div className='relative'>
           <Canvas className='' camera={{ position: [0, 0, 13], fov: 25 }}>
             <ambientLight intensity={Math.PI} />
             <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
