@@ -13,7 +13,7 @@ const Layout = ({ preview, children }: Props) => {
       <div className="flex flex-col w-full">
         {/*<Alert preview={preview} />*/}
         <Navbar />
-        <main className='h-screen'>{children}</main>
+        <main className=''>{children}</main>
       </div>
       {/*<Footer />*/}
     </>

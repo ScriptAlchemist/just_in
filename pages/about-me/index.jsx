@@ -29,11 +29,11 @@ export default function AboutMe() {
   return (
     <Container>
       <div className='flex flex-col sm:flex-row'>
-        <div className='flex text-center items-center justify-center h-96 flex-1'>
+        <div className='flex text-center items-center justify-center flex-1 my-20'>
           <p>Hello {'&'} welcome to my website</p>
         </div>
-        <div className='relative flex-1 ml-auto w-full h-96 sm:w-1/2'>
-          <Canvas className='h-96' camera={{ position: [0, 0, 13], fov: 25 }}>
+        <div className='relative flex-1 ml-auto w-full sm:w-1/2 h-screen'>
+          <Canvas className='' camera={{ position: [0, 0, 13], fov: 25 }}>
             <ambientLight intensity={Math.PI} />
             <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
               <Band />
