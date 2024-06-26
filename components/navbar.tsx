@@ -63,13 +63,15 @@ export const Navbar = () => {
         </section>
         <NavigationMenuList className='flex'>
             <div className='flex flex-row w-full max-w-screen-lg mx-5 sm:mx-20 mt-5 gap-x-3 gap-y-4 sm:gap-x-8'>
-              <NavigationMenuItem className='flex-1'>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink active={router.pathname === '/'} className={navigationMenuTriggerStyle()}>
-                    Home 
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
+              {router.pathname !== '/' && 
+                <NavigationMenuItem className='flex-1'>
+                  <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink active={router.pathname === '/'} className={navigationMenuTriggerStyle()}>
+                      Home 
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              }
               {/*
               <NavigationMenuItem className='flex-1'>
                 <Link href="/about-me" legacyBehavior passHref>
