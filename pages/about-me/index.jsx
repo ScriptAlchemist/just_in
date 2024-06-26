@@ -11,27 +11,43 @@ useGLTF.preload('/assets/blog/img_bin/justin.glb')
 useTexture.preload('/assets/blog/img_bin/black.png')
 
 export default function AboutMe() {
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 640)
+    }
+
+    window.addEventListener('resize', handleResize)
+    handleResize() // Call initially to set the correct state
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <Container>
-    <div className='flex'>
-      <div className='flex text-center items-center justify-center h-96 flex-1'>
-        <p>Hello {'&'} welcome to my website</p>
+      <div className='flex flex-col sm:flex-row'>
+        <div className='flex text-center items-center justify-center h-96 flex-1'>
+          <p>Hello {'&'} welcome to my website</p>
+        </div>
+        <div className='relative flex-1 ml-auto w-full h-96 sm:w-1/2'>
+          <Canvas className='h-96' camera={{ position: [0, 0, 13], fov: 25 }}>
+            <ambientLight intensity={Math.PI} />
+            <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
+              <Band />
+            </Physics>
+            <Environment background blur={0.75}>
+              <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+              <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+              <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+              <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+            </Environment>
+          </Canvas>
+          {isSmallScreen && <div className='absolute inset-0 bg-transparent' />}
+        </div>
       </div>
-      <div className='hidden sm:block relative flex-1 ml-auto w-full h-96 sm:w-1/2'>
-      <Canvas className='h-96' camera={{ position: [0, 0, 13], fov: 25 }}>
-        <ambientLight intensity={Math.PI} />
-        <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-          <Band />
-        </Physics>
-        <Environment background blur={0.75}>
-          <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-          <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-          <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-          <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
-        </Environment>
-      </Canvas>
-      </div>
-    </div>
     </Container>
   )
 }
