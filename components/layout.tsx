@@ -10,7 +10,7 @@ const Layout = ({ preview, children }: Props) => {
   return (
     <>
       <Meta />
-      <div className="flex min-h-screen flex-col w-full">
+      <div className="flex flex-col w-full">
         {/*<Alert preview={preview} />*/}
         <Navbar />
         <main>{children}</main>

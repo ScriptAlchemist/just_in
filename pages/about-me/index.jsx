@@ -4,6 +4,7 @@ import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei'
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
+import Container from '../../components/container'
 
 extend({ MeshLineGeometry, MeshLineMaterial })
 useGLTF.preload('/assets/blog/img_bin/justin.glb')
@@ -11,12 +12,13 @@ useTexture.preload('/assets/blog/img_bin/black.png')
 
 export default function AboutMe() {
   return (
-    <div className='flex flex-col sm:flex-row'>
-      <div className='text-center flex-1 my-20'>
-        Hello I'm going to update more information about myself soon.
+    <Container>
+    <div className='flex'>
+      <div className='flex text-center items-center justify-center h-96 flex-1'>
+        <p>Hello {'&'} welcome to my website</p>
       </div>
-      <div className='relative h-[600px] flex-1 ml-auto w-full sm:w-1/2'>
-      <Canvas camera={{ position: [0, 0, 13], fov: 25 }}>
+      <div className='hidden sm:block relative flex-1 ml-auto w-full h-96 sm:w-1/2'>
+      <Canvas className='h-96' camera={{ position: [0, 0, 13], fov: 25 }}>
         <ambientLight intensity={Math.PI} />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Band />
@@ -30,6 +32,7 @@ export default function AboutMe() {
       </Canvas>
       </div>
     </div>
+    </Container>
   )
 }
 

@@ -9,7 +9,7 @@ export const Navbar = () => {
   const router = useRouter();
   return (
     <>
-      <NavigationMenu className='flex flex-col w-full'>
+      <NavigationMenu className='flex flex-col w-full mb-10'>
         <section className="flex flex-col">
           <div className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
             <Link href='/'>
