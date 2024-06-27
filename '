@@ -35,7 +35,7 @@ export default function AboutMe() {
   return (
     <div className='container mx-auto max-w-6xl min-h-screen'>
       <div className='relative flex flex-col md:flex-row mt-5 md:mt-10'>
-        <BackgroundGradient containerClassName="md:sticky md:top-20 flex-1 h-fit w-full md:w-1/2 md:order-2 p-1" className='h-[200px] md:h-[400px] bg-black rounded-3xl' >
+        <BackgroundGradient containerClassName="sticky flex-1 h-fit w-full md:w-1/2 md:order-2 p-1" className='h-[200px] md:h-[400px] bg-black rounded-3xl' >
         <Canvas className='' camera={{ position: [0, 0, 13], fov: 25 }} style={{ pointerEvents: 'none' }}>
           <ambientLight intensity={Math.PI} />
           <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
