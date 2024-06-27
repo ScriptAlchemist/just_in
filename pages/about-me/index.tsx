@@ -1,10 +1,13 @@
+// @ts-nocheck
+
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei'
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
-import Container from '../../components/container'
+import { motion, useScroll } from "framer-motion";
+import { BackgroundGradient } from '../../components/ui/backgroundGradiant'
 
 extend({ MeshLineGeometry, MeshLineMaterial })
 useGLTF.preload('/assets/blog/img_bin/justin.glb')
@@ -12,6 +15,8 @@ useTexture.preload('/assets/blog/img_bin/black.png')
 
 export default function AboutMe() {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const { scrollYProgress } = useScroll();
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,30 +32,30 @@ export default function AboutMe() {
   }, [])
 
   return (
-    <Container>
-      <div className='flex flex-col h-screen max-w-lg'>
-        <div className='relative'>
-          <Canvas className='' camera={{ position: [0, 0, 13], fov: 25 }}>
-            <ambientLight intensity={Math.PI} />
-            <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-              <Band />
-            </Physics>
-            <Environment background blur={0.75}>
-              <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-              <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-              <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-              <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
-            </Environment>
-          </Canvas>
-            <div className='absolute inset-0 bg-transparent'>
-              <div className='flex text-center items-center justify-center flex-1 w-full sm:w-1/2 my-20'>
-                <p>Hello {'&'} welcome to my website</p>
-              </div>
-            </div>
+    <div className='container mx-auto min-h-screen'>
+      <div className='relative flex flex-col md:flex-row h-[400px] md:h-[600px] mt-5 md:mt-10'>
+        <BackgroundGradient containerClassName="flex-1 h-fit w-full md:w-1/2 order-2 p-1" className='h-[600px] bg-black rounded-2xl' >
+        <Canvas className='h-[400px]' camera={{ position: [0, 0, 13], fov: 25 }} style={{ pointerEvents: 'none' }}>
+          <ambientLight intensity={Math.PI} />
+          <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
+            <Band />
+          </Physics>
+          <Environment background blur={0.75}>
+            <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+          </Environment>
+        </Canvas>
+        </BackgroundGradient>
+        <div className='flex-1 bg-black/50 w-full md:w-1/2 flex items-center justify-center'>
+          <div className='text-center p-10'>
+            <p>Hello {'&'} welcome to my website</p>
+          </div>
         </div>
       </div>
-    </Container>
-  )
+    </div>
+  );
 }
 
 function Band({ maxSpeed = 50, minSpeed = 10 }) {
@@ -87,8 +92,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
     if (fixed.current) {
       // Fix most of the jitter when over pulling the card
       ;[j1, j2].forEach((ref) => {
-        if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation())
-        const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())))
+        if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current?.translation())
+        const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current?.translation())))
         ref.current.lerped.lerp(ref.current.translation(), delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)))
       })
       // Calculate catmul curve
