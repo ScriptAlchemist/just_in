@@ -8,7 +8,6 @@ import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphe
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
 import { motion, useScroll } from "framer-motion";
 import { BackgroundGradient } from '../../components/ui/backgroundGradiant'
-import { MyExperience } from '../../components/about-me'
 
 extend({ MeshLineGeometry, MeshLineMaterial })
 useGLTF.preload('/assets/blog/img_bin/justin.glb')
@@ -33,10 +32,10 @@ export default function AboutMe() {
   }, [])
 
   return (
-    <div className='container mx-auto max-w-6xl min-h-screen'>
-      <div className='relative flex flex-col md:flex-row mt-5 md:mt-10'>
-        <BackgroundGradient containerClassName="md:sticky md:top-20 flex-1 h-fit w-full md:w-1/2 md:order-2 p-1" className='h-[200px] md:h-[400px] bg-black rounded-3xl' >
-        <Canvas className='' camera={{ position: [0, 0, 13], fov: 25 }} style={{ pointerEvents: 'none' }}>
+    <div className='container mx-auto min-h-screen'>
+      <div className='relative flex flex-col md:flex-row h-[400px] md:h-[600px] mt-5 md:mt-10'>
+        <BackgroundGradient containerClassName="flex-1 h-fit w-full md:w-1/2 order-2 p-1" className='h-[600px] bg-black rounded-2xl' >
+        <Canvas className='h-[400px]' camera={{ position: [0, 0, 13], fov: 25 }} style={{ pointerEvents: 'none' }}>
           <ambientLight intensity={Math.PI} />
           <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
             <Band />
@@ -50,8 +49,8 @@ export default function AboutMe() {
         </Canvas>
         </BackgroundGradient>
         <div className='flex-1 bg-black/50 w-full md:w-1/2 flex items-center justify-center'>
-          <div className='p-10'>
-            <MyExperience />
+          <div className='text-center p-10'>
+            <p>Hello {'&'} welcome to my website</p>
           </div>
         </div>
       </div>
