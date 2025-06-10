@@ -1,8 +1,8 @@
-import PostPreview from "./post-preview";
+import { useState } from "react";
 import type Post from "../interfaces/post";
+import PostPreview from "./post-preview";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import { Button } from "./ui/button";
-import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { BackgroundGradient } from "./ui/backgroundGradiant";
 import { MovingBorderButton } from "./ui/movingBorder";
@@ -18,112 +18,127 @@ const MoreStories = ({ posts }: Props) => {
     ["title"],
   );
   const [showPosts, setShowPosts] = useState(true);
-  const [limitShowingPosts, setLimitShowingPosts] = useState(4);
+  const [limitShowingPosts, setLimitShowingPosts] = useState(6);
+
   const thePosts = filteredPosts.slice(0, limitShowingPosts);
-  const placeholders = filteredPosts
-    .slice(4, 25)
-    .map((post) => post.title);
+  const placeholders = filteredPosts.slice(4, 25).map((post) => post.title);
+
+  // Toggle show/hide posts
+  const toggleShowPosts = () => {
+    if (showPosts) {
+      setLimitShowingPosts(6);
+      setPostsFilter("");
+    }
+    setShowPosts(!showPosts);
+  };
 
   return (
-    <section className="mt-10">
-      {!showPosts && (
-        <div className="flex w-full justify-end">
+    <section className="mt-12" aria-labelledby="moreStoriesHeading">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2
+          id="moreStoriesHeading"
+          className="text-3xl font-bold mb-6 text-center tracking-tight"
+        >
+          More Stories
+        </h2>
+
+        <div className="flex justify-center mb-8">
           <Button
-            onClick={() => setShowPosts(!showPosts)}
+            onClick={toggleShowPosts}
             variant="unstyled"
-            className="px-0 w-7/8 md:w-4/6 my-12"
+            aria-expanded={showPosts}
+            aria-controls="more-stories-content"
+            className="flex items-center space-x-2 text-2xl font-bold tracking-tight"
           >
             <BackgroundGradient
               containerClassName="w-full"
-              className="bg-white dark:bg-black p-4 rounded-3xl flex flex-row items-center text-2xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-tight"
+              className="p-3 rounded-3xl flex items-center justify-center"
             >
-              More Posts
+              <span>{showPosts ? "Hide Posts" : "Show More Posts"}</span>
               {showPosts ? (
-                <Minus className="ml-5 mt-2 h-10 w-10" />
+                <Minus className="ml-3 h-6 w-6" aria-hidden="true" />
               ) : (
-                <Plus className="ml-5 mt-2 h-10 w-10" />
+                <Plus className="ml-3 h-6 w-6" aria-hidden="true" />
               )}
             </BackgroundGradient>
           </Button>
         </div>
-      )}
-      {showPosts ? (
-        <>
-          <div className="flex flex-col sm:flex-row w-full sm:w-5/6 mx-auto mb-4 gap-4 items-center justify-center">
-            <BackgroundGradient
-              containerClassName="w-full sm:w-5/6"
-              className="p-[1px]"
-            >
-              <PlaceholdersAndVanishInput
-                placeholders={placeholders}
-                onChange={(event) => setPostsFilter(event.target.value)}
-                value={filterValue}
-              />
-            </BackgroundGradient>
-            <MovingBorderButton
-              onClick={() => setPostsFilter("")}
-              className=""
-            >
-              Clear filter
-            </MovingBorderButton>
-          </div>
-          {filteredPosts.length > 0 ? (
-            <>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4">
-                {thePosts.map((post) => (
-                  <PostPreview
-                    key={post.slug}
-                    title={post.title}
-                    coverImage={post.coverImage}
-                    date={post.date}
-                    author={post.author}
-                    slug={post.slug}
-                    excerpt={post.excerpt}
-                  />
-                ))}
-              </div>
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-10 my-14 max-w-4xl mx-auto">
-                {limitShowingPosts < filteredPosts.length && (
-                  <Button
-                    onClick={() =>
-                      setLimitShowingPosts(
-                        limitShowingPosts + 8 > filteredPosts.length
-                          ? filteredPosts.length
-                          : limitShowingPosts + 8,
-                      )
-                    }
-                    variant="outline"
-                    className="w-full text-black dark:text-white bg-white dark:bg-black"
-                  >
-                    Show more
-                  </Button>
-                )}
-                <Button
-                  onClick={() => {
-                    setShowPosts(false);
-                    setLimitShowingPosts(4);
-                    setPostsFilter("");
-                  }}
-                  variant="outline"
-                  className="w-full bg-red-500/50 text-black dark:text-white"
+
+        {showPosts && (
+          <>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 mb-6 w-full sm:w-5/6 mx-auto">
+              <BackgroundGradient containerClassName="w-full sm:w-5/6" className="p-[1px]">
+                <PlaceholdersAndVanishInput
+                  placeholders={placeholders}
+                  onChange={(e) => setPostsFilter(e.target.value)}
+                  value={filterValue}
+                  aria-label="Filter posts by title"
+                />
+              </BackgroundGradient>
+              <MovingBorderButton onClick={() => setPostsFilter("")}>
+                Clear Filter
+              </MovingBorderButton>
+            </div>
+
+            {filteredPosts.length > 0 ? (
+              <>
+                <div
+                  id="more-stories-content"
+                  role="list"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto"
                 >
-                  hide posts
-                </Button>
+                  {thePosts.map((post) => (
+                    <PostPreview
+                      key={post.slug}
+                      title={post.title}
+                      coverImage={post.coverImage}
+                      date={post.date}
+                      author={post.author}
+                      slug={post.slug}
+                      excerpt={post.excerpt}
+                      role="listitem"
+                    />
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-10 max-w-4xl mx-auto">
+                  {limitShowingPosts < filteredPosts.length && (
+                    <Button
+                      onClick={() =>
+                        setLimitShowingPosts((prev) =>
+                          Math.min(prev + 6, filteredPosts.length),
+                        )
+                      }
+                      variant="outline"
+                      className="w-full sm:w-auto"
+                      aria-label="Show more posts"
+                    >
+                      Show More
+                    </Button>
+                  )}
+                  <Button
+                    onClick={() => {
+                      setLimitShowingPosts(6);
+                      setPostsFilter("");
+                    }}
+                    variant="outline"
+                    className="w-full sm:w-auto"
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div
+                role="alert"
+                className="flex items-center justify-center w-full h-40 text-center font-semibold text-lg sm:text-xl"
+              >
+                No posts found with that title.
               </div>
-            </>
-          ) : (
-            <Button
-              onClick={() => setPostsFilter("")}
-              variant="outline"
-              className="bg-white dark:bg-black flex text-center w-full h-48 items-center justify-center font-semibold text-xl sm:text-4xl"
-            >
-              No posts with that title
-            </Button>
-          )}
-        </>
-      ) : (
-        <div className="h-60"></div>
-      )}
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 };
