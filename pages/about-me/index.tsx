@@ -1,5 +1,17 @@
 // @ts-nocheck
 
+import {
+  IconBrandJavascript,
+  IconBrandTypescript,
+  IconBrandFirebase,
+  IconBrandNodejs,
+  IconBrandMongodb,
+  IconSql,
+  IconBrandGraphql,
+  IconBrandGoogleAnalytics,
+  IconBrandDocker,
+  IconBrandOpenai,
+} from "@tabler/icons-react";
 import * as THREE from "three";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useThree, useFrame } from "@react-three/fiber";
@@ -250,22 +262,23 @@ function AboutMeInfo() {
               Frontend Technologies:
             </span>{" "}
             HTML5, CSS3, React.js, Next.js, TailwindCSS, Bootstrap,
-            Redux
+            Redux, Angular, AngularJS
           </div>
           <div>
             <span className="font-semibold">Backend & Databases:</span>{" "}
             Node.js, Express.js, MongoDB, SQL, NoSQL, GraphQL, RESTful
-            APIs
+            APIs, Google Firestore
           </div>
           <div>
             <span className="font-semibold">Cloud & DevOps:</span> AWS,
-            Google Cloud, Firebase, CI/CD, Docker, Kubernetes,
-            Serverless, UNIX, Linux
+            Google Cloud (GCP), Firebase, CI/CD, Docker, Kubernetes,
+            Serverless, UNIX, Linux, Turborepo
           </div>
           <div>
             <span className="font-semibold">Other:</span> Microservices,
-            Distributed Systems, OpenAI Prompting, PWA, WebAssembly
-            (WASM), Unreal Engine
+            Distributed Systems, Anthropic Prompting, Ollama Promting,
+            OpenAI Prompting, PWA, WebAssembly (WASM), Unreal Engine,
+            Storybook, IPFS, Cardano (Blockchain), Wix, GoDaddy
           </div>
         </div>
       </section>
