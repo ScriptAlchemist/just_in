@@ -42,9 +42,9 @@ export default function AboutMe() {
   }, []);
 
   return (
-    <div className="container mx-auto min-h-screen px-4">
+    <div className="container mx-auto min-h-screen px-0 md:px-4">
       <div className="flex flex-col h-auto mt-5 md:mt-10 gap-8">
-        <div className="flex-1 w-full flex flex-col justify-center rounded-2xl p-2">
+        <div className="flex-1 w-full flex flex-col justify-center rounded-2xl p-0 sm:p-2">
           <AboutMeInfo />
         </div>
       </div>
@@ -104,7 +104,7 @@ function ImagePhysics() {
 
 function AboutMeInfo() {
   return (
-    <div className="text-black dark:text-white space-y-8">
+    <div className="dark:bg-black/30 rounded-2xl p-8 text-black dark:text-white space-y-8 backdrop-sepia-0 bg-white/80 border border-white border-opacity-20 dark:border-opacity-30">
       <div className="flex flex-col min-h-80 sm:flex-row gap-4 justify-between">
         <div className="flex flex-col w-full items-center justify-center gap-5">
           <h1 className="text-5xl font-bold">Justin Bender</h1>
@@ -150,129 +150,86 @@ function AboutMeInfo() {
         <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Experience
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-4 ml-1">
           <ExperienceItem
             title="Prompt Engineer"
             company="Paperstac"
             date="Apr 2025 - Present"
-            description="Build out prompts (Agentic Development), that do work that I review. Fixing all of it's mistakes..."
+            description={[
+              "Built out prompts (Agentic Development), that do work that I review. Fixing all of it's mistakes...",
+            ]}
           />
           <ExperienceItem
             title="Software Engineer"
             company="Paperstac"
             date="Sep 2023 - Present"
-            description={
-              <>
-                Building with Turborepo, sharing UI Storybook design
-                libraries to scale 3+ applications at once
-                <br />
-                Developing React components for Next.js, ensuring
-                reusable design across multiple apps
-                <br />
-                Maintaining legacy applications, fixing bugs, and
-                integrating AI-driven features
-              </>
-            }
+            description={[
+              "Building with Turborepo, sharing UI Storybook design",
+              "libraries to scale 3+ applications at once",
+              "Developing React components for Next.js, ensuring",
+              "reusable design across multiple apps",
+              "Maintaining legacy applications, fixing bugs, and",
+              "integrating AI-driven features",
+            ]}
           />
           <ExperienceItem
             title="Software Engineer"
             company="Bridge Discussion/Job Searching"
             date="Mar 2023 - Sep 2023"
-            description={
-              <>
-                Developed using a JavaScript stack (React/Next.js) with
-                GCP/Firebase
-                <br />
-                Designed and implemented product features for Bridge
-                Discussion
-                <br />
-                Built functional demos for funding presentations
-              </>
-            }
+            description={[
+              "Developed using a JavaScript stack (React/Next.js) with GCP/Firebase",
+              "Designed and implemented product features for Bridge Discussion",
+              "Built functional demos for funding presentations",
+            ]}
           />
           <ExperienceItem
             title="Software Engineer"
             company="Cardano Goat"
             date="Nov 2021 - Jan 2023"
-            description={
-              <>
-                Developed WASM-integrated applications for seamless
-                interaction with Cardano blockchain
-                <br />
-                Worked with React, Next.js, TypeScript, TailwindCSS,
-                Rust, WebAssembly, IPFS, and Cardano wallet extensions
-                <br />
-                Integrated cutting-edge open-source tools to maintain a
-                competitive edge
-                <br />
-                Designed customer-focused products from 3D-rendered NFTs
-                to full web applications
-              </>
-            }
+            description={[
+              "Developed WASM-integrated applications for seamless interaction with Cardano blockchain",
+              "Worked with React, Next.js, TypeScript, TailwindCSS, Rust, WebAssembly, IPFS, and Cardano wallet extensions",
+              "Integrated cutting-edge open-source tools to maintain a competitive edge",
+              "Designed customer-focused products from 3D-rendered NFTs to full web applications",
+            ]}
           />
           <ExperienceItem
             title="Software Developer"
             company="Freelance Contracts"
             date="Feb 2020 - Nov 2021"
-            description={
-              <>
-                Adapted to client requirements using Angular, React,
-                Wix, GoDaddy, Google Firestore
-                <br />
-                Built full-stack websites from design wireframes,
-                offering up to 3 revisions
-                <br />
-                Optimized website performance, reducing load times from
-                12s to 1-3s (90% faster) following Google's
-                recommendations
-              </>
-            }
+            description={[
+              "Adapted to client requirements using Angular, React, Wix, GoDaddy, Google Firestore",
+              "Built full-stack websites from design wireframes, offering up to 3 revisions",
+              "Optimized website performance, reducing load times from 12s to 1-3s (90% faster) following Google's recommendations",
+            ]}
           />
           <ExperienceItem
             title="Angular Developer"
             company="Proxify"
             date="Oct 2019 - Jan 2020"
-            description={
-              <>
-                Fixed a critical production login issue, restoring full
-                application functionality
-                <br />
-                Developed and maintained Angular 5 frontend for a
-                contractor job-finding platform
-              </>
-            }
+            description={[
+              "Fixed a critical production login issue, restoring full application functionality",
+              "Developed and maintained Angular 5 frontend for a contractor job-finding platform",
+            ]}
           />
           <ExperienceItem
             title="Junior Software Developer"
             company="Therigy"
             date="Feb 2018 - Apr 2019"
-            description={
-              <>
-                Built user-centric web applications using AngularJS 1.6
-                and PHP
-                <br />
-                Maintained and upgraded three legacy software systems
-                for specialty pharmacy prescription and appointment
-                management
-                <br />
-                Developed testing suites for Quality Assurance, boosting
-                efficiency by 60%
-              </>
-            }
+            description={[
+              "Built user-centric web applications using AngularJS 1.6",
+              "Maintained and upgraded three legacy software systems for specialty pharmacy prescription and appointment management",
+              "Developed testing suites for Quality Assurance, boosting efficiency by 60%",
+            ]}
           />
           <ExperienceItem
             title="Frontend Developer"
             company="Sky Pirates"
             date="Jan 2018 - Mar 2018"
-            description={
-              <>
-                Developed and optimized an Angular 6+ frontend,
-                achieving an 85% Google Lighthouse performance score
-                <br />
-                Fostered an inclusive work environment training new
-                skydivers
-              </>
-            }
+            description={[
+              "Developed and optimized an Angular 6+ frontend, achieving an 95% Google Lighthouse performance score",
+              "Fostered an inclusive work environment training new skydivers",
+            ]}
           />
         </div>
       </section>
@@ -281,39 +238,47 @@ function AboutMeInfo() {
         <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Skills
         </h2>
-        <ul className="list-disc ml-8 space-y-2 text-base">
-          <li>
-            Programming Languages: JavaScript, TypeScript, Rust, Golang,
-            Python, PHP
-          </li>
-          <li>
-            Frontend Technologies: HTML5, CSS3, React.js, Next.js,
-            TailwindCSS, Bootstrap, Redux
-          </li>
-          <li>
-            Backend & Databases: Node.js, Express.js, MongoDB, SQL,
-            NoSQL, GraphQL, RESTful APIs
-          </li>
-          <li>
-            Cloud & DevOps: AWS, Google Cloud, Firebase, CI/CD, Docker,
-            Kubernetes, Serverless, UNIX, Linux
-          </li>
-          <li>
-            Other: Microservices, Distributed Systems, OpenAI Prompting,
-            PWA, WebAssembly (WASM), Unreal Engine
-          </li>
-        </ul>
+        <div className="list-disc ml-1 space-y-2 text-base">
+          <div>
+            <span className="font-semibold">
+              Programming Languages:
+            </span>{" "}
+            JavaScript, TypeScript, Rust, Golang, Python, PHP
+          </div>
+          <div>
+            <span className="font-semibold">
+              Frontend Technologies:
+            </span>{" "}
+            HTML5, CSS3, React.js, Next.js, TailwindCSS, Bootstrap,
+            Redux
+          </div>
+          <div>
+            <span className="font-semibold">Backend & Databases:</span>{" "}
+            Node.js, Express.js, MongoDB, SQL, NoSQL, GraphQL, RESTful
+            APIs
+          </div>
+          <div>
+            <span className="font-semibold">Cloud & DevOps:</span> AWS,
+            Google Cloud, Firebase, CI/CD, Docker, Kubernetes,
+            Serverless, UNIX, Linux
+          </div>
+          <div>
+            <span className="font-semibold">Other:</span> Microservices,
+            Distributed Systems, OpenAI Prompting, PWA, WebAssembly
+            (WASM), Unreal Engine
+          </div>
+        </div>
       </section>
 
       <section>
         <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Projects
         </h2>
-        <div className="text-base space-y-2">
+        <div className="text-lg space-y-2 ml-1">
           <p>
             <b>Some Scripting</b> - Software Developer - 2023
           </p>
-          <p>
+          <p className="text-base">
             Personal blog utilizing Markdown-based notes generation
             <br />
             <a
@@ -340,14 +305,33 @@ function AboutMeInfo() {
   );
 }
 
-function ExperienceItem({ title, company, date, description }) {
+function ExperienceItem({
+  title,
+  company,
+  date,
+  description,
+}: {
+  title: string;
+  company: string;
+  date: string;
+  description: string[];
+}) {
   return (
-    <div className="mb-4 text-sm">
-      <h3 className="font-semibold">{title}</h3>
-      <p className="italic text-gray-800 dark:text-gray-300">
-        {company} - {date}
-      </p>
-      <p className="whitespace-pre-line">{description}</p>
+    <div className="mb-3">
+      <div className="flex flex-wrap items-center text-base italic text-gray-800 dark:text-gray-300 space-x-2">
+        <div className="flex flex-row flex-wrap items-center gap-x-2">
+          <h3 className="font-semibold text-xl">{`${company}`}</h3>
+          <p className="text-lg font-normal">{title}</p>
+        </div>
+        <span className="text-sm font-light text-muted-foreground my-2 sm:my-0">
+          {`- ${date}`}
+        </span>
+      </div>{" "}
+      <ul className="list-disc pl-6 space-y-1">
+        {description.map((desc, index) => (
+          <li key={index}>{desc}</li>
+        ))}
+      </ul>
     </div>
   );
 }
