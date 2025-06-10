@@ -1,12 +1,21 @@
 "use client";
 
-import Link from 'next/link'
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from './ui/navigationMenu'
-import { BackgroundGradient } from './ui/backgroundGradiant'
-import { IconBrandGithub, IconBrandLinkedin } from '@tabler/icons-react';
-import { Sun, Moon } from 'lucide-react';
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import Link from "next/link";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "./ui/navigationMenu";
+import { BackgroundGradient } from "./ui/backgroundGradiant";
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+} from "@tabler/icons-react";
+import { Sun, Moon } from "lucide-react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const router = useRouter();
@@ -14,127 +23,147 @@ export const Navbar = () => {
 
   // On mount check localStorage and system preference
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
         setIsDark(true);
-        document.documentElement.classList.add('dark');
-      } else if (savedTheme === 'light') {
+        document.documentElement.classList.add("dark");
+      } else if (savedTheme === "light") {
         setIsDark(false);
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove("dark");
       } else {
         // No saved theme, check system preference
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
         setIsDark(prefersDark);
         if (prefersDark) {
-          document.documentElement.classList.add('dark');
+          document.documentElement.classList.add("dark");
         } else {
-          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.remove("dark");
         }
       }
     }
   }, []);
 
   const toggleTheme = () => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
       setIsDark(false);
     } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
       setIsDark(true);
     }
   };
 
   return (
     <>
-      <NavigationMenu className='flex flex-col w-full mb-10'>
+      <NavigationMenu className="flex flex-col w-full mb-10">
         <section className="flex flex-col">
           <div className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
-            <Link href='/' legacyBehavior>
-              <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8"> <span className="underline decoration-indigo-500">
+            <Link href="/" legacyBehavior>
+              <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
+                {" "}
+                <span className="underline decoration-indigo-500">
                   Some
                 </span>
-                <span className="text-red-500">
-                  (
-                </span>
+                <span className="text-red-500">(</span>
                 <span className="underline decoration-indigo-500">
-                Scripting
+                  Scripting
                 </span>
-                <span className="text-red-500">
-                  )
-                </span>
-                <div className='text-sm tracking-wider'>By Justin Bender</div>
+                <span className="text-red-500">)</span>
+                <div className="text-sm tracking-wider">
+                  By Justin Bender
+                </div>
               </h1>
             </Link>
-              <div className="flex flex-wrap gap-4 justify-around w-full text-center text-lg mt-5 md:mt-0 items-center">
-                <Link
-                  title="Visit Justins LinkedIn"
-                  href="https://www.linkedin.com/in/benderjustin"
-                  className="duration-200 transition-colors text-blue-500 group"
-                  legacyBehavior>
-                  <BackgroundGradient className='px-3 bg-black text-white rounded-3xl flex items-center gap-x-2'>
-                    <IconBrandLinkedin className='w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500' />
-                  </BackgroundGradient>
-                </Link>
-                <Link
-                  title="Visit Justins Twitter"
-                  href="https://twitter.com/ScriptAlchemist"
-                  className="duration-200 transition-colors group"
-                  legacyBehavior>
-                  <BackgroundGradient className='px-3 bg-black text-white rounded-3xl flex items-center gap-x-2'>
-                    <svg viewBox="0 0 1200 1227" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="none" className="fill-stone-300 w-5 h-5 md:w-8 md:h-8 m-3 group-hover:fill-stone-100"> 
-                     <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path> 
-                    </svg>
-                  </BackgroundGradient>
-                </Link>
-                <Link
-                  title="Visit Justins Github"
-                  href="https://github.com/ScriptAlchemist"
-                  className="duration-200 transition-colors group"
-                  legacyBehavior>
-                  <BackgroundGradient className='px-3 bg-black text-white rounded-3xl flex items-center gap-x-2'>
-                    <IconBrandGithub className='w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500' />
-                  </BackgroundGradient>
-                </Link>
-                <button 
-                  onClick={toggleTheme} 
-                  title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                  aria-label="Toggle Dark Mode" 
-                  className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-300"
-                >
-                  {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-800" />}
-                </button>
-                </div>
+            <div className="flex flex-wrap gap-4 justify-around w-full text-center text-lg mt-5 md:mt-0 items-center">
+              <Link
+                title="Visit Justins LinkedIn"
+                href="https://www.linkedin.com/in/benderjustin"
+                className="duration-200 transition-colors text-blue-500 group"
+              >
+                <BackgroundGradient className="px-3 bg-black text-white rounded-3xl flex items-center gap-x-2">
+                  <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500" />
+                </BackgroundGradient>
+              </Link>
+              <Link
+                title="Visit Justins Twitter"
+                href="https://twitter.com/ScriptAlchemist"
+                className="duration-200 transition-colors group"
+              >
+                <BackgroundGradient className="px-3 bg-black text-white rounded-3xl flex items-center gap-x-2">
+                  <svg
+                    viewBox="0 0 1200 1227"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    role="none"
+                    className="fill-stone-300 w-5 h-5 md:w-8 md:h-8 m-3 group-hover:fill-stone-100"
+                  >
+                    <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path>
+                  </svg>
+                </BackgroundGradient>
+              </Link>
+              <Link
+                title="Visit Justins Github"
+                href="https://github.com/ScriptAlchemist"
+                className="duration-200 transition-colors group"
+              >
+                <BackgroundGradient className="px-3 bg-black text-white rounded-3xl flex items-center gap-x-2">
+                  <IconBrandGithub className="w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500" />
+                </BackgroundGradient>
+              </Link>
+              <button
+                onClick={toggleTheme}
+                title={
+                  isDark
+                    ? "Switch to light mode"
+                    : "Switch to dark mode"
+                }
+                aria-label="Toggle Dark Mode"
+                className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-300"
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-yellow-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-gray-800" />
+                )}
+              </button>
+            </div>
           </div>
         </section>
-        <NavigationMenuList className='flex'>
-            <div className='flex flex-row w-full max-w-screen-lg mx-5 sm:mx-20 mt-5 gap-x-3 gap-y-4 sm:gap-x-8'>
-              {router.pathname !== '/' && 
-                <NavigationMenuItem className='flex-1'>
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink active={router.pathname === '/'} className={navigationMenuTriggerStyle()}>
-                      Home 
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              }
-              {/**/}
-              <NavigationMenuItem className='flex-1'>
-                <Link href="/about-me" legacyBehavior passHref>
-                  <NavigationMenuLink active={router.pathname === '/about-me'} className={navigationMenuTriggerStyle()}>
-                    About me 
+        <NavigationMenuList className="flex">
+          <div className="flex flex-row w-full max-w-screen-lg mx-5 sm:mx-20 mt-5 gap-x-3 gap-y-4 sm:gap-x-8">
+            {router.pathname !== "/" && (
+              <NavigationMenuItem className="flex-1">
+                <Link href="/" legacyBehavior passHref>
+                  <NavigationMenuLink
+                    active={router.pathname === "/"}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    Home
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
+            )}
             {/**/}
-            </div>
+            <NavigationMenuItem className="flex-1">
+              <Link href="/about-me" legacyBehavior passHref>
+                <NavigationMenuLink
+                  active={router.pathname === "/about-me"}
+                  className={navigationMenuTriggerStyle()}
+                >
+                  About me
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            {/**/}
+          </div>
         </NavigationMenuList>
       </NavigationMenu>
     </>
   );
-}
-
-
+};
