@@ -23,7 +23,7 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <Link as={`/posts/${slug}`} href="/posts/[slug]" className="">
+    <Link as={`/posts/${slug}`} href="/posts/[slug]" className="" legacyBehavior>
       <BackgroundGradient className="border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-3xl mb-auto ">
         <div className="bg-white bg-grid-black/[0.1]  dark:bg-black dark:bg-grid-white/[0.1] rounded-3xl mb-auto p-5">
           <div className="">
