@@ -43,57 +43,8 @@ export default function AboutMe() {
 
   return (
     <div className="container mx-auto min-h-screen px-4">
-      <div className="relative flex flex-col md:flex-row h-auto md:h-[600px] mt-5 md:mt-10 gap-8">
-        <BackgroundGradient
-          containerClassName="flex-1 h-full w-full md:w-1/2 order-2 p-3 rounded-2xl"
-          className="h-full bg-transparent"
-        >
-          <Canvas
-            className="h-[400px] md:h-full rounded-[12px]"
-            camera={{ position: [0, 0, 13], fov: 25 }}
-            style={{}}
-          >
-            <ambientLight intensity={Math.PI} />
-            <Physics
-              interpolate
-              gravity={[0, -40, 0]}
-              timeStep={1 / 60}
-            >
-              <Band />
-            </Physics>
-            <Environment background blur={0.75}>
-              <Lightformer
-                intensity={2}
-                color="white"
-                position={[0, -1, 5]}
-                rotation={[0, 0, Math.PI / 3]}
-                scale={[100, 0.1, 1]}
-              />
-              <Lightformer
-                intensity={3}
-                color="white"
-                position={[-1, -1, 1]}
-                rotation={[0, 0, Math.PI / 3]}
-                scale={[100, 0.1, 1]}
-              />
-              <Lightformer
-                intensity={3}
-                color="white"
-                position={[1, 1, 1]}
-                rotation={[0, 0, Math.PI / 3]}
-                scale={[100, 0.1, 1]}
-              />
-              <Lightformer
-                intensity={10}
-                color="white"
-                position={[-10, 0, 14]}
-                rotation={[0, Math.PI / 2, Math.PI / 3]}
-                scale={[100, 10, 1]}
-              />
-            </Environment>
-          </Canvas>
-        </BackgroundGradient>
-        <div className="flex-1 w-full md:w-1/2 flex flex-col justify-center bg-black/50 rounded-2xl p-8">
+      <div className="flex flex-col h-auto mt-5 md:mt-10 gap-8">
+        <div className="flex-1 w-full flex flex-col justify-center rounded-2xl p-2">
           <AboutMeInfo />
         </div>
       </div>
@@ -101,164 +52,236 @@ export default function AboutMe() {
   );
 }
 
+function ImagePhysics() {
+  return (
+    <BackgroundGradient
+      containerClassName="h-full p-3 rounded-2xl"
+      className="h-full bg-transparent"
+    >
+      <Canvas
+        className="h-[400px] md:h-full rounded-[12px]"
+        camera={{ position: [0, 0, 13], fov: 25 }}
+        style={{}}
+      >
+        <ambientLight intensity={Math.PI} />
+        <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
+          <Band />
+        </Physics>
+        <Environment background blur={0.75}>
+          <Lightformer
+            intensity={2}
+            color="white"
+            position={[0, -1, 5]}
+            rotation={[0, 0, Math.PI / 3]}
+            scale={[100, 0.1, 1]}
+          />
+          <Lightformer
+            intensity={3}
+            color="white"
+            position={[-1, -1, 1]}
+            rotation={[0, 0, Math.PI / 3]}
+            scale={[100, 0.1, 1]}
+          />
+          <Lightformer
+            intensity={3}
+            color="white"
+            position={[1, 1, 1]}
+            rotation={[0, 0, Math.PI / 3]}
+            scale={[100, 0.1, 1]}
+          />
+          <Lightformer
+            intensity={10}
+            color="white"
+            position={[-10, 0, 14]}
+            rotation={[0, Math.PI / 2, Math.PI / 3]}
+            scale={[100, 10, 1]}
+          />
+        </Environment>
+      </Canvas>
+    </BackgroundGradient>
+  );
+}
+
 function AboutMeInfo() {
   return (
-    <div className="text-white space-y-6 overflow-auto max-h-[600px]">
-      <h1 className="text-4xl font-bold">Justin Bender</h1>
-      <div className="text-sm space-y-1">
-        <p>SomeScripting.com</p>
-        <p>
-          <a
-            href="https://github.com/ScriptAlchemist"
-            className="underline"
-            target="_blank"
-            rel="noreferrer"
-          >
-            github.com/ScriptAlchemist
-          </a>
-        </p>
-        <p>USA</p>
-        <p>
-          <a
-            href="https://linkedin.com/in/benderjustin"
-            className="underline"
-            target="_blank"
-            rel="noreferrer"
-          >
-            linkedin.com/in/benderjustin
-          </a>
-        </p>
+    <div className="text-black dark:text-white space-y-8">
+      <div className="flex flex-col min-h-80 sm:flex-row gap-4 justify-between">
+        <div className="flex flex-col w-full items-center justify-center gap-5">
+          <h1 className="text-5xl font-bold">Justin Bender</h1>
+          <div className="flex flex-col w-4/5 text-base space-y-2">
+            <p>USA 🇺🇸</p>
+            <p>
+              <a
+                href="https://somescripting.com"
+                className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
+                target="_blank"
+                rel="noreferrer"
+              >
+                SomeScripting.com
+              </a>
+            </p>
+            <p>
+              <a
+                href="https://github.com/ScriptAlchemist"
+                className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
+                target="_blank"
+                rel="noreferrer"
+              >
+                github.com/ScriptAlchemist
+              </a>
+            </p>
+            <p>
+              <a
+                href="https://linkedin.com/in/benderjustin"
+                className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
+                target="_blank"
+                rel="noreferrer"
+              >
+                linkedin.com/in/benderjustin
+              </a>
+            </p>
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2">
+          <ImagePhysics />
+        </div>
       </div>
-
       <section>
-        <h2 className="text-2xl font-semibold mb-2">Experience</h2>
-        <ExperienceItem
-          title="Prompt Engineer"
-          company="Paperstac"
-          date="Apr 2025 - Present"
-          description="Build out prompts (Agentic Development), that do work that I review. Fixing all of it's mistakes..."
-        />
-        <ExperienceItem
-          title="Software Engineer"
-          company="Paperstac"
-          date="Sep 2023 - Present"
-          description={
-            <>
-              Building with Turborepo, sharing UI Storybook design
-              libraries to scale 3+ applications at once
-              <br />
-              Developing React components for Next.js, ensuring reusable
-              design across multiple apps
-              <br />
-              Maintaining legacy applications, fixing bugs, and
-              integrating AI-driven features
-            </>
-          }
-        />
-        <ExperienceItem
-          title="Software Engineer"
-          company="Bridge Discussion/Job Searching"
-          date="Mar 2023 - Sep 2023"
-          description={
-            <>
-              Developed using a JavaScript stack (React/Next.js) with
-              GCP/Firebase
-              <br />
-              Designed and implemented product features for Bridge
-              Discussion
-              <br />
-              Built functional demos for funding presentations
-            </>
-          }
-        />
-        <ExperienceItem
-          title="Software Engineer"
-          company="Cardano Goat"
-          date="Nov 2021 - Jan 2023"
-          description={
-            <>
-              Developed WASM-integrated applications for seamless
-              interaction with Cardano blockchain
-              <br />
-              Worked with React, Next.js, TypeScript, TailwindCSS, Rust,
-              WebAssembly, IPFS, and Cardano wallet extensions
-              <br />
-              Integrated cutting-edge open-source tools to maintain a
-              competitive edge
-              <br />
-              Designed customer-focused products from 3D-rendered NFTs
-              to full web applications
-            </>
-          }
-        />
-        <ExperienceItem
-          title="Software Developer"
-          company="Freelance Contracts"
-          date="Feb 2020 - Nov 2021"
-          description={
-            <>
-              Adapted to client requirements using Angular, React, Wix,
-              GoDaddy, Google Firestore
-              <br />
-              Built full-stack websites from design wireframes, offering
-              up to 3 revisions
-              <br />
-              Optimized website performance, reducing load times from
-              12s to 1-3s (90% faster) following Google's
-              recommendations
-            </>
-          }
-        />
-        <ExperienceItem
-          title="Angular Developer"
-          company="Proxify"
-          date="Oct 2019 - Jan 2020"
-          description={
-            <>
-              Fixed a critical production login issue, restoring full
-              application functionality
-              <br />
-              Developed and maintained Angular 5 frontend for a
-              contractor job-finding platform
-            </>
-          }
-        />
-        <ExperienceItem
-          title="Junior Software Developer"
-          company="Therigy"
-          date="Feb 2018 - Apr 2019"
-          description={
-            <>
-              Built user-centric web applications using AngularJS 1.6
-              and PHP
-              <br />
-              Maintained and upgraded three legacy software systems for
-              specialty pharmacy prescription and appointment management
-              <br />
-              Developed testing suites for Quality Assurance, boosting
-              efficiency by 60%
-            </>
-          }
-        />
-        <ExperienceItem
-          title="Frontend Developer"
-          company="Sky Pirates"
-          date="Jan 2018 - Mar 2018"
-          description={
-            <>
-              Developed and optimized an Angular 6+ frontend, achieving
-              an 85% Google Lighthouse performance score
-              <br />
-              Fostered an inclusive work environment training new
-              skydivers
-            </>
-          }
-        />
+        <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+          Experience
+        </h2>
+        <div className="space-y-6">
+          <ExperienceItem
+            title="Prompt Engineer"
+            company="Paperstac"
+            date="Apr 2025 - Present"
+            description="Build out prompts (Agentic Development), that do work that I review. Fixing all of it's mistakes..."
+          />
+          <ExperienceItem
+            title="Software Engineer"
+            company="Paperstac"
+            date="Sep 2023 - Present"
+            description={
+              <>
+                Building with Turborepo, sharing UI Storybook design
+                libraries to scale 3+ applications at once
+                <br />
+                Developing React components for Next.js, ensuring
+                reusable design across multiple apps
+                <br />
+                Maintaining legacy applications, fixing bugs, and
+                integrating AI-driven features
+              </>
+            }
+          />
+          <ExperienceItem
+            title="Software Engineer"
+            company="Bridge Discussion/Job Searching"
+            date="Mar 2023 - Sep 2023"
+            description={
+              <>
+                Developed using a JavaScript stack (React/Next.js) with
+                GCP/Firebase
+                <br />
+                Designed and implemented product features for Bridge
+                Discussion
+                <br />
+                Built functional demos for funding presentations
+              </>
+            }
+          />
+          <ExperienceItem
+            title="Software Engineer"
+            company="Cardano Goat"
+            date="Nov 2021 - Jan 2023"
+            description={
+              <>
+                Developed WASM-integrated applications for seamless
+                interaction with Cardano blockchain
+                <br />
+                Worked with React, Next.js, TypeScript, TailwindCSS,
+                Rust, WebAssembly, IPFS, and Cardano wallet extensions
+                <br />
+                Integrated cutting-edge open-source tools to maintain a
+                competitive edge
+                <br />
+                Designed customer-focused products from 3D-rendered NFTs
+                to full web applications
+              </>
+            }
+          />
+          <ExperienceItem
+            title="Software Developer"
+            company="Freelance Contracts"
+            date="Feb 2020 - Nov 2021"
+            description={
+              <>
+                Adapted to client requirements using Angular, React,
+                Wix, GoDaddy, Google Firestore
+                <br />
+                Built full-stack websites from design wireframes,
+                offering up to 3 revisions
+                <br />
+                Optimized website performance, reducing load times from
+                12s to 1-3s (90% faster) following Google's
+                recommendations
+              </>
+            }
+          />
+          <ExperienceItem
+            title="Angular Developer"
+            company="Proxify"
+            date="Oct 2019 - Jan 2020"
+            description={
+              <>
+                Fixed a critical production login issue, restoring full
+                application functionality
+                <br />
+                Developed and maintained Angular 5 frontend for a
+                contractor job-finding platform
+              </>
+            }
+          />
+          <ExperienceItem
+            title="Junior Software Developer"
+            company="Therigy"
+            date="Feb 2018 - Apr 2019"
+            description={
+              <>
+                Built user-centric web applications using AngularJS 1.6
+                and PHP
+                <br />
+                Maintained and upgraded three legacy software systems
+                for specialty pharmacy prescription and appointment
+                management
+                <br />
+                Developed testing suites for Quality Assurance, boosting
+                efficiency by 60%
+              </>
+            }
+          />
+          <ExperienceItem
+            title="Frontend Developer"
+            company="Sky Pirates"
+            date="Jan 2018 - Mar 2018"
+            description={
+              <>
+                Developed and optimized an Angular 6+ frontend,
+                achieving an 85% Google Lighthouse performance score
+                <br />
+                Fostered an inclusive work environment training new
+                skydivers
+              </>
+            }
+          />
+        </div>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mb-2">Skills</h2>
-        <ul className="list-disc ml-6 space-y-1 text-sm">
+        <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+          Skills
+        </h2>
+        <ul className="list-disc ml-8 space-y-2 text-base">
           <li>
             Programming Languages: JavaScript, TypeScript, Rust, Golang,
             Python, PHP
@@ -283,8 +306,10 @@ function AboutMeInfo() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mb-2">Projects</h2>
-        <div className="text-sm">
+        <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+          Projects
+        </h2>
+        <div className="text-base space-y-2">
           <p>
             <b>Some Scripting</b> - Software Developer - 2023
           </p>
@@ -293,7 +318,7 @@ function AboutMeInfo() {
             <br />
             <a
               href="https://github.com/ScriptAlchemist/just_in"
-              className="underline"
+              className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
               target="_blank"
               rel="noreferrer"
             >
@@ -302,7 +327,7 @@ function AboutMeInfo() {
             |{" "}
             <a
               href="https://www.somescripting.com"
-              className="underline"
+              className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
               target="_blank"
               rel="noreferrer"
             >
@@ -319,7 +344,7 @@ function ExperienceItem({ title, company, date, description }) {
   return (
     <div className="mb-4 text-sm">
       <h3 className="font-semibold">{title}</h3>
-      <p className="italic text-gray-300">
+      <p className="italic text-gray-800 dark:text-gray-300">
         {company} - {date}
       </p>
       <p className="whitespace-pre-line">{description}</p>
