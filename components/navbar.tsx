@@ -1,12 +1,53 @@
+"use client";
+
 import Link from 'next/link'
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from './ui/navigationMenu'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from './ui/navigationMenu'
 import { BackgroundGradient } from './ui/backgroundGradiant'
 import { IconBrandGithub, IconBrandLinkedin } from '@tabler/icons-react';
+import { Sun, Moon } from 'lucide-react';
 import { useRouter } from 'next/router'
-
+import { useEffect, useState } from 'react'
 
 export const Navbar = () => {
   const router = useRouter();
+  const [isDark, setIsDark] = useState(false);
+
+  // On mount check localStorage and system preference
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        setIsDark(true);
+        document.documentElement.classList.add('dark');
+      } else if (savedTheme === 'light') {
+        setIsDark(false);
+        document.documentElement.classList.remove('dark');
+      } else {
+        // No saved theme, check system preference
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setIsDark(prefersDark);
+        if (prefersDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (typeof window === 'undefined') return;
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setIsDark(true);
+    }
+  };
+
   return (
     <>
       <NavigationMenu className='flex flex-col w-full mb-10'>
@@ -28,7 +69,7 @@ export const Navbar = () => {
                 <div className='text-sm tracking-wider'>By Justin Bender</div>
               </h1>
             </Link>
-              <div className="flex flex-wrap gap-4 justify-around w-full text-center text-lg mt-5 md:mt-0">
+              <div className="flex flex-wrap gap-4 justify-around w-full text-center text-lg mt-5 md:mt-0 items-center">
                 <Link
                   title="Visit Justins LinkedIn"
                   href="https://www.linkedin.com/in/benderjustin"
@@ -58,7 +99,15 @@ export const Navbar = () => {
                     <IconBrandGithub className='w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500' />
                   </BackgroundGradient>
                 </Link>
-              </div>
+                <button 
+                  onClick={toggleTheme} 
+                  title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                  aria-label="Toggle Dark Mode" 
+                  className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-300"
+                >
+                  {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-800" />}
+                </button>
+                </div>
           </div>
         </section>
         <NavigationMenuList className='flex'>
@@ -87,4 +136,5 @@ export const Navbar = () => {
     </>
   )
 }
+
 

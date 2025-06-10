@@ -33,7 +33,7 @@ export function MovingBorderButton({
     <Component
       className={cn(
         "bg-transparent relative text-xl  h-12 w-40 p-[1px] overflow-hidden ",
-        containerClassName
+        containerClassName,
       )}
       style={{
         borderRadius: borderRadius,
@@ -48,7 +48,7 @@ export function MovingBorderButton({
           <div
             className={cn(
               "h-20 w-20 opacity-[0.8] bg-[radial-gradient(var(--indigo-500)_40%,transparent_60%)]",
-              borderClassName
+              borderClassName,
             )}
           />
         </MovingBorder>
@@ -56,8 +56,8 @@ export function MovingBorderButton({
 
       <div
         className={cn(
-          "relative hover:bg-black border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
-          className
+          "relative hover:bg-black border border-slate-800 backdrop-blur-xl text-black dark:text-white flex items-center justify-center w-full h-full text-sm antialiased",
+          className,
         )}
         style={{
           borderRadius: `calc(${borderRadius} * 0.96)`,
@@ -95,11 +95,11 @@ export const MovingBorder = ({
 
   const x = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).x
+    (val) => pathRef.current?.getPointAtLength(val).x,
   );
   const y = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).y
+    (val) => pathRef.current?.getPointAtLength(val).y,
   );
 
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
@@ -137,4 +137,3 @@ export const MovingBorder = ({
     </>
   );
 };
-
