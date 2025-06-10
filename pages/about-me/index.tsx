@@ -55,8 +55,9 @@ export default function AboutMe() {
 function ImagePhysics() {
   return (
     <BackgroundGradient
-      containerClassName="h-full p-3 rounded-2xl"
-      className="h-full bg-transparent"
+      containerClassName="h-full rounded-2xl"
+      className="h-full"
+      transparent
     >
       <Canvas
         className="h-[400px] md:h-full rounded-[12px]"
@@ -67,7 +68,7 @@ function ImagePhysics() {
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Band />
         </Physics>
-        <Environment background blur={0.75}>
+        <Environment blur={0.75}>
           <Lightformer
             intensity={2}
             color="white"
@@ -105,47 +106,45 @@ function ImagePhysics() {
 function AboutMeInfo() {
   return (
     <div className="dark:bg-black/30 rounded-2xl p-8 text-black dark:text-white space-y-8 backdrop-sepia-0 bg-white/80 border border-white border-opacity-20 dark:border-opacity-30">
-      <div className="flex flex-col min-h-80 sm:flex-row gap-4 justify-between">
-        <div className="flex flex-col w-full items-center justify-center gap-5">
-          <h1 className="text-5xl font-bold">Justin Bender</h1>
-          <div className="flex flex-col w-4/5 text-base space-y-2">
-            <p>USA 🇺🇸</p>
-            <p>
-              <a
-                href="https://somescripting.com"
-                className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
-                target="_blank"
-                rel="noreferrer"
-              >
-                SomeScripting.com
-              </a>
-            </p>
-            <p>
-              <a
-                href="https://github.com/ScriptAlchemist"
-                className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
-                target="_blank"
-                rel="noreferrer"
-              >
-                github.com/ScriptAlchemist
-              </a>
-            </p>
-            <p>
-              <a
-                href="https://linkedin.com/in/benderjustin"
-                className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
-                target="_blank"
-                rel="noreferrer"
-              >
-                linkedin.com/in/benderjustin
-              </a>
-            </p>
-          </div>
+      <section className="flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md min-h-80">
+        <div className="flex flex-col w-full sm:w-1/2 items-center sm:items-start text-center sm:text-left">
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 text-gray-900 dark:text-gray-100">
+            Justin Bender
+          </h1>
+          <p className="mb-2 text-lg font-medium text-gray-700 dark:text-gray-300">
+            USA 🇺🇸
+          </p>
+          <nav className="flex flex-col space-y-2 text-base">
+            <a
+              href="https://somescripting.com"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              SomeScripting.com
+            </a>
+            <a
+              href="https://github.com/ScriptAlchemist"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              github.com/ScriptAlchemist
+            </a>
+            <a
+              href="https://linkedin.com/in/benderjustin"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              linkedin.com/in/benderjustin
+            </a>
+          </nav>
         </div>
-        <div className="w-full sm:w-1/2">
+        <div className="w-full sm:w-1/2 h-[300px]">
           <ImagePhysics />
         </div>
-      </div>
+      </section>
       <section>
         <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Experience
@@ -498,6 +497,9 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
           resolution={[width, height]}
           useMap
           map={texture}
+          alphaTest={0.1}
+          alphaToCoverage={true}
+          transparent={true}
           repeat={[-3, 1]}
           lineWidth={1}
         />
