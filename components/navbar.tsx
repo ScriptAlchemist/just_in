@@ -16,6 +16,7 @@ import {
 import { Sun, Moon } from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 
 export const Navbar = () => {
   const router = useRouter();
@@ -64,7 +65,7 @@ export const Navbar = () => {
       <NavigationMenu className="flex flex-col w-full mb-10">
         <section className="flex flex-col">
           <div className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
-            <Link href="/" legacyBehavior>
+            <Link href="/">
               <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
                 {" "}
                 <span className="underline decoration-indigo-500">
@@ -80,28 +81,28 @@ export const Navbar = () => {
                 </div>
               </h1>
             </Link>
-            <div className="flex flex-wrap gap-4 justify-around w-full text-center text-lg mt-5 md:mt-0 items-center">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 justify-center text-center w-full gap-4 text-lg mt-5 md:mt-0 items-center">
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
-                className="duration-200 transition-colors text-blue-500 group"
+                className="duration-200 transition-colors text-blue-500 group w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500" />
                 </BackgroundGradient>
               </Link>
               <Link
-                title="Visit Justins Twitter"
+                title="Visit Justins Twitter or X"
                 href="https://twitter.com/ScriptAlchemist"
-                className="duration-200 transition-colors group"
+                className="duration-200 transition-colors group w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   <svg
                     viewBox="0 0 1200 1227"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
                     role="none"
-                    className="fill-stone-300 w-5 h-5 md:w-8 md:h-8 m-3 group-hover:fill-stone-100"
+                    className="fill-stone-800 dark:fill-stone-300 w-5 h-5 md:w-8 md:h-8 m-3 group-hover:fill-stone-300 dark:group-hover:fill-stone-100"
                   >
                     <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path>
                   </svg>
@@ -110,13 +111,15 @@ export const Navbar = () => {
               <Link
                 title="Visit Justins Github"
                 href="https://github.com/ScriptAlchemist"
-                className="duration-200 transition-colors group"
+                className="duration-200 transition-colors group w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   <IconBrandGithub className="w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500" />
                 </BackgroundGradient>
               </Link>
-              <button
+              <Button
+                variant="unstyled"
+                size="icon"
                 onClick={toggleTheme}
                 title={
                   isDark
@@ -124,14 +127,16 @@ export const Navbar = () => {
                     : "Switch to dark mode"
                 }
                 aria-label="Toggle Dark Mode"
-                className="rounded-full p-2 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-300"
+                className="transition-colors duration-300 w-fit mx-auto"
               >
-                {isDark ? (
-                  <Sun className="w-5 h-5 text-yellow-400" />
-                ) : (
-                  <Moon className="w-5 h-5 text-gray-800" />
-                )}
-              </button>
+                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                  {isDark ? (
+                    <Sun className="text-yellow-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-gray-500" />
+                  ) : (
+                    <Moon className="text-gray-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-yellow-500" />
+                  )}
+                </BackgroundGradient>
+              </Button>
             </div>
           </div>
         </section>
@@ -149,18 +154,18 @@ export const Navbar = () => {
                 </Link>
               </NavigationMenuItem>
             )}
-            {/**/}
-            <NavigationMenuItem className="flex-1">
-              <Link href="/about-me" legacyBehavior passHref>
-                <NavigationMenuLink
-                  active={router.pathname === "/about-me"}
-                  className={navigationMenuTriggerStyle()}
-                >
-                  About me
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            {/**/}
+            {router.pathname !== "/about-me" && (
+              <NavigationMenuItem className="flex-1">
+                <Link href="/about-me" legacyBehavior passHref>
+                  <NavigationMenuLink
+                    active={router.pathname === "/about-me"}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    About me
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            )}
           </div>
         </NavigationMenuList>
       </NavigationMenu>
