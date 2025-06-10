@@ -37,9 +37,9 @@ jobs:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Install dependencies
-        run: npm ci
+        run: yarn ci
       - name: Build with Next.js
-        run: npm run build
+        run: yarn run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
