@@ -51,7 +51,7 @@ export default function AboutMe() {
           <Canvas
             className="h-[400px] md:h-full rounded-[12px]"
             camera={{ position: [0, 0, 13], fov: 25 }}
-            style={{ pointerEvents: "none" }}
+            style={{}}
           >
             <ambientLight intensity={Math.PI} />
             <Physics
