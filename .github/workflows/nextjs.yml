@@ -37,7 +37,7 @@ jobs:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Install dependencies
-        run: yarn ci
+        run: yarn install
       - name: Build with Next.js
         run: yarn run build
       - name: Upload artifact
