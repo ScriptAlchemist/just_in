@@ -81,7 +81,7 @@ export const Navbar = () => {
                 </div>
               </h1>
             </Link>
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 justify-center text-center w-full gap-4 text-lg mt-5 md:mt-0 items-center">
+            <div className="flex flex-wrap justify-center text-center w-full gap-4 text-lg mt-5 md:mt-0 items-center">
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
