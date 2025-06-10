@@ -21,7 +21,9 @@ const MoreStories = ({ posts }: Props) => {
   const [limitShowingPosts, setLimitShowingPosts] = useState(6);
 
   const thePosts = filteredPosts.slice(0, limitShowingPosts);
-  const placeholders = filteredPosts.slice(4, 25).map((post) => post.title);
+  const placeholders = filteredPosts
+    .slice(4, 25)
+    .map((post) => post.title);
 
   // Toggle show/hide posts
   const toggleShowPosts = () => {
@@ -54,7 +56,9 @@ const MoreStories = ({ posts }: Props) => {
               containerClassName="w-full"
               className="p-3 rounded-3xl flex items-center justify-center"
             >
-              <span>{showPosts ? "Hide Posts" : "Show More Posts"}</span>
+              <span>
+                {showPosts ? "Hide Posts" : "Show More Posts"}
+              </span>
               {showPosts ? (
                 <Minus className="ml-3 h-6 w-6" aria-hidden="true" />
               ) : (
@@ -67,7 +71,10 @@ const MoreStories = ({ posts }: Props) => {
         {showPosts && (
           <>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 mb-6 w-full sm:w-5/6 mx-auto">
-              <BackgroundGradient containerClassName="w-full sm:w-5/6" className="p-[1px]">
+              <BackgroundGradient
+                containerClassName="w-full sm:w-5/6"
+                className="p-[1px]"
+              >
                 <PlaceholdersAndVanishInput
                   placeholders={placeholders}
                   onChange={(e) => setPostsFilter(e.target.value)}
@@ -86,22 +93,53 @@ const MoreStories = ({ posts }: Props) => {
                   id="more-stories-content"
                   role="list"
                   className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto"
+                  style={{
+                    // Calculate number of columns depending on screen size (1,2,3,4)
+                    // Then calculate extra posts to fill last row
+                    gridTemplateColumns:
+                      "repeat(auto-fill, minmax(250px, 1fr))",
+                  }}
                 >
-                  {thePosts.map((post) => (
-                    <PostPreview
-                      key={post.slug}
-                      title={post.title}
-                      coverImage={post.coverImage}
-                      date={post.date}
-                      author={post.author}
-                      slug={post.slug}
-                      excerpt={post.excerpt}
-                      role="listitem"
-                    />
-                  ))}
+                  {
+                    // Calculate how many posts to display so last row fills out for large screens
+                    (() => {
+                      const columns = (() => {
+                        if (typeof window === "undefined") return 4;
+                        const width = window.innerWidth;
+                        if (width >= 1024) return 4;
+                        if (width >= 768) return 3;
+                        if (width >= 640) return 2;
+                        return 1;
+                      })();
+                      const baseCount = limitShowingPosts;
+                      // If baseCount mod columns is less than half columns, try to add extra posts to fill
+                      const remainder = baseCount % columns;
+                      let displayCount = baseCount;
+                      if (remainder !== 0 && remainder < columns / 2) {
+                        displayCount = Math.min(
+                          baseCount + (columns - remainder),
+                          filteredPosts.length,
+                        );
+                      }
+                      return filteredPosts
+                        .slice(0, displayCount)
+                        .map((post) => (
+                          <PostPreview
+                            key={post.slug}
+                            title={post.title}
+                            coverImage={post.coverImage}
+                            date={post.date}
+                            author={post.author}
+                            slug={post.slug}
+                            excerpt={post.excerpt}
+                            role="listitem"
+                          />
+                        ));
+                    })()
+                  }
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-10 max-w-4xl mx-auto">
+                <div className="flex justify-center my-10 space-x-6 max-w-4xl mx-auto">
                   {limitShowingPosts < filteredPosts.length && (
                     <Button
                       onClick={() =>
@@ -110,7 +148,7 @@ const MoreStories = ({ posts }: Props) => {
                         )
                       }
                       variant="outline"
-                      className="w-full sm:w-auto"
+                      className="min-w-[140px]"
                       aria-label="Show more posts"
                     >
                       Show More
@@ -122,7 +160,7 @@ const MoreStories = ({ posts }: Props) => {
                       setPostsFilter("");
                     }}
                     variant="outline"
-                    className="w-full sm:w-auto"
+                    className="min-w-[140px]"
                   >
                     Reset
                   </Button>
@@ -131,7 +169,7 @@ const MoreStories = ({ posts }: Props) => {
             ) : (
               <div
                 role="alert"
-                className="flex items-center justify-center w-full h-40 text-center font-semibold text-lg sm:text-xl"
+                className="flex items-center justify-center w-full min-h-[384px] text-center font-semibold text-lg sm:text-xl"
               >
                 No posts found with that title.
               </div>
