@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import React, {
   createContext,
-  useState,
   useContext,
-  useRef,
   useEffect,
+  useRef,
+  useState,
 } from "react";
 import { cn } from "../../lib/utils";
 
@@ -30,8 +29,8 @@ export const CardContainer = ({
     if (!containerRef.current) return;
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / 65;
-    const y = (e.clientY - top - height / 2) / 65;
+    const x = (e.clientX - left - width / 2) / 80;
+    const y = (e.clientY - top - height / 2) / 80;
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
@@ -46,11 +45,13 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
   return (
-    <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
+    <MouseEnterContext.Provider
+      value={[isMouseEntered, setIsMouseEntered]}
+    >
       <div
         className={cn(
           "flex items-center justify-center",
-          containerClassName
+          containerClassName,
         )}
         style={{
           perspective: "1000px",
@@ -62,8 +63,8 @@ export const CardContainer = ({
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            "flex items-center justify-center relative transition-all duration-200 ease-linear",
-            className
+            "flex items-center justify-center relative",
+            className,
           )}
           style={{
             transformStyle: "preserve-3d",
@@ -87,7 +88,7 @@ export const CardBody = ({
     <div
       className={cn(
         "h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
-        className
+        className,
       )}
     >
       {children}
@@ -135,11 +136,7 @@ export const CardItem = ({
   };
 
   return (
-    <Tag
-      ref={ref}
-      className={cn("w-fit transition duration-200 ease-linear", className)}
-      {...rest}
-    >
+    <Tag ref={ref} className={cn("w-fit", className)} {...rest}>
       {children}
     </Tag>
   );
@@ -149,8 +146,9 @@ export const CardItem = ({
 export const useMouseEnter = () => {
   const context = useContext(MouseEnterContext);
   if (context === undefined) {
-    throw new Error("useMouseEnter must be used within a MouseEnterProvider");
+    throw new Error(
+      "useMouseEnter must be used within a MouseEnterProvider",
+    );
   }
   return context;
 };
-

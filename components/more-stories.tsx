@@ -1,10 +1,10 @@
+import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
+import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import type Post from "../interfaces/post";
 import PostPreview from "./post-preview";
-import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
-import { Button } from "./ui/button";
-import { Minus, Plus } from "lucide-react";
 import { BackgroundGradient } from "./ui/backgroundGradiant";
+import { Button } from "./ui/button";
 import { MovingBorderButton } from "./ui/movingBorder";
 import { PlaceholdersAndVanishInput } from "./ui/placeholdersAndVanishInput";
 
@@ -39,9 +39,9 @@ const MoreStories = ({ posts }: Props) => {
       <div className="max-w-6xl mx-auto px-4">
         <h2
           id="moreStoriesHeading"
-          className="text-3xl font-bold mb-6 text-center tracking-tight"
+          className="text-4xl font-bold mb-6 text-start tracking-tight"
         >
-          More Stories
+          More Posts
         </h2>
 
         <div className="flex justify-center mb-8">

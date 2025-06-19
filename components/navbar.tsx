@@ -1,6 +1,15 @@
 "use client";
 
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+} from "@tabler/icons-react";
+import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { BackgroundGradient } from "./ui/backgroundGradiant";
+import { Button } from "./ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -8,15 +17,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "./ui/navigationMenu";
-import { BackgroundGradient } from "./ui/backgroundGradiant";
-import {
-  IconBrandGithub,
-  IconBrandLinkedin,
-} from "@tabler/icons-react";
-import { Sun, Moon } from "lucide-react";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 
 export const Navbar = () => {
   const router = useRouter();
@@ -72,7 +72,7 @@ export const Navbar = () => {
                   Some
                 </span>
                 <span className="text-red-500">(</span>
-                <span className="underline decoration-indigo-500">
+                <span className="transition-colors duration-300 underline decoration-indigo-500">
                   Scripting
                 </span>
                 <span className="text-red-500">)</span>
@@ -85,18 +85,18 @@ export const Navbar = () => {
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
-                className="duration-200 transition-colors text-blue-500 group w-fit mx-auto"
+                className="text-blue-500 group w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-300 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500" />
                 </BackgroundGradient>
               </Link>
               <Link
                 title="Visit Justins Twitter or X"
                 href="https://twitter.com/ScriptAlchemist"
-                className="duration-200 transition-colors group w-fit mx-auto"
+                className="group w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-500 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   <svg
                     viewBox="0 0 1200 1227"
                     xmlns="http://www.w3.org/2000/svg"
@@ -111,9 +111,9 @@ export const Navbar = () => {
               <Link
                 title="Visit Justins Github"
                 href="https://github.com/ScriptAlchemist"
-                className="duration-200 transition-colors group w-fit mx-auto"
+                className="group w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-700 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   <IconBrandGithub className="w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500" />
                 </BackgroundGradient>
               </Link>
@@ -127,9 +127,9 @@ export const Navbar = () => {
                     : "Switch to dark mode"
                 }
                 aria-label="Toggle Dark Mode"
-                className="transition-colors duration-300 w-fit mx-auto"
+                className="transition-colors w-fit mx-auto"
               >
-                <BackgroundGradient className="px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
                   {isDark ? (
                     <Sun className="text-yellow-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-gray-500" />
                   ) : (

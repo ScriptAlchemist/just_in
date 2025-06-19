@@ -1,15 +1,15 @@
-import { useRouter } from "next/router";
+import { motion, useScroll } from "framer-motion";
 import ErrorPage from "next/error";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import Container from "../../components/container";
 import PostBody from "../../components/post-body";
 import PostHeader from "../../components/post-header";
-import { getPostBySlug, getAllPosts } from "../../lib/api";
 import PostTitle from "../../components/post-title";
-import Head from "next/head";
+import type PostType from "../../interfaces/post";
+import { getAllPosts, getPostBySlug } from "../../lib/api";
 import { CMS_NAME } from "../../lib/constants";
 import markdownToHtml from "../../lib/markdownToHtml";
-import type PostType from "../../interfaces/post";
-import { motion, useScroll } from "framer-motion";
 
 type Props = {
   post: PostType;
@@ -26,7 +26,7 @@ export default function Post({ post, morePosts, preview }: Props) {
   }
   return (
     <Container>
-      <div className="flex flex-col bg-white bg-dot-black/[0.2]  dark:bg-black dark:bg-dot-white/[0.2] mt-5 md:mt-10">
+      <div className="flex flex-col bg-white bg-dot-black/[0.2]  dark:bg-black dark:bg-dot-white/[0.2] mt-5 md:mt-10 transition-colors duration-700 py-8">
         <motion.div
           className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
           style={{ scaleY: scrollYProgress }}
