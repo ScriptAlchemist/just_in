@@ -1,14 +1,12 @@
 // @ts-nocheck
 
-import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
-import { Canvas, extend, useThree, useFrame } from "@react-three/fiber";
 import {
-  useGLTF,
-  useTexture,
   Environment,
   Lightformer,
+  useGLTF,
+  useTexture,
 } from "@react-three/drei";
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import {
   BallCollider,
   CuboidCollider,
@@ -18,7 +16,8 @@ import {
   useSphericalJoint,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
-import { motion, useScroll } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
 import { BackgroundGradient } from "../../components/ui/backgroundGradiant";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
@@ -161,7 +160,7 @@ function AboutMeInfo() {
           <ExperienceItem
             title="Software Engineer"
             company="Paperstac"
-            date="Sep 2023 - Present"
+            date="Late 2023 - Present"
             description={[
               "Building with Turborepo, sharing UI Storybook design",
               "libraries to scale 3+ applications at once",
