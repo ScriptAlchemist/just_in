@@ -41,7 +41,7 @@ export default function AboutMe() {
   }, []);
 
   return (
-    <div className="container mx-auto min-h-screen px-0 md:px-4">
+    <div className="container mx-auto min-h-screen px-0 md:px-4 bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
       <div className="flex flex-col h-auto mt-5 md:mt-10 gap-8">
         <div className="flex-1 w-full flex flex-col justify-center rounded-2xl p-0 sm:p-2">
           <AboutMeInfo />
@@ -106,7 +106,7 @@ export function ImagePhysics() {
 function AboutMeInfo() {
   return (
     <div className="transition-colors duration-500 dark:bg-black/30 rounded-2xl p-8 text-black dark:text-white space-y-8 backdrop-sepia-0 bg-white/80 border border-white border-opacity-20 dark:border-opacity-30">
-      <section className="transition-colors duration-1000 flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md min-h-80">
+      <section className="transition-colors duration-1000 flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 min-h-80">
         <div className="flex flex-col w-full sm:w-1/2 items-center sm:items-start text-center sm:text-left">
           {/*
             <h1 className="transition-colors duration-1000 text-4xl sm:text-5xl font-extrabold mb-4 text-gray-900 dark:text-gray-100">
