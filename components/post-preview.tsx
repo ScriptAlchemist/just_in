@@ -1,9 +1,8 @@
-import Avatar from "./avatar";
-import DateFormatter from "./date-formatter";
-import CoverImage from "./cover-image";
 import Link from "next/link";
 import type Author from "../interfaces/author";
-import { BackgroundGradient } from "./ui/backgroundGradiant";
+import Avatar from "./avatar";
+import CoverImage from "./cover-image";
+import DateFormatter from "./date-formatter";
 
 type Props = {
   title: string;
@@ -24,27 +23,25 @@ const PostPreview = ({
 }: Props) => {
   return (
     <Link href={`/posts/${slug}`} className="">
-      <BackgroundGradient className="border border-indigo-500 transition-transform duration-300 ease-in-out transform bg-stone-800 rounded-3xl mb-auto ">
-        <div className="bg-white bg-grid-black/[0.1]  dark:bg-black dark:bg-grid-white/[0.1] rounded-3xl mb-auto p-5">
-          <div className="">
-            <CoverImage slug={slug} title={title} src={coverImage} />
-          </div>
-          <div className="mt-4 flex flex-col gap-y-2">
-            <h3 className="text-lg mb-3 leading-snug h-20 truncate-lines">
-              {title}
-            </h3>
-            <div className="hidden sm:block text-sm">
-              <DateFormatter dateString={date} />
-            </div>
-            <p className="text-sm leading-relaxed truncate-lines">
-              {excerpt}
-            </p>
-            <div className="hidden md:block mt-auto">
-              <Avatar name={author.name} picture={author.picture} />
-            </div>
-          </div>
+      <div className="bg-white/80 dark:bg-black/80 p-4 border border-foreground/40 rounded-2xl">
+        <div className="w-fit mx-auto">
+          <CoverImage slug={slug} title={title} src={coverImage} />
         </div>
-      </BackgroundGradient>
+        <div className="mt-4 flex flex-col gap-y-2">
+          <h3 className="text-lg leading-snug h-fit truncate-lines">
+            {title}
+          </h3>
+          <div className="hidden md:flex mt-auto">
+            <Avatar name={author.name} picture={author.picture} />
+          </div>
+          <div className="hidden sm:block text-xs font-thin tracking-tighter">
+            <DateFormatter dateString={date} />
+          </div>
+          <p className="text-sm leading-relaxed truncate-lines">
+            {excerpt}
+          </p>
+        </div>
+      </div>
     </Link>
   );
 };
