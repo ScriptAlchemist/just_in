@@ -223,7 +223,7 @@ export const Navbar = () => {
                     active={router.pathname === "/about-me"}
                     className={navigationMenuTriggerStyle()}
                   >
-                    About me
+                    About Me
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>

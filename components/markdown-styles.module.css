@@ -61,8 +61,8 @@
 
 .markdown code {
   @apply px-[0.1em] py-[0.1em] rounded;
-  background-color: hsl(var(--card));
-  color: hsl(var(--card-foreground));
+  background-color: hsl(var(--code));
+  color: hsl(var(--code-foreground));
 }
 
 .markdown ul {

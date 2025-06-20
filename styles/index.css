@@ -11,6 +11,9 @@
     --card: 43 34% 92%; /* card background same as bg */
     --card-foreground: 35 18% 15%; /* card text foreground */
 
+    --code: 39 100% 100%;
+    --code-foreground: 39 100% 3.4%;
+
     --popover: 43 34% 92%;
     --popover-foreground: 35 18% 15%;
 
@@ -33,7 +36,6 @@
     --input: 40 15% 80%;
     --ring: 40 15% 60%;
   }
-
   .dark {
     /* Gruvbox Dark Palette (hsl) */
 
@@ -42,6 +44,9 @@
 
     --card: 35 20% 12%;
     --card-foreground: 35 20% 80%;
+
+    --code: 23 0% 20.2%;
+    --code-foreground: 23 0% 71.5%;
 
     --popover: 35 20% 12%;
     --popover-foreground: 35 20% 80%;

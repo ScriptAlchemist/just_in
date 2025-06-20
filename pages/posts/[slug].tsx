@@ -26,7 +26,7 @@ export default function Post({ post, morePosts, preview }: Props) {
   }
   return (
     <Container>
-      <div className="-mx-5 sm:mx-auto flex flex-col bg-white bg-dot-black/[0.2] dark:bg-black dark:bg-dot-white/[0.2] mt-5 md:mt-10 transition-colors duration-700 p-4">
+      <div className="-mx-5 rounded-xl sm:mx-auto flex flex-col bg-[hsl(var(--background))]/70 dark:bg-[hsl(var(--background))]/80 mt-5 md:mt-10 transition-colors duration-700 p-4">
         <motion.div
           className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
           style={{ scaleY: scrollYProgress }}

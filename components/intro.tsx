@@ -54,7 +54,7 @@ const Intro = () => {
           </CardItem>
         </CardBody>
       </CardContainer>
-      <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 mb-8 md:mb-14 text-[hsl(var(--primary))]">
+      <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 mb-8 md:mb-14 text-[hsl(var(--foreground))]">
         <span>{text}</span>
         <span className="text-[hsl(var(--primary))]">
           {showQuestionMark ? "?" : "!"}
