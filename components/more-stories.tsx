@@ -48,7 +48,7 @@ const MoreStories = ({ posts }: Props) => {
         </h2> */}
 
         <div className="flex flex-col sm:flex-row justify-start mb-3">
-          <h3 className="flex items-center text-4xl font-semibold tracking-tight">
+          <h3 className="flex items-center text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
             Post List
           </h3>
           <div className="flex flex-row flex-wrap gap-2 justify-around items-center py-2">
@@ -57,12 +57,18 @@ const MoreStories = ({ posts }: Props) => {
               variant="outline"
               aria-expanded={showPosts}
               aria-controls="more-stories-content"
-              className="ml-6 flex items-center text-4xl font-semibold tracking-tight"
+              className="ml-6 flex items-center text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]"
             >
               {showPosts ? (
-                <Minus className="h-6 w-6" aria-hidden="true" />
+                <Minus
+                  className="h-6 w-6 text-[hsl(var(--foreground))]"
+                  aria-hidden="true"
+                />
               ) : (
-                <Plus className="h-6 w-6" aria-hidden="true" />
+                <Plus
+                  className="h-6 w-6 text-[hsl(var(--foreground))]"
+                  aria-hidden="true"
+                />
               )}
             </Button>
             {showPosts && (
@@ -73,7 +79,8 @@ const MoreStories = ({ posts }: Props) => {
                   aria-pressed={isListView}
                   className={cn(
                     "ml-4 flex items-center text-4xl font-semibold tracking-tight",
-                    !isListView && "bg-primary dark:bg-white/80",
+                    !isListView &&
+                      "bg-primary dark:bg-white/80 text-[hsl(var(--background))]",
                   )}
                   aria-label={
                     isListView
@@ -81,7 +88,10 @@ const MoreStories = ({ posts }: Props) => {
                       : "Switch to list view"
                   }
                 >
-                  <LayoutGrid className="h-6 w-6" aria-hidden="true" />
+                  <LayoutGrid
+                    className="h-6 w-6 text-[hsl(var(--foreground))]"
+                    aria-hidden="true"
+                  />
                 </Button>
                 <Button
                   onClick={() => setIsListView(true)}
@@ -89,7 +99,8 @@ const MoreStories = ({ posts }: Props) => {
                   aria-pressed={isListView}
                   className={cn(
                     "ml-4 flex items-center text-4xl font-semibold tracking-tight",
-                    isListView && "bg-primary dark:bg-white/80",
+                    isListView &&
+                      "bg-primary dark:bg-white/80 text-[hsl(var(--background))]",
                   )}
                   aria-label={
                     isListView
@@ -97,7 +108,10 @@ const MoreStories = ({ posts }: Props) => {
                       : "Switch to list view"
                   }
                 >
-                  <List className="h-6 w-6" aria-hidden="true" />
+                  <List
+                    className="h-6 w-6 text-[hsl(var(--foreground))]"
+                    aria-hidden="true"
+                  />
                 </Button>
               </>
             )}
@@ -117,6 +131,7 @@ const MoreStories = ({ posts }: Props) => {
                 variant="ghost"
                 size="lg"
                 onClick={() => setPostsFilter("")}
+                className="text-[hsl(var(--foreground))]"
               >
                 Clear Filter
               </Button>
@@ -137,7 +152,7 @@ const MoreStories = ({ posts }: Props) => {
                           key={post.slug}
                           className="flex items-center w-fit group"
                         >
-                          <DonutIcon className="h-8 w-8 mx-2 group-hover:text-indigo-500" />
+                          <DonutIcon className="h-8 w-8 mx-2 group-hover:text-[hsl(var(--primary))]" />
                           <Link
                             href={`/posts/${post.slug}`}
                             className="w-fit"
@@ -151,10 +166,10 @@ const MoreStories = ({ posts }: Props) => {
                                 height={64192}
                               /> */}
                               <div className="flex flex-col flex-grow">
-                                <h3 className="text-lg font-semibold text-wrap truncate">
+                                <h3 className="text-lg font-semibold text-wrap truncate text-[hsl(var(--foreground))]">
                                   {post.title}
                                 </h3>
-                                <p className="text-sm line-clamp-2 text-wrap truncate">
+                                <p className="text-sm line-clamp-2 text-wrap truncate text-[hsl(var(--muted-foreground))]">
                                   {post.excerpt}
                                 </p>
                                 <div className="hidden md:flex mt-auto">
@@ -164,9 +179,9 @@ const MoreStories = ({ posts }: Props) => {
                                       className="w-8 h-8 rounded-full mr-2 mt-2"
                                       alt={post.author.name}
                                     />
-                                    <div className="text-sm font-medium whitespace-nowrap">
+                                    <div className="text-sm font-medium whitespace-nowrap text-[hsl(var(--foreground))]">
                                       {post.author.name}
-                                      <span className=" ml-2 text-xs font-thin tracking-tighter">
+                                      <span className=" ml-2 text-xs font-thin tracking-tighter text-[hsl(var(--muted-foreground))]">
                                         &bull;{" "}
                                         <time>
                                           <DateFormatter
@@ -189,55 +204,46 @@ const MoreStories = ({ posts }: Props) => {
                     role="list"
                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto"
                     style={{
-                      // Calculate number of columns depending on screen size (1,2,3,4)
-                      // Then calculate extra posts to fill last row
                       gridTemplateColumns:
-                        "repeat(auto-fill, minmax(250px, 1fr))",
+                        "repeat(auto-fill, minmax(200px, 1fr))",
                     }}
                   >
-                    {
-                      // Calculate how many posts to display so last row fills out for large screens
-                      (() => {
-                        const columns = (() => {
-                          if (typeof window === "undefined") return 4;
-                          const width = window.innerWidth;
-                          if (width >= 1024) return 4;
-                          if (width >= 768) return 3;
-                          if (width >= 640) return 2;
-                          return 1;
-                        })();
-                        const baseCount = limitShowingPosts;
-                        // If baseCount mod columns is less than half columns, try to add extra posts to fill
-                        const remainder = baseCount % columns;
-                        let displayCount = baseCount;
-                        if (
-                          remainder !== 0 &&
-                          remainder < columns / 2
-                        ) {
-                          displayCount = Math.min(
-                            baseCount + (columns - remainder),
-                            filteredPosts.length,
-                          );
-                        }
-                        return filteredPosts
-                          .slice(0, displayCount)
-                          .map((post) => (
-                            <PostPreview
-                              key={post.slug}
-                              title={post.title}
-                              coverImage={post.coverImage}
-                              date={post.date}
-                              author={post.author}
-                              slug={post.slug}
-                              excerpt={post.excerpt}
-                            />
-                          ));
-                      })()
-                    }
+                    {(() => {
+                      const columns = (() => {
+                        if (typeof window === "undefined") return 4;
+                        const width = window.innerWidth;
+                        if (width >= 1024) return 4;
+                        if (width >= 768) return 3;
+                        if (width >= 640) return 2;
+                        return 1;
+                      })();
+                      const baseCount = limitShowingPosts;
+                      const remainder = baseCount % columns;
+                      let displayCount = baseCount;
+                      if (remainder !== 0 && remainder < columns / 2) {
+                        displayCount = Math.min(
+                          baseCount + (columns - remainder),
+                          filteredPosts.length,
+                        );
+                      }
+                      return filteredPosts
+                        .slice(0, displayCount)
+                        .map((post) => (
+                          <PostPreview
+                            key={post.slug}
+                            title={post.title}
+                            coverImage={post.coverImage}
+                            date={post.date}
+                            author={post.author}
+                            slug={post.slug}
+                            excerpt={post.excerpt}
+                          />
+                        ));
+                    })()}
                   </div>
                 )}
 
-                <div className="flex justify-center my-10 space-x-6 max-w-4xl mx-auto">
+                <div className="flex justify-center flex-wrap my-10 space-x-6 max-w-4xl mx-auto">
                   {limitShowingPosts < filteredPosts.length && (
                     <Button
                       onClick={() =>
@@ -246,7 +252,7 @@ const MoreStories = ({ posts }: Props) => {
                         )
                       }
                       variant="outline"
-                      className="min-w-[140px]"
+                      className="min-w-[140px] text-[hsl(var(--foreground))]"
                       aria-label="Show more posts"
                     >
                       Show More
@@ -258,7 +264,7 @@ const MoreStories = ({ posts }: Props) => {
                       setPostsFilter("");
                     }}
                     variant="outline"
-                    className="min-w-[140px]"
+                    className="min-w-[140px] text-[hsl(var(--foreground))]"
                   >
                     Reset
                   </Button>
@@ -267,7 +273,7 @@ const MoreStories = ({ posts }: Props) => {
             ) : (
               <div
                 role="alert"
-                className="flex items-center justify-center w-full min-h-[384px] text-center font-semibold text-lg sm:text-xl"
+                className="flex items-center justify-center w-full min-h-[384px] text-center font-semibold text-lg sm:text-xl text-[hsl(var(--foreground))]"
               >
                 No posts found with that title.
               </div>

@@ -31,11 +31,15 @@ const Intro = () => {
               placeholder="blur"
               className="rounded-2xl hidden md:block h-52 w-fit lg:ml-20"
             />
-            <div className="flex flex-col mt-5 w-5/6 md:w-3/4 mx-auto">
+            <div className="flex flex-col mt-5 w-5/6 md:w-3/4 mx-auto text-[hsl(var(--foreground))] dark:text-[hsl(var(--card-foreground))]">
               <p className="pb-5 font-semibold">
-                <span className="text-red-500 text-2xl">Hello</span>, my
-                name is{" "}
-                <span className="text-indigo-500 text-2xl">Justin</span>
+                <span className="text-[hsl(var(--destructive))] text-2xl">
+                  Hello
+                </span>
+                , my name is{" "}
+                <span className="text-[hsl(var(--primary))] text-2xl">
+                  Justin
+                </span>
               </p>
               <p className="text-sm sm:text-lg pb-5 font-thin">
                 These opinions are my own. Not for any employer that I
@@ -50,9 +54,9 @@ const Intro = () => {
           </CardItem>
         </CardBody>
       </CardContainer>
-      <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 mb-8 md:mb-14">
+      <h2 className="ml-0 sm:ml-20 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:pr-8 mb-8 md:mb-14 text-[hsl(var(--primary))]">
         <span>{text}</span>
-        <span className="text-indigo-500">
+        <span className="text-[hsl(var(--primary))]">
           {showQuestionMark ? "?" : "!"}
         </span>
       </h2>

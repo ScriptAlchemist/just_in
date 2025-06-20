@@ -18,11 +18,11 @@ const PostHeader = ({ title, coverImage, date, author }: Props) => {
       <div className="mb-8 mx-auto w-1/2">
         <CoverImage title={title} src={coverImage} />
       </div>
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto text-[hsl(var(--foreground))]">
         <div className="">
           <Avatar name={author.name} picture={author.picture} />
         </div>
-        <div className="mb-6 text-sm">
+        <div className="mb-6 text-sm text-[hsl(var(--muted-foreground))]">
           <DateFormatter dateString={date} />
         </div>
       </div>

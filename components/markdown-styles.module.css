@@ -1,5 +1,6 @@
 .markdown {
   @apply text-lg leading-relaxed px-0;
+  color: hsl(var(--foreground));
 }
 
 .markdown p,
@@ -41,29 +42,29 @@
 
 .markdown a {
   color: hsl(var(--destructive));
-  &:hover {
-    color: hsl(var(--primary));
-  }
+}
+.markdown a:hover {
+  color: hsl(var(--primary));
 }
 
 .markdown h1 {
   @apply text-4xl mt-12 mb-4 leading-snug;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
 }
 
 .markdown h2 {
   @apply text-3xl mt-12 mb-4 leading-snug;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
 }
 
 .markdown h3 {
   @apply text-2xl mt-8 mb-4 leading-snug;
-  color: hsl(var(--primary-foreground));
+  color: hsl(var(--foreground));
 }
 
 .markdown h4 {
   @apply text-xl mt-8 mb-4 leading-snug;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
 }
 
 .markdown hr {

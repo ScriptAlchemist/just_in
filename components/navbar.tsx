@@ -102,9 +102,9 @@ export const Navbar = () => {
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
-                className="text-blue-500 group w-fit mx-auto"
+                className="group w-fit mx-auto text-blue-500"
               >
-                <BackgroundGradient className="transition-colors duration-300 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-300 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
                   <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500" />
                 </BackgroundGradient>
               </Link>
@@ -113,13 +113,13 @@ export const Navbar = () => {
                 href="https://twitter.com/ScriptAlchemist"
                 className="group w-fit mx-auto"
               >
-                <BackgroundGradient className="transition-colors duration-500 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-500 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
                   <svg
                     viewBox="0 0 1200 1227"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
                     role="none"
-                    className="fill-stone-800 dark:fill-stone-300 w-5 h-5 md:w-8 md:h-8 m-3 group-hover:fill-stone-300 dark:group-hover:fill-stone-100"
+                    className="fill-stone-800 dark:fill-stone-300 group-hover:fill-stone-300 dark:group-hover:fill-stone-100 w-5 h-5 md:w-8 md:h-8 m-3"
                   >
                     <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path>
                   </svg>
@@ -128,10 +128,10 @@ export const Navbar = () => {
               <Link
                 title="Visit Justins Github"
                 href="https://github.com/ScriptAlchemist"
-                className="group w-fit mx-auto"
+                className="group w-fit mx-auto text-[hsl(var(--accent))]"
               >
-                <BackgroundGradient className="transition-colors duration-700 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
-                  <IconBrandGithub className="w-5 h-5 md:w-8 md:h-8 text-orange-700 m-3 group-hover:text-orange-500" />
+                <BackgroundGradient className="transition-colors duration-700 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
+                  <IconBrandGithub className="w-5 h-5 md:w-8 md:h-8 text-[hsl(var(--destructive))] m-3 group-hover:text-[hsl(var(--muted))]" />
                 </BackgroundGradient>
               </Link>
               <Button
@@ -144,13 +144,13 @@ export const Navbar = () => {
                     : "Switch to dark mode"
                 }
                 aria-label="Toggle Dark Mode"
-                className="transition-colors w-fit mx-auto"
+                className="transition-colors w-fit mx-auto text-[hsl(var(--foreground))]"
               >
-                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-white dark:bg-black text-white rounded-3xl flex items-center gap-x-2">
+                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
                   {isDark ? (
-                    <Sun className="text-yellow-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-gray-500" />
+                    <Sun className="text-[hsl(var(--accent))] w-5 h-5 md:w-8 md:h-8 m-3 hover:text-[hsl(var(--muted-foreground))]" />
                   ) : (
-                    <Moon className="text-gray-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-yellow-500" />
+                    <Moon className="text-[hsl(var(--muted-foreground))] w-5 h-5 md:w-8 md:h-8 m-3 hover:text-[hsl(var(--accent))]" />
                   )}
                 </BackgroundGradient>
               </Button>
