@@ -79,7 +79,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <NavigationMenu className="flex flex-col w-full mb-10">
+      <NavigationMenu className="flex flex-col w-full">
         <section className="flex flex-col">
           <div className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
             <Link href="/">
