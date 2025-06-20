@@ -71,7 +71,7 @@ const MoreStories = ({ posts }: Props) => {
                 aria-pressed={isListView}
                 className={cn(
                   "ml-4 flex items-center text-4xl font-semibold tracking-tight",
-                  !isListView && "bg-primary",
+                  !isListView && "bg-primary dark:bg-white/80",
                 )}
                 aria-label={
                   isListView
@@ -87,7 +87,7 @@ const MoreStories = ({ posts }: Props) => {
                 aria-pressed={isListView}
                 className={cn(
                   "ml-4 flex items-center text-4xl font-semibold tracking-tight",
-                  isListView && "bg-primary",
+                  isListView && "bg-primary dark:bg-white/80",
                 )}
                 aria-label={
                   isListView
@@ -125,20 +125,22 @@ const MoreStories = ({ posts }: Props) => {
                   <div
                     id="more-stories-content"
                     role="list"
-                    className="max-w-6xl mx-auto space-y-4"
+                    className="max-w-6xl mx-auto space-y-4 bg-white/80 dark:bg-black/80 rounded-2xl p-3 border border-forground"
                   >
                     {filteredPosts
                       .slice(0, limitShowingPosts)
                       .map((post) => (
                         <div
                           key={post.slug}
-                          className="bg-white/80 dark:bg-black/80 p-4 border border-foreground/40 rounded-2xl flex gap-4 items-center"
+                          className="flex gap-4 items-center"
                         >
-                          <img
+                          {/* <Image
                             src={post.coverImage}
-                            alt={post.title}
-                            className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
-                          />
+                            alt={`Image for ${post.title}`}
+                            className={cn("shadow-sm w-full")}
+                            width={64}
+                            height={64192}
+                          /> */}
                           <div className="flex flex-col flex-grow">
                             <h3 className="text-lg font-semibold truncate">
                               {post.title}
@@ -146,17 +148,22 @@ const MoreStories = ({ posts }: Props) => {
                             <p className="text-sm line-clamp-2">
                               {post.excerpt}
                             </p>
-                            <div className="flex items-center mt-auto gap-2 text-xs font-thin tracking-tighter">
-                              <img
-                                src={post.author.picture}
-                                alt={post.author.name}
-                                className="w-6 h-6 rounded-full object-cover"
-                              />
-                              <span>{post.author.name}</span>
-                              &bull;
-                              <time>
-                                <DateFormatter dateString={post.date} />
-                              </time>
+                            <div className="hidden md:flex mt-auto">
+                              <div className="flex items-center">
+                                <img
+                                  src={post.author.picture}
+                                  className="w-8 h-8 rounded-full mr-2"
+                                  alt={post.author.name}
+                                />
+                                <div className="text-sm font-medium">
+                                  {post.author.name}
+                                  <span className=" ml-2 text-xs font-thin tracking-tighter">
+                                    <DateFormatter
+                                      dateString={post.date}
+                                    />
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
