@@ -160,9 +160,9 @@ export const Navbar = () => {
               >
                 <BackgroundGradient className="transition-colors duration-1000 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
                   {isDark ? (
-                    <Sun className="text-[hsl(var(--accent))] w-5 h-5 md:w-8 md:h-8 m-3 hover:text-[hsl(var(--muted-foreground))]" />
+                    <Moon className="text-gray-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-yellow-400" />
                   ) : (
-                    <Moon className="text-[hsl(var(--muted-foreground))] w-5 h-5 md:w-8 md:h-8 m-3 hover:text-[hsl(var(--accent))]" />
+                    <Sun className="text-yellow-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-gray-400" />
                   )}
                 </BackgroundGradient>
               </Button>
