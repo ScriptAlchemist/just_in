@@ -104,48 +104,77 @@ function ImagePhysics() {
 
 function AboutMeInfo() {
   return (
-    <div className="dark:bg-black/30 rounded-2xl p-8 text-black dark:text-white space-y-8 backdrop-sepia-0 bg-white/80 border border-white border-opacity-20 dark:border-opacity-30">
-      <section className="flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md min-h-80">
+    <div className="transition-colors duration-500 dark:bg-black/30 rounded-2xl p-8 text-black dark:text-white space-y-8 backdrop-sepia-0 bg-white/80 border border-white border-opacity-20 dark:border-opacity-30">
+      <section className="transition-colors duration-1000 flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md min-h-80">
         <div className="flex flex-col w-full sm:w-1/2 items-center sm:items-start text-center sm:text-left">
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 text-gray-900 dark:text-gray-100">
-            Justin Bender
-          </h1>
-          <p className="mb-2 text-lg font-medium text-gray-700 dark:text-gray-300">
-            USA 🇺🇸
-          </p>
-          <nav className="flex flex-col space-y-2 text-base">
-            <a
-              href="https://somescripting.com"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              SomeScripting.com
-            </a>
-            <a
-              href="https://github.com/ScriptAlchemist"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              github.com/ScriptAlchemist
-            </a>
-            <a
-              href="https://linkedin.com/in/benderjustin"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              linkedin.com/in/benderjustin
-            </a>
-          </nav>
+          {/*
+            <h1 className="transition-colors duration-1000 text-4xl sm:text-5xl font-extrabold mb-4 text-gray-900 dark:text-gray-100">
+              Justin Bender
+            </h1>
+          */}
+          <div className="flex flex-col">
+            <p className="font-semibold">
+              <span className="text-red-500 text-2xl">Hello</span>, my
+              name is{" "}
+              <span className="text-indigo-500 text-2xl">Justin</span>
+            </p>
+            <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+              USA 🇺🇸
+            </p>
+            <p className="text-sm sm:text-base pb-2 font-thin">
+              These opinions are my own. Not for any employer that I
+              currently work.
+            </p>
+            <p className="text-sm sm:text-base font-semibold"></p>
+          </div>
+
+          {/*
+            <nav className="flex flex-col space-y-2 text-base">
+              <Button
+                className="flex w-full text-start justify-start"
+                asChild
+              >
+                <Link
+                  href="https://somescripting.com"
+                  className=""
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  SomeScripting.com
+                </Link>
+              </Button>
+              <Button
+                className="flex w-full text-start justify-start"
+                asChild
+              >
+                <Link
+                  href="https://github.com/ScriptAlchemist"
+                  className=""
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GitHub.com/ScriptAlchemist
+                </Link>
+              </Button>
+              <Button className="" asChild>
+                <Link
+                  href="https://linkedin.com/in/benderjustin"
+                  className=""
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  linkedin.com/in/benderjustin
+                </Link>
+              </Button>
+            </nav>
+          */}
         </div>
         <div className="w-full sm:w-1/2 h-[300px]">
           <ImagePhysics />
         </div>
       </section>
       <section>
-        <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Experience
         </h2>
         <div className="space-y-4 ml-1">
@@ -160,7 +189,7 @@ function AboutMeInfo() {
           <ExperienceItem
             title="Software Engineer"
             company="Paperstac"
-            date="Late 2023 - Present"
+            date="Present"
             description={[
               "Building with Turborepo, sharing UI Storybook design",
               "libraries to scale 3+ applications at once",
@@ -233,7 +262,7 @@ function AboutMeInfo() {
       </section>
 
       <section>
-        <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Skills
         </h2>
         <div className="list-disc ml-1 space-y-2 text-base">
@@ -270,7 +299,7 @@ function AboutMeInfo() {
       </section>
 
       <section>
-        <h2 className="text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
           Projects
         </h2>
         <div className="text-lg space-y-2 ml-1">

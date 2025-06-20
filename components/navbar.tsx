@@ -49,11 +49,28 @@ export const Navbar = () => {
 
   const toggleTheme = () => {
     if (typeof window === "undefined") return;
+
+    const scriptingElement = document.querySelector(".scripting-text");
+
     if (isDark) {
+      if (scriptingElement) {
+        scriptingElement.classList.add("text-indigo-500");
+        setTimeout(
+          () => scriptingElement.classList.remove("text-indigo-500"),
+          800,
+        );
+      }
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
       setIsDark(false);
     } else {
+      if (scriptingElement) {
+        scriptingElement.classList.add("text-red-600");
+        setTimeout(
+          () => scriptingElement.classList.remove("text-red-600"),
+          800,
+        );
+      }
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
       setIsDark(true);
@@ -72,7 +89,7 @@ export const Navbar = () => {
                   Some
                 </span>
                 <span className="text-red-500">(</span>
-                <span className="transition-colors duration-300 underline decoration-indigo-500">
+                <span className="transition-colors duration-300 scripting-text underline decoration-indigo-500">
                   Scripting
                 </span>
                 <span className="text-red-500">)</span>

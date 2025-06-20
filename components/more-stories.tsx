@@ -5,7 +5,6 @@ import type Post from "../interfaces/post";
 import PostPreview from "./post-preview";
 import { BackgroundGradient } from "./ui/backgroundGradiant";
 import { Button } from "./ui/button";
-import { MovingBorderButton } from "./ui/movingBorder";
 import { PlaceholdersAndVanishInput } from "./ui/placeholdersAndVanishInput";
 
 type Props = {
@@ -82,9 +81,9 @@ const MoreStories = ({ posts }: Props) => {
                   aria-label="Filter posts by title"
                 />
               </BackgroundGradient>
-              <MovingBorderButton onClick={() => setPostsFilter("")}>
+              <Button variant="link" onClick={() => setPostsFilter("")}>
                 Clear Filter
-              </MovingBorderButton>
+              </Button>
             </div>
 
             {filteredPosts.length > 0 ? (
