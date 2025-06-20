@@ -28,7 +28,7 @@ export default function Post({ post, morePosts, preview }: Props) {
     <Container>
       <div className="-mx-5 rounded-xl sm:mx-auto flex flex-col bg-[hsl(var(--background))]/70 dark:bg-[hsl(var(--background))]/80 mt-5 md:mt-10 transition-colors duration-700 p-4">
         <motion.div
-          className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-indigo-500 origin-top"
+          className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-[hsl(var(--accent))] origin-top"
           style={{ scaleY: scrollYProgress }}
         />
         {router.isFallback ? (
