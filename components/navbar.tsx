@@ -202,33 +202,31 @@ export const Navbar = () => {
             </div>
           </div>
         </section>
-        <NavigationMenuList className="flex">
-          <div className="flex flex-row w-full max-w-screen-lg mx-5 sm:mx-20 mt-5 gap-x-3 gap-y-4 sm:gap-x-8">
-            {router.pathname !== "/" && (
-              <NavigationMenuItem className="flex-1">
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    active={router.pathname === "/"}
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    Home
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            )}
-            {router.pathname !== "/about-me" && (
-              <NavigationMenuItem className="flex-1">
-                <Link href="/about-me" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    active={router.pathname === "/about-me"}
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    About Me
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            )}
-          </div>
+        <NavigationMenuList className="flex flex-wrap sm:justify-start gap-6 px-14 max-w-5xl mt-4 mx-auto">
+          {/* {router.pathname !== "/" && ( */}
+          <NavigationMenuItem className="w-fit">
+            <Link href="/" legacyBehavior passHref>
+              <NavigationMenuLink
+                active={router.pathname === "/"}
+                className={navigationMenuTriggerStyle()}
+              >
+                Home
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          {/* )}
+          {router.pathname !== "/about-me" && ( */}
+          <NavigationMenuItem className="w-fit">
+            <Link href="/about-me" legacyBehavior passHref>
+              <NavigationMenuLink
+                active={router.pathname === "/about-me"}
+                className={navigationMenuTriggerStyle()}
+              >
+                About Me
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          {/* )} */}
         </NavigationMenuList>
       </NavigationMenu>
     </>

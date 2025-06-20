@@ -1,10 +1,11 @@
-import Meta from './meta'
-import { Navbar } from './navbar';
+import Footer from "./footer";
+import Meta from "./meta";
+import { Navbar } from "./navbar";
 
 type Props = {
-  preview?: boolean
-  children: React.ReactNode
-}
+  preview?: boolean;
+  children: React.ReactNode;
+};
 
 const Layout = ({ preview, children }: Props) => {
   return (
@@ -13,11 +14,11 @@ const Layout = ({ preview, children }: Props) => {
       <div className="flex flex-col w-full">
         {/*<Alert preview={preview} />*/}
         <Navbar />
-        <main className=''>{children}</main>
+        <main className="">{children}</main>
+        <Footer />
       </div>
-      {/*<Footer />*/}
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
