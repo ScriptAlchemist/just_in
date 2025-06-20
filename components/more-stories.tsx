@@ -1,8 +1,10 @@
-import { Minus, Plus } from "lucide-react";
+import { LayoutGrid, List, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import type Post from "../interfaces/post";
+import { cn } from "../lib/utils";
 import { ImagePhysics } from "../pages/about-me";
+import DateFormatter from "./date-formatter";
 import PostPreview from "./post-preview";
 import { Button } from "./ui/button";
 import { PlaceholdersAndVanishInput } from "./ui/placeholdersAndVanishInput";
@@ -18,6 +20,7 @@ const MoreStories = ({ posts }: Props) => {
   );
   const [showPosts, setShowPosts] = useState(true);
   const [limitShowingPosts, setLimitShowingPosts] = useState(6);
+  const [isListView, setIsListView] = useState(false);
 
   const thePosts = filteredPosts.slice(0, limitShowingPosts);
   const placeholders = filteredPosts
@@ -60,6 +63,42 @@ const MoreStories = ({ posts }: Props) => {
               <Plus className="h-6 w-6" aria-hidden="true" />
             )}
           </Button>
+          {showPosts && (
+            <>
+              <Button
+                onClick={() => setIsListView(false)}
+                variant="outline"
+                aria-pressed={isListView}
+                className={cn(
+                  "ml-4 flex items-center text-4xl font-semibold tracking-tight",
+                  !isListView && "bg-primary",
+                )}
+                aria-label={
+                  isListView
+                    ? "Switch to tile view"
+                    : "Switch to list view"
+                }
+              >
+                <LayoutGrid className="h-6 w-6" aria-hidden="true" />
+              </Button>
+              <Button
+                onClick={() => setIsListView(true)}
+                variant="outline"
+                aria-pressed={isListView}
+                className={cn(
+                  "ml-4 flex items-center text-4xl font-semibold tracking-tight",
+                  isListView && "bg-primary",
+                )}
+                aria-label={
+                  isListView
+                    ? "Switch to tile view"
+                    : "Switch to list view"
+                }
+              >
+                <List className="h-6 w-6" aria-hidden="true" />
+              </Button>
+            </>
+          )}
         </div>
 
         {showPosts ? (
@@ -82,54 +121,100 @@ const MoreStories = ({ posts }: Props) => {
 
             {filteredPosts.length > 0 ? (
               <>
-                <div
-                  id="more-stories-content"
-                  role="list"
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto"
-                  style={{
-                    // Calculate number of columns depending on screen size (1,2,3,4)
-                    // Then calculate extra posts to fill last row
-                    gridTemplateColumns:
-                      "repeat(auto-fill, minmax(250px, 1fr))",
-                  }}
-                >
-                  {
-                    // Calculate how many posts to display so last row fills out for large screens
-                    (() => {
-                      const columns = (() => {
-                        if (typeof window === "undefined") return 4;
-                        const width = window.innerWidth;
-                        if (width >= 1024) return 4;
-                        if (width >= 768) return 3;
-                        if (width >= 640) return 2;
-                        return 1;
-                      })();
-                      const baseCount = limitShowingPosts;
-                      // If baseCount mod columns is less than half columns, try to add extra posts to fill
-                      const remainder = baseCount % columns;
-                      let displayCount = baseCount;
-                      if (remainder !== 0 && remainder < columns / 2) {
-                        displayCount = Math.min(
-                          baseCount + (columns - remainder),
-                          filteredPosts.length,
-                        );
-                      }
-                      return filteredPosts
-                        .slice(0, displayCount)
-                        .map((post) => (
-                          <PostPreview
-                            key={post.slug}
-                            title={post.title}
-                            coverImage={post.coverImage}
-                            date={post.date}
-                            author={post.author}
-                            slug={post.slug}
-                            excerpt={post.excerpt}
+                {isListView ? (
+                  <div
+                    id="more-stories-content"
+                    role="list"
+                    className="max-w-6xl mx-auto space-y-4"
+                  >
+                    {filteredPosts
+                      .slice(0, limitShowingPosts)
+                      .map((post) => (
+                        <div
+                          key={post.slug}
+                          className="bg-white/80 dark:bg-black/80 p-4 border border-foreground/40 rounded-2xl flex gap-4 items-center"
+                        >
+                          <img
+                            src={post.coverImage}
+                            alt={post.title}
+                            className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
                           />
-                        ));
-                    })()
-                  }
-                </div>
+                          <div className="flex flex-col flex-grow">
+                            <h3 className="text-lg font-semibold truncate">
+                              {post.title}
+                            </h3>
+                            <p className="text-sm line-clamp-2">
+                              {post.excerpt}
+                            </p>
+                            <div className="flex items-center mt-auto gap-2 text-xs font-thin tracking-tighter">
+                              <img
+                                src={post.author.picture}
+                                alt={post.author.name}
+                                className="w-6 h-6 rounded-full object-cover"
+                              />
+                              <span>{post.author.name}</span>
+                              &bull;
+                              <time>
+                                <DateFormatter dateString={post.date} />
+                              </time>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                ) : (
+                  <div
+                    id="more-stories-content"
+                    role="list"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto"
+                    style={{
+                      // Calculate number of columns depending on screen size (1,2,3,4)
+                      // Then calculate extra posts to fill last row
+                      gridTemplateColumns:
+                        "repeat(auto-fill, minmax(250px, 1fr))",
+                    }}
+                  >
+                    {
+                      // Calculate how many posts to display so last row fills out for large screens
+                      (() => {
+                        const columns = (() => {
+                          if (typeof window === "undefined") return 4;
+                          const width = window.innerWidth;
+                          if (width >= 1024) return 4;
+                          if (width >= 768) return 3;
+                          if (width >= 640) return 2;
+                          return 1;
+                        })();
+                        const baseCount = limitShowingPosts;
+                        // If baseCount mod columns is less than half columns, try to add extra posts to fill
+                        const remainder = baseCount % columns;
+                        let displayCount = baseCount;
+                        if (
+                          remainder !== 0 &&
+                          remainder < columns / 2
+                        ) {
+                          displayCount = Math.min(
+                            baseCount + (columns - remainder),
+                            filteredPosts.length,
+                          );
+                        }
+                        return filteredPosts
+                          .slice(0, displayCount)
+                          .map((post) => (
+                            <PostPreview
+                              key={post.slug}
+                              title={post.title}
+                              coverImage={post.coverImage}
+                              date={post.date}
+                              author={post.author}
+                              slug={post.slug}
+                              excerpt={post.excerpt}
+                            />
+                          ));
+                      })()
+                    }
+                  </div>
+                )}
 
                 <div className="flex justify-center my-10 space-x-6 max-w-4xl mx-auto">
                   {limitShowingPosts < filteredPosts.length && (

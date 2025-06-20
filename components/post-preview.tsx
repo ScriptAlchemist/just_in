@@ -23,7 +23,7 @@ const PostPreview = ({
 }: Props) => {
   return (
     <Link href={`/posts/${slug}`} className="">
-      <div className="bg-white/80 dark:bg-black/80 p-4 border border-foreground/40 rounded-2xl">
+      <div className="bg-white/80 dark:bg-black/80 p-4 border border-foreground/40 rounded-2xl min-h-[340px] md:min-h-[400px] lg:min-h-[410px]">
         <div className="w-fit mx-auto">
           <CoverImage slug={slug} title={title} src={coverImage} />
         </div>
