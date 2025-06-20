@@ -21,6 +21,7 @@ import {
 export const Navbar = () => {
   const router = useRouter();
   const [isDark, setIsDark] = useState(false);
+  const [isHoveringTheme, setIsHoveringTheme] = useState(false);
 
   // On mount check localStorage and system preference
   useEffect(() => {
@@ -150,20 +151,52 @@ export const Navbar = () => {
                 variant="unstyled"
                 size="icon"
                 onClick={toggleTheme}
+                onMouseEnter={() => setIsHoveringTheme(true)}
+                onMouseLeave={() => setIsHoveringTheme(false)}
                 title={
                   isDark
                     ? "Switch to light mode"
                     : "Switch to dark mode"
                 }
                 aria-label="Toggle Dark Mode"
-                className="transition-colors w-fit mx-auto text-[hsl(var(--foreground))]"
+                className="relative w-fit mx-auto text-[hsl(var(--foreground))] p-0"
               >
-                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
-                  {isDark ? (
-                    <Moon className="text-gray-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-yellow-400" />
-                  ) : (
-                    <Sun className="text-yellow-400 w-5 h-5 md:w-8 md:h-8 m-3 hover:text-gray-400" />
-                  )}
+                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center justify-center w-16 h-12 md:w-20 md:h-14 overflow-hidden relative">
+                  {/* Wrapper for stacking icons */}
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <Sun
+                      className={`absolute w-5 h-5 md:w-8 md:h-8 text-yellow-400 transition-all duration-300 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ${
+                        !isDark && !isHoveringTheme
+                          ? "opacity-100 scale-100 z-20"
+                          : "opacity-0 scale-50 z-0 pointer-events-none"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <Sun
+                      className={`absolute w-5 h-5 md:w-8 md:h-8 text-yellow-400 transition-all duration-300 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ${
+                        isDark && isHoveringTheme
+                          ? "opacity-100 scale-100 z-20"
+                          : "opacity-0 scale-50 z-0 pointer-events-none"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <Moon
+                      className={`absolute w-5 h-5 md:w-8 md:h-8 text-gray-400 transition-all duration-300 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ${
+                        isDark && !isHoveringTheme
+                          ? "opacity-100 scale-100 z-20"
+                          : "opacity-0 scale-50 z-0 pointer-events-none"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <Moon
+                      className={`absolute w-5 h-5 md:w-8 md:h-8 text-gray-400 transition-all duration-300 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ${
+                        !isDark && isHoveringTheme
+                          ? "opacity-100 scale-100 z-20"
+                          : "opacity-0 scale-50 z-0 pointer-events-none"
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </div>
                 </BackgroundGradient>
               </Button>
             </div>
