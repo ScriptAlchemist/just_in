@@ -111,14 +111,14 @@ export const Navbar = () => {
                 </div>
               </h1>
             </Link>
-            <div className="flex flex-wrap justify-center text-center w-full gap-4 text-lg mt-5 md:mt-0 items-center">
+            <div className="grid grid-cols-2 grid-rows-2 gap-2 max-w-max mt-5 md:mt-0 lg:grid-cols-4 lg:grid-rows-1 mx-auto justify-center items-center text-center text-lg">
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
                 className="group w-fit mx-auto text-[hsl(var(--accent))]"
               >
                 <BackgroundGradient className="transition-colors duration-300 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
-                  <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-[hsl(var(--accent))] m-3 group-hover:text-[hsl(var(--muted))]" />
+                  <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-blue-400 m-3 group-hover:text-blue-700" />
                 </BackgroundGradient>
               </Link>
               <Link
@@ -132,7 +132,7 @@ export const Navbar = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
                     role="none"
-                    className="fill-[hsl(var(--foreground))] dark:fill-[hsl(var(--card-foreground))] group-hover:fill-[hsl(var(--muted))] dark:group-hover:fill-[hsl(var(--muted-foreground))] w-5 h-5 md:w-8 md:h-8 m-3"
+                    className="fill-[hsl(var(--foreground))] dark:fill-[hsl(var(--card-foreground))] group-hover:fill-white dark:group-hover:fill-black w-5 h-5 md:w-8 md:h-8 m-3"
                   >
                     <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path>
                   </svg>
@@ -161,7 +161,7 @@ export const Navbar = () => {
                 aria-label="Toggle Dark Mode"
                 className="relative w-fit mx-auto text-[hsl(var(--foreground))] p-0"
               >
-                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center justify-center w-16 h-12 md:w-20 md:h-14 overflow-hidden relative">
+                <BackgroundGradient className="transition-colors duration-1000 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center justify-center w-16 h-11 md:w-20 md:h-14 overflow-hidden relative">
                   {/* Wrapper for stacking icons */}
                   <div className="relative w-full h-full flex items-center justify-center">
                     <Sun
