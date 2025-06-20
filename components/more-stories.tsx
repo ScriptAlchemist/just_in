@@ -46,59 +46,61 @@ const MoreStories = ({ posts }: Props) => {
           More Posts
         </h2> */}
 
-        <div className="flex justify-start mb-3">
+        <div className="flex flex-col sm:flex-row justify-start mb-3">
           <h3 className="flex items-center text-4xl font-semibold tracking-tight">
             Post List
           </h3>
-          <Button
-            onClick={toggleShowPosts}
-            variant="outline"
-            aria-expanded={showPosts}
-            aria-controls="more-stories-content"
-            className="ml-6 flex items-center text-4xl font-semibold tracking-tight"
-          >
-            {showPosts ? (
-              <Minus className="h-6 w-6" aria-hidden="true" />
-            ) : (
-              <Plus className="h-6 w-6" aria-hidden="true" />
+          <div className="flex flex-row flex-wrap gap-2 justify-around items-center py-2">
+            <Button
+              onClick={toggleShowPosts}
+              variant="outline"
+              aria-expanded={showPosts}
+              aria-controls="more-stories-content"
+              className="ml-6 flex items-center text-4xl font-semibold tracking-tight"
+            >
+              {showPosts ? (
+                <Minus className="h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Plus className="h-6 w-6" aria-hidden="true" />
+              )}
+            </Button>
+            {showPosts && (
+              <>
+                <Button
+                  onClick={() => setIsListView(false)}
+                  variant="outline"
+                  aria-pressed={isListView}
+                  className={cn(
+                    "ml-4 flex items-center text-4xl font-semibold tracking-tight",
+                    !isListView && "bg-primary dark:bg-white/80",
+                  )}
+                  aria-label={
+                    isListView
+                      ? "Switch to tile view"
+                      : "Switch to list view"
+                  }
+                >
+                  <LayoutGrid className="h-6 w-6" aria-hidden="true" />
+                </Button>
+                <Button
+                  onClick={() => setIsListView(true)}
+                  variant="outline"
+                  aria-pressed={isListView}
+                  className={cn(
+                    "ml-4 flex items-center text-4xl font-semibold tracking-tight",
+                    isListView && "bg-primary dark:bg-white/80",
+                  )}
+                  aria-label={
+                    isListView
+                      ? "Switch to tile view"
+                      : "Switch to list view"
+                  }
+                >
+                  <List className="h-6 w-6" aria-hidden="true" />
+                </Button>
+              </>
             )}
-          </Button>
-          {showPosts && (
-            <>
-              <Button
-                onClick={() => setIsListView(false)}
-                variant="outline"
-                aria-pressed={isListView}
-                className={cn(
-                  "ml-4 flex items-center text-4xl font-semibold tracking-tight",
-                  !isListView && "bg-primary dark:bg-white/80",
-                )}
-                aria-label={
-                  isListView
-                    ? "Switch to tile view"
-                    : "Switch to list view"
-                }
-              >
-                <LayoutGrid className="h-6 w-6" aria-hidden="true" />
-              </Button>
-              <Button
-                onClick={() => setIsListView(true)}
-                variant="outline"
-                aria-pressed={isListView}
-                className={cn(
-                  "ml-4 flex items-center text-4xl font-semibold tracking-tight",
-                  isListView && "bg-primary dark:bg-white/80",
-                )}
-                aria-label={
-                  isListView
-                    ? "Switch to tile view"
-                    : "Switch to list view"
-                }
-              >
-                <List className="h-6 w-6" aria-hidden="true" />
-              </Button>
-            </>
-          )}
+          </div>
         </div>
 
         {showPosts ? (
@@ -125,14 +127,14 @@ const MoreStories = ({ posts }: Props) => {
                   <div
                     id="more-stories-content"
                     role="list"
-                    className="max-w-6xl mx-auto space-y-4 bg-white/80 dark:bg-black/80 rounded-2xl p-3 border border-forground"
+                    className="max-w-6xl -mx-8 sm:mx-auto space-y-4 bg-white/80 dark:bg-black/80 rounded-2xl p-3 border border-forground"
                   >
                     {filteredPosts
                       .slice(0, limitShowingPosts)
                       .map((post) => (
                         <div
                           key={post.slug}
-                          className="flex gap-4 items-center"
+                          className="flex gap-4 items-center flex-wrap"
                         >
                           {/* <Image
                             src={post.coverImage}
@@ -142,10 +144,10 @@ const MoreStories = ({ posts }: Props) => {
                             height={64192}
                           /> */}
                           <div className="flex flex-col flex-grow">
-                            <h3 className="text-lg font-semibold truncate">
+                            <h3 className="text-lg font-semibold text-wrap truncate">
                               {post.title}
                             </h3>
-                            <p className="text-sm line-clamp-2">
+                            <p className="text-sm line-clamp-2 text-wrap truncate">
                               {post.excerpt}
                             </p>
                             <div className="hidden md:flex mt-auto">
@@ -155,12 +157,15 @@ const MoreStories = ({ posts }: Props) => {
                                   className="w-8 h-8 rounded-full mr-2"
                                   alt={post.author.name}
                                 />
-                                <div className="text-sm font-medium">
+                                <div className="text-sm font-medium whitespace-nowrap">
                                   {post.author.name}
                                   <span className=" ml-2 text-xs font-thin tracking-tighter">
-                                    <DateFormatter
-                                      dateString={post.date}
-                                    />
+                                    &bull;{" "}
+                                    <time>
+                                      <DateFormatter
+                                        dateString={post.date}
+                                      />
+                                    </time>
                                   </span>
                                 </div>
                               </div>
