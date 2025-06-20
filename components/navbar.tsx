@@ -111,7 +111,7 @@ export const Navbar = () => {
                 </div>
               </h1>
             </Link>
-            <div className="grid grid-cols-2 grid-rows-2 gap-6 max-w-max mt-5 md:mt-0 lg:grid-cols-4 lg:grid-rows-1 mx-auto justify-center items-center text-center text-lg">
+            <div className="grid grid-cols-2 grid-rows-2 gap-10 max-w-max mt-5 md:mt-0 lg:grid-cols-4 lg:grid-rows-1 mx-auto justify-center items-center text-center text-lg">
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
@@ -202,7 +202,7 @@ export const Navbar = () => {
             </div>
           </div>
         </section>
-        <NavigationMenuList className="flex flex-wrap sm:justify-start gap-6 px-14 max-w-5xl mt-4 mx-auto">
+        <NavigationMenuList className="flex flex-wrap sm:justify-start gap-8 px-14 max-w-5xl mt-14 sm:mt-10 mx-auto">
           {/* {router.pathname !== "/" && ( */}
           <NavigationMenuItem className="w-fit">
             <Link href="/" legacyBehavior passHref>
