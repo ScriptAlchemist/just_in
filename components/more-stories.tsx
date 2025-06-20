@@ -143,7 +143,7 @@ const MoreStories = ({ posts }: Props) => {
                   <ul
                     id="more-stories-content"
                     role="list"
-                    className="max-w-6xl -mx-9 sm:mx-auto space-y-4 bg-white/80 dark:bg-black/80 rounded-2xl p-2 sm:border sm:border-foreground/40"
+                    className="max-w-6xl -mx-9 sm:mx-auto space-y-4 bg-[hsl(var(--code))] dark:bg--[hsl(var(--code))] rounded-2xl px-2 py-5 sm:border sm:border-foreground/40"
                   >
                     {filteredPosts
                       .slice(0, limitShowingPosts)
