@@ -1,4 +1,4 @@
-import { LayoutGrid, List, Minus, Plus } from "lucide-react";
+import { DonutIcon, LayoutGrid, List, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
@@ -21,7 +21,7 @@ const MoreStories = ({ posts }: Props) => {
   );
   const [showPosts, setShowPosts] = useState(true);
   const [limitShowingPosts, setLimitShowingPosts] = useState(6);
-  const [isListView, setIsListView] = useState(false);
+  const [isListView, setIsListView] = useState(true);
 
   const thePosts = filteredPosts.slice(0, limitShowingPosts);
   const placeholders = filteredPosts
@@ -125,58 +125,64 @@ const MoreStories = ({ posts }: Props) => {
             {filteredPosts.length > 0 ? (
               <>
                 {isListView ? (
-                  <div
+                  <ul
                     id="more-stories-content"
                     role="list"
-                    className="max-w-6xl -mx-8 sm:mx-auto space-y-4 bg-white/80 dark:bg-black/80 rounded-2xl p-3 border border-forground"
+                    className="max-w-6xl -mx-9 sm:mx-auto space-y-4 bg-white/80 dark:bg-black/80 rounded-2xl p-2 sm:border sm:border-foreground/40"
                   >
                     {filteredPosts
                       .slice(0, limitShowingPosts)
                       .map((post) => (
-                        <Link href={`/posts/${post.slug}`} className="">
-                          <div
-                            key={post.slug}
-                            className="flex gap-4 my-2 items-center flex-wrap"
+                        <li
+                          key={post.slug}
+                          className="flex items-center w-fit group"
+                        >
+                          <DonutIcon className="h-8 w-8 mx-2 group-hover:text-indigo-500" />
+                          <Link
+                            href={`/posts/${post.slug}`}
+                            className="w-fit"
                           >
-                            {/* <Image
-                              src={post.coverImage}
-                              alt={`Image for ${post.title}`}
-                              className={cn("shadow-sm w-full")}
-                              width={64}
-                              height={64192}
-                            /> */}
-                            <div className="flex flex-col flex-grow">
-                              <h3 className="text-lg font-semibold text-wrap truncate">
-                                {post.title}
-                              </h3>
-                              <p className="text-sm line-clamp-2 text-wrap truncate">
-                                {post.excerpt}
-                              </p>
-                              <div className="hidden md:flex mt-auto">
-                                <div className="flex items-center">
-                                  <img
-                                    src={post.author.picture}
-                                    className="w-8 h-8 rounded-full mr-2"
-                                    alt={post.author.name}
-                                  />
-                                  <div className="text-sm font-medium whitespace-nowrap">
-                                    {post.author.name}
-                                    <span className=" ml-2 text-xs font-thin tracking-tighter">
-                                      &bull;{" "}
-                                      <time>
-                                        <DateFormatter
-                                          dateString={post.date}
-                                        />
-                                      </time>
-                                    </span>
+                            <div className="flex gap-4 items-center flex-wrap">
+                              {/* <Image
+                                src={post.coverImage}
+                                alt={`Image for ${post.title}`}
+                                className={cn("shadow-sm w-full")}
+                                width={64}
+                                height={64192}
+                              /> */}
+                              <div className="flex flex-col flex-grow">
+                                <h3 className="text-lg font-semibold text-wrap truncate">
+                                  {post.title}
+                                </h3>
+                                <p className="text-sm line-clamp-2 text-wrap truncate">
+                                  {post.excerpt}
+                                </p>
+                                <div className="hidden md:flex mt-auto">
+                                  <div className="flex items-center">
+                                    <img
+                                      src={post.author.picture}
+                                      className="w-8 h-8 rounded-full mr-2 mt-2"
+                                      alt={post.author.name}
+                                    />
+                                    <div className="text-sm font-medium whitespace-nowrap">
+                                      {post.author.name}
+                                      <span className=" ml-2 text-xs font-thin tracking-tighter">
+                                        &bull;{" "}
+                                        <time>
+                                          <DateFormatter
+                                            dateString={post.date}
+                                          />
+                                        </time>
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </Link>
+                          </Link>
+                        </li>
                       ))}
-                  </div>
+                  </ul>
                 ) : (
                   <div
                     id="more-stories-content"
