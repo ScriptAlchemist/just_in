@@ -1,4 +1,5 @@
 import { LayoutGrid, List, Minus, Plus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import type Post from "../interfaces/post";
@@ -132,46 +133,48 @@ const MoreStories = ({ posts }: Props) => {
                     {filteredPosts
                       .slice(0, limitShowingPosts)
                       .map((post) => (
-                        <div
-                          key={post.slug}
-                          className="flex gap-4 items-center flex-wrap"
-                        >
-                          {/* <Image
-                            src={post.coverImage}
-                            alt={`Image for ${post.title}`}
-                            className={cn("shadow-sm w-full")}
-                            width={64}
-                            height={64192}
-                          /> */}
-                          <div className="flex flex-col flex-grow">
-                            <h3 className="text-lg font-semibold text-wrap truncate">
-                              {post.title}
-                            </h3>
-                            <p className="text-sm line-clamp-2 text-wrap truncate">
-                              {post.excerpt}
-                            </p>
-                            <div className="hidden md:flex mt-auto">
-                              <div className="flex items-center">
-                                <img
-                                  src={post.author.picture}
-                                  className="w-8 h-8 rounded-full mr-2"
-                                  alt={post.author.name}
-                                />
-                                <div className="text-sm font-medium whitespace-nowrap">
-                                  {post.author.name}
-                                  <span className=" ml-2 text-xs font-thin tracking-tighter">
-                                    &bull;{" "}
-                                    <time>
-                                      <DateFormatter
-                                        dateString={post.date}
-                                      />
-                                    </time>
-                                  </span>
+                        <Link href={`/posts/${post.slug}`} className="">
+                          <div
+                            key={post.slug}
+                            className="flex gap-4 my-2 items-center flex-wrap"
+                          >
+                            {/* <Image
+                              src={post.coverImage}
+                              alt={`Image for ${post.title}`}
+                              className={cn("shadow-sm w-full")}
+                              width={64}
+                              height={64192}
+                            /> */}
+                            <div className="flex flex-col flex-grow">
+                              <h3 className="text-lg font-semibold text-wrap truncate">
+                                {post.title}
+                              </h3>
+                              <p className="text-sm line-clamp-2 text-wrap truncate">
+                                {post.excerpt}
+                              </p>
+                              <div className="hidden md:flex mt-auto">
+                                <div className="flex items-center">
+                                  <img
+                                    src={post.author.picture}
+                                    className="w-8 h-8 rounded-full mr-2"
+                                    alt={post.author.name}
+                                  />
+                                  <div className="text-sm font-medium whitespace-nowrap">
+                                    {post.author.name}
+                                    <span className=" ml-2 text-xs font-thin tracking-tighter">
+                                      &bull;{" "}
+                                      <time>
+                                        <DateFormatter
+                                          dateString={post.date}
+                                        />
+                                      </time>
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       ))}
                   </div>
                 ) : (
