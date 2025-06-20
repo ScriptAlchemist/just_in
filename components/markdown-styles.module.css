@@ -3,6 +3,49 @@
   color: hsl(var(--foreground));
 }
 
+@media (prefers-color-scheme: light) {
+  .markdown {
+    color: hsl(var(--foreground-light));
+  }
+
+  .markdown blockquote p {
+    background-color: hsl(var(--popover-light));
+    color: hsl(var(--popover-foreground-light));
+  }
+
+  .markdown code {
+    background-color: hsl(var(--card-light));
+    color: hsl(var(--card-foreground-light));
+  }
+
+  .markdown ol li::marker {
+    color: hsl(var(--destructive-light));
+  }
+
+  .markdown ul li::marker {
+    color: hsl(var(--accent-light));
+  }
+
+  .markdown a {
+    color: hsl(var(--destructive-light));
+  }
+
+  .markdown a:hover {
+    color: hsl(var(--primary-light));
+  }
+
+  .markdown h1,
+  .markdown h2,
+  .markdown h3,
+  .markdown h4 {
+    color: hsl(var(--foreground-light));
+  }
+
+  .markdown hr {
+    border-color: hsl(var(--destructive-light));
+  }
+}
+
 .markdown p,
 .markdown ul,
 .markdown ol,

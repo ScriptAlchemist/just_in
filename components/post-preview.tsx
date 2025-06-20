@@ -28,7 +28,7 @@ const PostPreview = ({
           <CoverImage slug={slug} title={title} src={coverImage} />
         </div>
         <div className="mt-4 flex flex-col gap-y-2">
-          <h3 className="text-lg leading-snug h-fit truncate-lines text-[hsl(var(--foreground))]">
+          <h3 className="text-lg leading-snug h-fit truncate-lines text-[hsl(var(--primary))]">
             {title}
           </h3>
           <div className="hidden md:flex mt-auto">

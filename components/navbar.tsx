@@ -54,9 +54,14 @@ export const Navbar = () => {
 
     if (isDark) {
       if (scriptingElement) {
-        scriptingElement.classList.add("text-indigo-500");
+        scriptingElement.classList.add(
+          "text-[hsl(var(--destructive))]",
+        );
         setTimeout(
-          () => scriptingElement.classList.remove("text-indigo-500"),
+          () =>
+            scriptingElement.classList.remove(
+              "text-[hsl(var(--destructive))]",
+            ),
           800,
         );
       }
@@ -65,9 +70,12 @@ export const Navbar = () => {
       setIsDark(false);
     } else {
       if (scriptingElement) {
-        scriptingElement.classList.add("text-red-600");
+        scriptingElement.classList.add("text-[hsl(var(--accent))]");
         setTimeout(
-          () => scriptingElement.classList.remove("text-red-600"),
+          () =>
+            scriptingElement.classList.remove(
+              "text-[hsl(var(--accent))]",
+            ),
           800,
         );
       }
@@ -85,15 +93,19 @@ export const Navbar = () => {
             <Link href="/">
               <h1 className="mr-auto md:mr-0 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:pr-8">
                 {" "}
-                <span className="underline decoration-indigo-500">
+                <span className="underline decoration-[hsl(var(--primary))]">
                   Some
                 </span>
-                <span className="text-red-500">(</span>
-                <span className="transition-colors duration-300 scripting-text underline decoration-indigo-500">
+                <span className="text-[hsl(var(--destructive))]">
+                  (
+                </span>
+                <span className="transition-colors duration-300 scripting-text underline decoration-[hsl(var(--primary))]">
                   Scripting
                 </span>
-                <span className="text-red-500">)</span>
-                <div className="text-sm tracking-wider">
+                <span className="text-[hsl(var(--destructive))]">
+                  )
+                </span>
+                <div className="text-sm tracking-wider text-[hsl(var(--foreground))]">
                   By Justin Bender
                 </div>
               </h1>
@@ -102,10 +114,10 @@ export const Navbar = () => {
               <Link
                 title="Visit Justins LinkedIn"
                 href="https://www.linkedin.com/in/benderjustin"
-                className="group w-fit mx-auto text-blue-500"
+                className="group w-fit mx-auto text-[hsl(var(--accent))]"
               >
                 <BackgroundGradient className="transition-colors duration-300 px-3 bg-[hsl(var(--background))] dark:bg-[hsl(var(--card))] text-[hsl(var(--foreground))] rounded-3xl flex items-center gap-x-2">
-                  <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-blue-700 m-3 group-hover:text-blue-500" />
+                  <IconBrandLinkedin className="w-5 h-5 md:w-8 md:h-8 text-[hsl(var(--accent))] m-3 group-hover:text-[hsl(var(--muted))]" />
                 </BackgroundGradient>
               </Link>
               <Link
@@ -119,7 +131,7 @@ export const Navbar = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
                     role="none"
-                    className="fill-stone-800 dark:fill-stone-300 group-hover:fill-stone-300 dark:group-hover:fill-stone-100 w-5 h-5 md:w-8 md:h-8 m-3"
+                    className="fill-[hsl(var(--foreground))] dark:fill-[hsl(var(--card-foreground))] group-hover:fill-[hsl(var(--muted))] dark:group-hover:fill-[hsl(var(--muted-foreground))] w-5 h-5 md:w-8 md:h-8 m-3"
                   >
                     <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path>
                   </svg>

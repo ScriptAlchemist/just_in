@@ -61,12 +61,12 @@ const MoreStories = ({ posts }: Props) => {
             >
               {showPosts ? (
                 <Minus
-                  className="h-6 w-6 text-[hsl(var(--foreground))]"
+                  className="h-6 w-6 text-[hsl(var(--primary))]"
                   aria-hidden="true"
                 />
               ) : (
                 <Plus
-                  className="h-6 w-6 text-[hsl(var(--foreground))]"
+                  className="h-6 w-6 text-[hsl(var(--primary))]"
                   aria-hidden="true"
                 />
               )}
@@ -89,7 +89,7 @@ const MoreStories = ({ posts }: Props) => {
                   }
                 >
                   <LayoutGrid
-                    className="h-6 w-6 text-[hsl(var(--foreground))]"
+                    className="h-6 w-6 text-[hsl(var(--muted-primary))]"
                     aria-hidden="true"
                   />
                 </Button>
@@ -109,7 +109,7 @@ const MoreStories = ({ posts }: Props) => {
                   }
                 >
                   <List
-                    className="h-6 w-6 text-[hsl(var(--foreground))]"
+                    className="h-6 w-6 text-[hsl(var(--muted-primary))]"
                     aria-hidden="true"
                   />
                 </Button>
@@ -131,7 +131,7 @@ const MoreStories = ({ posts }: Props) => {
                 variant="ghost"
                 size="lg"
                 onClick={() => setPostsFilter("")}
-                className="text-[hsl(var(--foreground))]"
+                className="text-[hsl(var(--primary))]"
               >
                 Clear Filter
               </Button>
@@ -166,7 +166,7 @@ const MoreStories = ({ posts }: Props) => {
                                 height={64192}
                               /> */}
                               <div className="flex flex-col flex-grow">
-                                <h3 className="text-lg font-semibold text-wrap truncate text-[hsl(var(--foreground))]">
+                                <h3 className="text-lg font-semibold text-wrap truncate-lines text-[hsl(var(--foreground))]">
                                   {post.title}
                                 </h3>
                                 <p className="text-sm line-clamp-2 text-wrap truncate text-[hsl(var(--muted-foreground))]">

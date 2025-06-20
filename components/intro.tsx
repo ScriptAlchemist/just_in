@@ -41,11 +41,11 @@ const Intro = () => {
                   Justin
                 </span>
               </p>
-              <p className="text-sm sm:text-lg pb-5 font-thin">
+              <p className="text-sm sm:text-lg pb-5 font-thin text-[hsl(var(--muted-foreground))]">
                 These opinions are my own. Not for any employer that I
                 currently work.
               </p>
-              <p className="text-sm sm:text-lg font-semibold">
+              <p className="text-sm sm:text-lg font-semibold text-[hsl(var(--foreground))]">
                 All of the posts will be listed below using a timestamp.
                 With the most recent one at the top. If you have any
                 questions, you can message me.

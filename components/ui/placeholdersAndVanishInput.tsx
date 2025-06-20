@@ -166,6 +166,7 @@ export function PlaceholdersAndVanishInput({
         className={cn(
           "absolute pointer-events-none text-base transform top-[20%] left-2 sm:left-8 origin-top-left filter invert dark:invert-0 pr-20",
           !animating ? "opacity-0" : "opacity-100",
+          "text-[hsl(var(--foreground))]",
         )}
         ref={canvasRef}
       />
@@ -205,7 +206,7 @@ export function PlaceholdersAndVanishInput({
                 duration: 0.3,
                 ease: "linear",
               }}
-              className="dark:text-zinc-500 text-base font-normal text-red-500 pl-4 text-left w-[calc(100%-2rem)] truncate"
+              className="dark:text-zinc-500 text-base font-normal text-[hsl(var(--destructive))] pl-4 text-left w-[calc(100%-2rem)] truncate"
             >
               {placeholders[currentPlaceholder]}
             </motion.p>

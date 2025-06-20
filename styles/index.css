@@ -4,63 +4,66 @@
 
 @layer base {
   :root {
-    --background: 43 92% 88%; /* Soft Cream Background */
-    --foreground: 28 15% 20%; /* Nearly Black Foreground */
+    /* Gruvbox Light Palette (hsl - hue saturation lightness) */
+    --background: 43 34% 92%; /* light soft cream */
+    --foreground: 35 18% 15%; /* dark dark grey */
 
-    --card: 43 92% 88%; /* Same as background for cards */
-    --card-foreground: 28 15% 20%; /* Card text color */
+    --card: 43 34% 92%; /* card background same as bg */
+    --card-foreground: 35 18% 15%; /* card text foreground */
 
-    --popover: 43 92% 88%;
-    --popover-foreground: 28 15% 20%;
+    --popover: 43 34% 92%;
+    --popover-foreground: 35 18% 15%;
 
-    --primary: 14 80% 50%; /* Softer Muted Orange/red */
-    --primary-foreground: 43 92% 88%;
+    --primary: 27 80% 55%; /* yellow */
+    --primary-foreground: 35 18% 15%;
 
-    --secondary: 193 75% 40%;
-    --secondary-foreground: 28 15% 20%;
+    --secondary: 10 60% 55%; /* orange */
+    --secondary-foreground: 35 18% 15%;
 
-    --muted: 43 65% 70%;
-    --muted-foreground: 28 15% 20%;
+    --muted: 40 40% 70%; /* muted olive green */
+    --muted-foreground: 35 18% 15%;
 
-    --accent: 43 65% 40%; /* Soft Olive/Green */
-    --accent-foreground: 43 92% 88%;
+    --accent: 20 50% 50%; /* soft lime green */
+    --accent-foreground: 43 34% 92%;
 
-    --destructive: 14 80% 45%; /* Muted red, less harsh */
-    --destructive-foreground: 43 92% 88%;
+    --destructive: 2 65% 55%; /* red */
+    --destructive-foreground: 43 34% 92%;
 
-    --border: 40 20% 75%;
-    --input: 40 20% 75%;
-    --ring: 40 20% 40%;
+    --border: 40 15% 80%;
+    --input: 40 15% 80%;
+    --ring: 40 15% 60%;
   }
 
   .dark {
-    --background: 28 12% 15%;
-    --foreground: 46 48% 90%;
+    /* Gruvbox Dark Palette (hsl) */
 
-    --card: 28 12% 15%;
-    --card-foreground: 46 48% 90%;
+    --background: 35 20% 12%; /* very dark */
+    --foreground: 35 20% 80%; /* light gray */
 
-    --popover: 28 12% 15%;
-    --popover-foreground: 46 48% 90%;
+    --card: 35 20% 12%;
+    --card-foreground: 35 20% 80%;
 
-    --primary: 14 65% 65%;
-    --primary-foreground: 28 12% 15%;
+    --popover: 35 20% 12%;
+    --popover-foreground: 35 20% 80%;
 
-    --secondary: 187 20% 55%;
-    --secondary-foreground: 46 48% 90%;
+    --primary: 27 70% 65%; /* yellow light */
+    --primary-foreground: 35 20% 12%;
 
-    --muted: 29 10% 50%;
-    --muted-foreground: 46 48% 90%;
+    --secondary: 10 50% 65%; /* orange light */
+    --secondary-foreground: 35 20% 80%;
 
-    --accent: 43 65% 60%;
-    --accent-foreground: 46 48% 90%;
+    --muted: 30 15% 45%; /* muted darker olive green */
+    --muted-foreground: 35 20% 80%;
 
-    --destructive: 14 70% 55%;
-    --destructive-foreground: 46 48% 90%;
+    --accent: 20 50% 60%; /* soft lime green */
+    --accent-foreground: 35 20% 80%;
 
-    --border: 40 20% 75%;
-    --input: 40 20% 75%;
-    --ring: 40 20% 60%;
+    --destructive: 2 65% 65%; /* red light */
+    --destructive-foreground: 35 20% 80%;
+
+    --border: 40 15% 80%;
+    --input: 40 15% 80%;
+    --ring: 40 15% 50%;
   }
 }
 
