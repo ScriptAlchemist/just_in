@@ -10,11 +10,15 @@
 }
 
 .markdown blockquote p {
-  @apply bg-violet-900/50 p-3 rounded;
+  @apply p-3 rounded;
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
 }
 
 .markdown code {
-  @apply bg-stone-800 px-[0.1em] py-[0.1em] rounded;
+  @apply px-[0.1em] py-[0.1em] rounded;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
 }
 
 .markdown ul {
@@ -28,33 +32,41 @@
 }
 
 .markdown ol li::marker {
-  @apply text-red-300;
+  color: hsl(var(--destructive));
 }
 
 .markdown ul li::marker {
-  @apply text-sky-300;
+  color: hsl(var(--accent));
 }
 
 .markdown a {
-  @apply text-red-300 hover:text-blue-200;
+  color: hsl(var(--destructive));
+  &:hover {
+    color: hsl(var(--primary));
+  }
 }
 
 .markdown h1 {
-  @apply text-4xl text-indigo-300 mt-12 mb-4 leading-snug;
+  @apply text-4xl mt-12 mb-4 leading-snug;
+  color: hsl(var(--muted-foreground));
 }
 
 .markdown h2 {
-  @apply text-3xl text-indigo-300 mt-12 mb-4 leading-snug;
+  @apply text-3xl mt-12 mb-4 leading-snug;
+  color: hsl(var(--muted-foreground));
 }
 
 .markdown h3 {
-  @apply text-2xl text-sky-300 mt-8 mb-4 leading-snug;
+  @apply text-2xl mt-8 mb-4 leading-snug;
+  color: hsl(var(--primary-foreground));
 }
 
 .markdown h4 {
-  @apply text-xl text-indigo-300 mt-8 mb-4 leading-snug;
+  @apply text-xl mt-8 mb-4 leading-snug;
+  color: hsl(var(--muted-foreground));
 }
 
 .markdown hr {
-  @apply border-dashed border-red-300;
+  @apply border-dashed;
+  border-color: hsl(var(--destructive));
 }
