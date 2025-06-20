@@ -23,12 +23,12 @@ const PostPreview = ({
 }: Props) => {
   return (
     <Link href={`/posts/${slug}`} className="">
-      <div className="bg-[hsl(var(--card))]/80 dark:bg-[hsl(var(--card))]/80 p-4 border border-[hsl(var(--border))/0.4] rounded-2xl min-h-[340px] md:min-h-[400px] lg:min-h-[410px]">
+      <div className="bg-[hsl(var(--card))]/80 dark:bg-[hsl(var(--card))]/80 group p-4 border border-[hsl(var(--border))/0.4] rounded-2xl min-h-[340px] md:min-h-[400px] lg:min-h-[410px]">
         <div className="w-fit mx-auto">
           <CoverImage slug={slug} title={title} src={coverImage} />
         </div>
         <div className="mt-4 flex flex-col gap-y-2">
-          <h3 className="text-lg leading-snug h-fit truncate-lines text-[hsl(var(--primary))]">
+          <h3 className="group-hover:text-[hsl(var(--accent))] dark:group-hover:text-[hsl(var(--accent))] text-lg leading-snug h-fit truncate-lines text-[hsl(var(--primary))]">
             {title}
           </h3>
           <div className="hidden md:flex mt-auto">

@@ -14,7 +14,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-[hsl(var(--destructive)_/0.9)]",
         outline:
-          "px-4 border border-[hsl(var(--accent))] bg-white dark:bg-stone-800 hover:bg-stone-700 dark:hover:bg-stone-300 rounded-xl text-[hsl(var(--accent))]",
+          "px-4 border border-[hsl(var(--accent))] bg-white dark:bg-stone-800 hover:bg-[hsl(var(--accent))] dark:hover:bg-[hsl(var(--accent))] rounded-xl text-[hsl(var(--accent))]",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:

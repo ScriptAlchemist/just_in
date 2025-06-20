@@ -243,7 +243,7 @@ const MoreStories = ({ posts }: Props) => {
                   </div>
                 )}
 
-                <div className="flex justify-center flex-wrap my-10 space-x-6 max-w-4xl mx-auto">
+                <div className="flex flex-col sm:flex-row justify-center my-10 gap-4 max-w-4xl mx-auto">
                   {limitShowingPosts < filteredPosts.length && (
                     <Button
                       onClick={() =>
@@ -252,7 +252,7 @@ const MoreStories = ({ posts }: Props) => {
                         )
                       }
                       variant="outline"
-                      className="min-w-[140px] text-[hsl(var(--foreground))]"
+                      className="min-w-[140px] w-full sm:w-1/2 text-[hsl(var(--foreground))]"
                       aria-label="Show more posts"
                     >
                       Show More
@@ -264,7 +264,7 @@ const MoreStories = ({ posts }: Props) => {
                       setPostsFilter("");
                     }}
                     variant="outline"
-                    className="min-w-[140px] text-[hsl(var(--foreground))]"
+                    className="min-w-[140px] w-full sm:w-1/2 text-[hsl(var(--foreground))]"
                   >
                     Reset
                   </Button>
