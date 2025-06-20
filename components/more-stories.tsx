@@ -2,8 +2,8 @@ import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import type Post from "../interfaces/post";
+import { ImagePhysics } from "../pages/about-me";
 import PostPreview from "./post-preview";
-import { BackgroundGradient } from "./ui/backgroundGradiant";
 import { Button } from "./ui/button";
 import { PlaceholdersAndVanishInput } from "./ui/placeholdersAndVanishInput";
 
@@ -36,52 +36,46 @@ const MoreStories = ({ posts }: Props) => {
   return (
     <section className="mt-12" aria-labelledby="moreStoriesHeading">
       <div className="max-w-6xl mx-auto px-4">
-        <h2
+        {/* <h2
           id="moreStoriesHeading"
           className="text-4xl font-bold mb-6 text-start tracking-tight"
         >
           More Posts
-        </h2>
+        </h2> */}
 
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-start mb-3">
+          <h3 className="flex items-center text-4xl font-semibold tracking-tight">
+            Post List
+          </h3>
           <Button
             onClick={toggleShowPosts}
-            variant="unstyled"
+            variant="outline"
             aria-expanded={showPosts}
             aria-controls="more-stories-content"
-            className="flex items-center space-x-2 text-2xl font-bold tracking-tight"
+            className="ml-6 flex items-center text-4xl font-semibold tracking-tight"
           >
-            <BackgroundGradient
-              containerClassName="w-full"
-              className="p-3 rounded-3xl flex items-center justify-center"
-            >
-              <span>
-                {showPosts ? "Hide Posts" : "Show More Posts"}
-              </span>
-              {showPosts ? (
-                <Minus className="ml-3 h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Plus className="ml-3 h-6 w-6" aria-hidden="true" />
-              )}
-            </BackgroundGradient>
+            {showPosts ? (
+              <Minus className="h-6 w-6" aria-hidden="true" />
+            ) : (
+              <Plus className="h-6 w-6" aria-hidden="true" />
+            )}
           </Button>
         </div>
 
-        {showPosts && (
+        {showPosts ? (
           <>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 mb-6 w-full sm:w-5/6 mx-auto">
-              <BackgroundGradient
-                containerClassName="w-full sm:w-5/6"
-                className="p-[1px]"
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 mb-6 w-full mx-auto">
+              <PlaceholdersAndVanishInput
+                placeholders={placeholders}
+                onChange={(e) => setPostsFilter(e.target.value)}
+                value={filterValue}
+                aria-label="Filter posts by title"
+              />
+              <Button
+                variant="ghost"
+                size="lg"
+                onClick={() => setPostsFilter("")}
               >
-                <PlaceholdersAndVanishInput
-                  placeholders={placeholders}
-                  onChange={(e) => setPostsFilter(e.target.value)}
-                  value={filterValue}
-                  aria-label="Filter posts by title"
-                />
-              </BackgroundGradient>
-              <Button variant="link" onClick={() => setPostsFilter("")}>
                 Clear Filter
               </Button>
             </div>
@@ -173,6 +167,10 @@ const MoreStories = ({ posts }: Props) => {
               </div>
             )}
           </>
+        ) : (
+          <div className="w-full h-[300px] mb-10">
+            <ImagePhysics />
+          </div>
         )}
       </div>
     </section>

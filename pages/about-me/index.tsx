@@ -51,12 +51,13 @@ export default function AboutMe() {
   );
 }
 
-function ImagePhysics() {
+export function ImagePhysics() {
   return (
     <BackgroundGradient
       containerClassName="h-full rounded-2xl"
       className="h-full"
       transparent
+      animate={false}
     >
       <Canvas
         className="h-[400px] md:h-full rounded-[12px]"
@@ -125,7 +126,13 @@ function AboutMeInfo() {
               These opinions are my own. Not for any employer that I
               currently work.
             </p>
-            <p className="text-sm sm:text-base font-semibold"></p>
+            <p className="text-sm sm:text-base font-medium">
+              Welcome to my website. It's a mess, but an example of some
+              very basic concepts. React, Next, TailwindCSS, and
+              TypeScript. <br />
+              <br />
+              Will add more later...
+            </p>
           </div>
 
           {/*
