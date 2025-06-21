@@ -202,7 +202,7 @@ export const Navbar = () => {
             </div>
           </div>
         </section>
-        <NavigationMenuList className="flex flex-col sm:flex-row sm:justify-start gap-2 px-8 sm:px-14 max-w-5xl mt-8 sm:mt-5 mx-auto">
+        <NavigationMenuList className="flex flex-col sm:flex-row sm:justify-start gap-6 sm:gap-2 px-8 sm:px-14 max-w-5xl mt-8 sm:mt-5 mx-auto">
           {/* {router.pathname !== "/" && ( */}
           <NavigationMenuItem className="w-full">
             <Link href="/" legacyBehavior passHref>

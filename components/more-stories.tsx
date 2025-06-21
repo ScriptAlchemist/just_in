@@ -1,10 +1,15 @@
-import { DonutIcon, LayoutGrid, List, Minus, Plus } from "lucide-react";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DonutIcon,
+  LayoutGrid,
+  List,
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import type Post from "../interfaces/post";
 import { cn } from "../lib/utils";
-import { ImagePhysics } from "../pages/about-me";
 import DateFormatter from "./date-formatter";
 import PostPreview from "./post-preview";
 import { Button } from "./ui/button";
@@ -48,29 +53,33 @@ const MoreStories = ({ posts }: Props) => {
         </h2> */}
 
         <div className="flex flex-col sm:flex-row justify-start mb-3">
-          <h3 className="flex items-center text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
-            Post List
-          </h3>
-          <div className="flex flex-row flex-wrap gap-2 justify-around items-center py-2">
+          <div className="flex flex-col justify-center">
             <Button
               onClick={toggleShowPosts}
-              variant="outline"
+              variant="unstyled"
               aria-expanded={showPosts}
               aria-controls="more-stories-content"
-              className="ml-6 flex items-center text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]"
+              className="flex gap-4 mb-4 sm:mb-0 w-full text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]"
             >
-              {showPosts ? (
-                <Minus
-                  className="h-6 w-6 text-[hsl(var(--primary))]"
-                  aria-hidden="true"
-                />
-              ) : (
-                <Plus
-                  className="h-6 w-6 text-[hsl(var(--primary))]"
-                  aria-hidden="true"
-                />
-              )}
+              <>
+                <h3 className="flex items-center text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
+                  Post List
+                </h3>
+                {showPosts ? (
+                  <ChevronDownIcon
+                    className="h-6 w-6 text-[hsl(var(--primary))]"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <ChevronUpIcon
+                    className="h-6 w-6 text-[hsl(var(--primary))]"
+                    aria-hidden="true"
+                  />
+                )}
+              </>
             </Button>
+          </div>
+          <div className="flex flex-row flex-wrap gap-2 justify-around items-center py-2">
             {showPosts && (
               <>
                 <Button
@@ -118,7 +127,7 @@ const MoreStories = ({ posts }: Props) => {
           </div>
         </div>
 
-        {showPosts ? (
+        {showPosts && (
           <>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 mb-6 w-full mx-auto">
               <PlaceholdersAndVanishInput
@@ -131,7 +140,7 @@ const MoreStories = ({ posts }: Props) => {
                 variant="ghost"
                 size="lg"
                 onClick={() => setPostsFilter("")}
-                className="text-[hsl(var(--primary))]"
+                className="rounded-xl text-[hsl(var(--primary))]"
               >
                 Clear Filter
               </Button>
@@ -279,10 +288,6 @@ const MoreStories = ({ posts }: Props) => {
               </div>
             )}
           </>
-        ) : (
-          <div className="w-full h-[300px] mb-10">
-            <ImagePhysics />
-          </div>
         )}
       </div>
     </section>
