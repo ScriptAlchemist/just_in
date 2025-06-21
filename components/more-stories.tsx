@@ -52,7 +52,7 @@ const MoreStories = ({ posts }: Props) => {
           More Posts
         </h2> */}
 
-        <div className="flex flex-col sm:flex-row justify-start mb-3 h-14">
+        <div className="flex flex-col sm:flex-row justify-start mb-3 min-h-14">
           <div className="flex flex-col justify-center">
             <Button
               onClick={toggleShowPosts}
