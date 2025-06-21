@@ -25,8 +25,9 @@ const MoreStories = ({ posts }: Props) => {
     ["title"],
   );
   const [showPosts, setShowPosts] = useState(true);
-  const [limitShowingPosts, setLimitShowingPosts] = useState(6);
+  const [limitShowingPosts, setLimitShowingPosts] = useState(4);
   const [isListView, setIsListView] = useState(true);
+  const [hasShownMore, setHasShownMore] = useState(false);
 
   const thePosts = filteredPosts.slice(0, limitShowingPosts);
   const placeholders = filteredPosts
@@ -255,11 +256,12 @@ const MoreStories = ({ posts }: Props) => {
                 <div className="flex flex-col sm:flex-row justify-center my-10 gap-4 max-w-4xl mx-auto">
                   {limitShowingPosts < filteredPosts.length && (
                     <Button
-                      onClick={() =>
+                      onClick={() => {
                         setLimitShowingPosts((prev) =>
-                          Math.min(prev + 6, filteredPosts.length),
-                        )
-                      }
+                          Math.min(prev + 4, filteredPosts.length),
+                        );
+                        setHasShownMore(true);
+                      }}
                       variant="outline"
                       className="min-w-[140px] w-full sm:w-1/2 text-[hsl(var(--foreground))]"
                       aria-label="Show more posts"
@@ -267,16 +269,19 @@ const MoreStories = ({ posts }: Props) => {
                       Show More
                     </Button>
                   )}
-                  <Button
-                    onClick={() => {
-                      setLimitShowingPosts(6);
-                      setPostsFilter("");
-                    }}
-                    variant="outline"
-                    className="min-w-[140px] w-full sm:w-1/2 text-[hsl(var(--foreground))]"
-                  >
-                    Reset
-                  </Button>
+                  {hasShownMore && (
+                    <Button
+                      onClick={() => {
+                        setLimitShowingPosts(4);
+                        setPostsFilter("");
+                        setHasShownMore(false);
+                      }}
+                      variant="outline"
+                      className="min-w-[140px] w-full sm:w-1/2 text-[hsl(var(--foreground))]"
+                    >
+                      Reset
+                    </Button>
+                  )}
                 </div>
               </>
             ) : (
