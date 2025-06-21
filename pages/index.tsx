@@ -39,7 +39,7 @@ export default function Index({ allPosts }: Props) {
           />
         )}
         {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-        <CardContainer className="my-0 md:my-10">
+        <CardContainer className="my-0 md:my-5">
           <CardBody className="relative group/card w-full h-auto">
             <CardItem translateZ="20" className="flex flex-row pb-4">
               <Image
@@ -49,7 +49,7 @@ export default function Index({ allPosts }: Props) {
                 placeholder="blur"
                 className="rounded-2xl hidden md:block h-52 w-fit lg:ml-20"
               />
-              <div className="flex flex-col mt-5 w-5/6 md:w-3/4 mx-auto text-[hsl(var(--foreground))] dark:text-[hsl(var(--card-foreground))]">
+              <div className="flex flex-col w-5/6 md:w-3/4 mx-auto text-[hsl(var(--foreground))] dark:text-[hsl(var(--card-foreground))]">
                 <p className="pb-5 font-semibold">
                   <span className="text-[hsl(var(--destructive))] text-2xl">
                     Hello
