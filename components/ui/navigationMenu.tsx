@@ -26,7 +26,7 @@ const NavigationMenuList = React.forwardRef<
   <NavigationMenuPrimitive.List
     ref={ref}
     className={cn(
-      "group list-none items-center justify-center space-x-1",
+      "group list-none items-center justify-center",
       className,
     )}
     {...props}
@@ -38,7 +38,7 @@ NavigationMenuList.displayName =
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
 const navigationMenuTriggerStyle = cva(
-  "group w-full inline-flex h-12 items-center justify-center rounded-xl bg-[hsl(var(--code))]/80 px-4 py-2 text-sm font-medium transition-colors hover:bg-[hsl(var(--accent))]/80 hover:text-[hsl(var(--background))] focus:bg-[hsl(var(--background))] focus:text-[hsl(var(--primary))] disabled:pointer-events-none disabled:opacity-50 data-[active]:border data-[active]:border-[hsl(var(--primary))]/30 data-[active]:bg-[hsl(var(--muted))]/40 data-[state=open]:bg-[hsl(var(--background))]/80",
+  "group inline-flex h-8 w-full items-center rounded-[5px] bg-[hsl(var(--code))]/80 px-4 py-2 text-sm font-medium transition-colors hover:bg-[hsl(var(--accent))]/80 hover:text-[hsl(var(--background))] focus:bg-[hsl(var(--background))] focus:text-[hsl(var(--primary))] disabled:pointer-events-none disabled:opacity-50 border data-[active]:border data-[active]:border-[hsl(var(--primary))]/30 data-[active]:bg-[hsl(var(--muted))]/40 data-[state=open]:bg-[hsl(var(--background))]/80",
 );
 
 const NavigationMenuTrigger = React.forwardRef<
@@ -47,12 +47,7 @@ const NavigationMenuTrigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Trigger
     ref={ref}
-    className={cn(
-      navigationMenuTriggerStyle(),
-      "group",
-      "bg-[hsl(var(--background))] text-[hsl(var(--foreground))]",
-      className,
-    )}
+    className={cn(navigationMenuTriggerStyle(), className)}
     {...props}
   >
     {children}{" "}

@@ -9,8 +9,7 @@
   }
 
   .markdown blockquote p {
-    background-color: hsl(var(--popover-light));
-    color: hsl(var(--popover-foreground-light));
+    @apply rounded bg-muted text-muted-foreground;
   }
 
   .markdown code {
@@ -54,9 +53,7 @@
 }
 
 .markdown blockquote p {
-  @apply p-3 rounded;
-  background-color: hsl(var(--popover));
-  color: hsl(var(--popover-foreground));
+  @apply p-3 rounded bg-muted text-muted-foreground;
 }
 
 .markdown code {

@@ -88,7 +88,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <NavigationMenu className="flex flex-col w-full">
+      <NavigationMenu className="flex flex-col w-full mb-4">
         <section className="flex flex-col">
           <div className="flex flex-col sm:flex-row items-center md:justify-around mt-8 max-w-5xl w-full sm:w-5/6 mx-auto ">
             <Link href="/">
@@ -202,9 +202,9 @@ export const Navbar = () => {
             </div>
           </div>
         </section>
-        <NavigationMenuList className="flex flex-wrap sm:justify-start gap-8 px-14 max-w-5xl mt-14 sm:mt-10 mx-auto">
+        <NavigationMenuList className="flex flex-col sm:flex-row sm:justify-start gap-2 px-8 sm:px-14 max-w-5xl mt-8 sm:mt-5 mx-auto">
           {/* {router.pathname !== "/" && ( */}
-          <NavigationMenuItem className="w-fit">
+          <NavigationMenuItem className="w-full">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink
                 active={router.pathname === "/"}
@@ -216,7 +216,7 @@ export const Navbar = () => {
           </NavigationMenuItem>
           {/* )}
           {router.pathname !== "/about-me" && ( */}
-          <NavigationMenuItem className="w-fit">
+          <NavigationMenuItem className="w-full">
             <Link href="/about-me" legacyBehavior passHref>
               <NavigationMenuLink
                 active={router.pathname === "/about-me"}
