@@ -3,10 +3,12 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Container from "../../components/container";
 import PostBody from "../../components/post-body";
 import PostHeader from "../../components/post-header";
 import PostTitle from "../../components/post-title";
+import { usePostContext } from "../../context/PostContext";
 import type PostType from "../../interfaces/post";
 import { getAllPosts, getPostBySlug } from "../../lib/api";
 import { CMS_NAME } from "../../lib/constants";
@@ -22,6 +24,16 @@ export default function Post({ post, morePosts, preview }: Props) {
   const { scrollYProgress } = useScroll();
   const router = useRouter();
   const title = `${post.title} | Justin Bender post on ${CMS_NAME}`;
+  const { setCurrentPost } = usePostContext();
+
+  useEffect(() => {
+    if (post?.title && post?.slug) {
+      setCurrentPost({ title: post.title, slug: post.slug });
+    } else {
+      setCurrentPost(null);
+    }
+  }, [post, setCurrentPost]);
+
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
@@ -48,7 +60,7 @@ export default function Post({ post, morePosts, preview }: Props) {
                   href={"/"}
                   className="text-[hsl(var(--primary))] font-semibold underline hover:no-underline"
                 >
-                  &larr; Back to Posts
+                  ← Back
                 </Link>
               </div>
               <PostHeader

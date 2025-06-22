@@ -18,9 +18,22 @@ type Props = {
   allPosts: Post[];
 };
 
+import { useEffect } from "react";
+import { usePostContext } from "../context/PostContext";
+
 export default function Index({ allPosts }: Props) {
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
+  const { setRecentPost } = usePostContext();
+
+  useEffect(() => {
+    if (heroPost?.title && heroPost?.slug) {
+      setRecentPost({ title: heroPost.title, slug: heroPost.slug });
+    } else {
+      setRecentPost(null);
+    }
+  }, [heroPost, setRecentPost]);
+
   return (
     <>
       <Head>
