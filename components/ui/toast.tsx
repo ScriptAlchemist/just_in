@@ -19,13 +19,13 @@ const toastVariants = cva(
 );
 
 interface ToastProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLLIElement>,
     VariantProps<typeof toastVariants> {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
-const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
+const Toast = React.forwardRef<HTMLLIElement, ToastProps>(
   ({ className, variant, open, onOpenChange, ...props }, ref) => (
     <ToastPrimitives.Root
       ref={ref}
