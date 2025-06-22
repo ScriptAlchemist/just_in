@@ -62,22 +62,31 @@ const MoreStories = ({ posts }: Props) => {
               aria-controls="more-stories-content"
               className="flex gap-4 mb-4 sm:mb-0 w-full text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]"
             >
-              <>
-                <h3 className="flex items-center text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
-                  Post List
-                </h3>
-                {showPosts ? (
-                  <ChevronDownIcon
-                    className="h-6 w-6 text-[hsl(var(--primary))]"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <ChevronUpIcon
-                    className="h-6 w-6 text-[hsl(var(--primary))]"
-                    aria-hidden="true"
-                  />
-                )}
-              </>
+              <div className="flex flex-col gap-x-4 mb-4 sm:mb-0 w-full text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
+                <div className="flex gap-4 items-center">
+                  <h3 className="text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
+                    Post List
+                  </h3>
+                  {showPosts ? (
+                    <ChevronDownIcon
+                      className="h-6 w-6 text-[hsl(var(--primary))]"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ChevronUpIcon
+                      className="h-6 w-6 text-[hsl(var(--primary))]"
+                      aria-hidden="true"
+                    />
+                  )}
+                </div>
+                <div className="text-start text-sm text-[hsl(var(--foreground))] font-medium whitespace-nowrap">
+                  Showing{" "}
+                  {showPosts
+                    ? Math.min(limitShowingPosts, filteredPosts.length)
+                    : 0}{" "}
+                  of {filteredPosts.length} posts
+                </div>
+              </div>
             </Button>
           </div>
           <div className="flex flex-row flex-wrap gap-2 justify-around items-center py-2">
@@ -266,7 +275,12 @@ const MoreStories = ({ posts }: Props) => {
                       className="min-w-[140px] w-full sm:w-1/2 text-[hsl(var(--foreground))]"
                       aria-label="Show more posts"
                     >
-                      Show More
+                      Show More (
+                      {Math.min(
+                        limitShowingPosts,
+                        filteredPosts.length,
+                      )}
+                      /{filteredPosts.length})
                     </Button>
                   )}
                   {hasShownMore && (
