@@ -4,10 +4,11 @@ import {
   IconBrandGithub,
   IconBrandLinkedin,
 } from "@tabler/icons-react";
-import { Moon, Sun } from "lucide-react";
+import { CopyIcon, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { usePostContext } from "../context/PostContext";
 import { BackgroundGradient } from "./ui/backgroundGradiant";
 import { Button } from "./ui/button";
 import {
@@ -22,6 +23,16 @@ export const Navbar = () => {
   const router = useRouter();
   const [isDark, setIsDark] = useState(false);
   const [isHoveringTheme, setIsHoveringTheme] = useState(false);
+  let currentPostContext;
+  let recentPostContext;
+  try {
+    const context = usePostContext();
+    currentPostContext = context.currentPost;
+    recentPostContext = context.recentPost;
+  } catch {
+    currentPostContext = null;
+    recentPostContext = null;
+  }
 
   // On mount check localStorage and system preference
   useEffect(() => {
@@ -85,6 +96,9 @@ export const Navbar = () => {
       setIsDark(true);
     }
   };
+
+  // Determine to show current post or recent post in navbar
+  const postToShow = currentPostContext || recentPostContext;
 
   return (
     <>
@@ -204,6 +218,45 @@ export const Navbar = () => {
         </section>
         <NavigationMenuList className="flex flex-col sm:flex-row sm:justify-start gap-6 sm:gap-2 px-8 sm:px-14 max-w-5xl mt-8 sm:mt-5 mx-auto">
           {/* {router.pathname !== "/" && ( */}
+          <NavigationMenuItem className="w-full sm:max-w-[240px] bg-background p-3 border border-border rounded-2xl">
+            {postToShow ? (
+              <>
+                <Link
+                  href={
+                    postToShow.slug ? `/posts/${postToShow.slug}` : "/"
+                  }
+                  rel="noopener noreferrer"
+                  className="block w-full truncate text-[hsl(var(--muted-foreground))] font-semibold hover:underline "
+                  title={postToShow.title}
+                >
+                  {postToShow.title}
+                </Link>
+                <div className="flex items-center w-full text-xs space-y-1 sm:space-y-0 sm:space-x-2 mt-1">
+                  <code className="truncate text-[hsl(var(--muted-foreground))] max-w-full">
+                    {`https://some-scripting.com/posts/${postToShow.slug}`}
+                  </code>
+                  <Button
+                    size="sm"
+                    variant="default"
+                    className="rounded-xl"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `https://some-scripting.com/posts/${postToShow.slug}`,
+                      );
+                    }}
+                    aria-label="Copy post URL"
+                    title="Copy post URL"
+                  >
+                    <CopyIcon className="w-4 h-4" />
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <span className="text-[hsl(var(--muted-foreground))] italic">
+                No recent posts
+              </span>
+            )}
+          </NavigationMenuItem>
           <NavigationMenuItem className="w-full">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink
