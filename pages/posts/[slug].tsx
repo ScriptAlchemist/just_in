@@ -1,6 +1,7 @@
 import { motion, useScroll } from "framer-motion";
 import ErrorPage from "next/error";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import Container from "../../components/container";
 import PostBody from "../../components/post-body";
@@ -41,6 +42,15 @@ export default function Post({ post, morePosts, preview }: Props) {
                 <meta property="og:image" content={post.ogImage.url} />
                 <meta name="twitter:image" content={post.ogImage.url} />
               </Head>
+              {/* Back button */}
+              <div className="mb-4">
+                <Link
+                  href={"/"}
+                  className="text-[hsl(var(--primary))] font-semibold underline hover:no-underline"
+                >
+                  &larr; Back to Posts
+                </Link>
+              </div>
               <PostHeader
                 title={post.title}
                 coverImage={post.coverImage}
