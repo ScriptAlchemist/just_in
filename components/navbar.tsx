@@ -113,7 +113,7 @@ export const Navbar = () => {
 
   const handleCopyClick = () => {
     if (postToShow && postToShow.slug) {
-      const url = `https://some-scripting.com/posts/${postToShow.slug}`;
+      const url = `https://somescripting.com/posts/${postToShow.slug}`;
       navigator.clipboard.writeText(url);
       toast.success("Copied post URL!");
     }
@@ -252,7 +252,7 @@ export const Navbar = () => {
                 </Link>
                 <div className="flex items-center w-full text-xs space-y-1 sm:space-y-0 sm:space-x-2 mt-1">
                   <code className="truncate text-[hsl(var(--muted-foreground))] max-w-full">
-                    {`https://some-scripting.com/posts/${postToShow.slug}`}
+                    {`https://somescripting.com/posts/${postToShow.slug}`}
                   </code>
                   <Button
                     size="sm"
