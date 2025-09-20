@@ -56,7 +56,7 @@
   @apply p-3 rounded bg-muted text-muted-foreground;
 }
 
-.markdown code {
+.markdown :not(pre) > code {
   @apply px-[0.1em] py-[0.1em] rounded;
   background-color: hsl(var(--code));
   color: hsl(var(--code-foreground));
@@ -117,6 +117,8 @@
   border-radius: 0.75rem;
   margin-bottom: 1.5rem;
   position: relative;
+  border: 1px solid hsl(var(--border));
+  overflow: hidden;
   box-shadow:
     0 10px 20px rgba(0, 0, 0, 0.19),
     0 6px 6px rgba(0, 0, 0, 0.23);
@@ -124,7 +126,9 @@
 
 .markdown
   figure[data-rehype-pretty-code-figure]
-  div[data-rehype-pretty-code-title] {
+  [data-rehype-pretty-code-title] {
+  display: flex;
+  align-items: center;
   padding: 0.5rem 1rem;
   background-color: hsl(var(--code));
   border-top-left-radius: 0.75rem;
@@ -135,15 +139,22 @@
 
 .markdown figure[data-rehype-pretty-code-figure] pre {
   background-color: transparent !important;
-  padding: 1rem !important;
+  padding: 0.5rem 1rem 1rem !important;
   margin: 0 !important;
   overflow-x: auto;
 }
 
+.markdown figure[data-rehype-pretty-code-figure] pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
 .markdown .line {
   display: block;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .markdown .line--highlighted {
