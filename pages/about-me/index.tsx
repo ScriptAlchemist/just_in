@@ -105,7 +105,7 @@ export function ImagePhysics() {
 
 function AboutMeInfo() {
   return (
-    <div className="transition-colors duration-500 dark:bg-black/30 rounded-2xl p-8 text-black dark:text-white space-y-8 backdrop-sepia-0 bg-white/80 border border-white border-opacity-20 dark:border-opacity-30">
+    <div className="transition-colors duration-500 rounded-xl overflow-hidden p-8 space-y-8 bg-[hsl(var(--code))] text-[hsl(var(--code-foreground))] border border-[hsl(var(--border))] shadow-[0_10px_20px_rgba(0,0,0,0.19),_0_6px_6px_rgba(0,0,0,0.23)]">
       <section className="transition-colors duration-1000 flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 min-h-80">
         <div className="flex flex-col w-full sm:w-1/2 items-center sm:items-start text-center sm:text-left">
           {/*
@@ -119,10 +119,10 @@ function AboutMeInfo() {
               name is{" "}
               <span className="text-indigo-500 text-2xl">Justin</span>
             </p>
-            <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+            <p className="text-lg font-medium text-muted-foreground">
               USA 🇺🇸
             </p>
-            <p className="text-sm sm:text-base pb-2 font-thin">
+            <p className="text-sm sm:text-base pb-2 font-thin text-muted-foreground">
               These opinions are my own. Not for any employer that I
               currently work.
             </p>
@@ -181,7 +181,7 @@ function AboutMeInfo() {
         </div>
       </section>
       <section>
-        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-[hsl(var(--border))] pb-2 text-[hsl(var(--code-foreground))]">
           Experience
         </h2>
         <div className="space-y-4 ml-1">
@@ -269,7 +269,7 @@ function AboutMeInfo() {
       </section>
 
       <section>
-        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-[hsl(var(--border))] pb-2 text-[hsl(var(--code-foreground))]">
           Skills
         </h2>
         <div className="list-disc ml-1 space-y-2 text-base">
@@ -306,7 +306,7 @@ function AboutMeInfo() {
       </section>
 
       <section>
-        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-[hsl(var(--border))] pb-2 text-[hsl(var(--code-foreground))]">
           Projects
         </h2>
         <div className="text-lg space-y-2 ml-1">
@@ -318,7 +318,7 @@ function AboutMeInfo() {
             <br />
             <a
               href="https://github.com/ScriptAlchemist/just_in"
-              className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
+              className="underline text-[hsl(var(--destructive))] hover:text-[hsl(var(--primary))] transition-colors"
               target="_blank"
               rel="noreferrer"
             >
@@ -327,7 +327,7 @@ function AboutMeInfo() {
             |{" "}
             <a
               href="https://www.somescripting.com"
-              className="underline hover:text-gray-800 dark:hover:text-gray-300 transition"
+              className="underline text-[hsl(var(--destructive))] hover:text-[hsl(var(--primary))] transition-colors"
               target="_blank"
               rel="noreferrer"
             >
@@ -353,7 +353,7 @@ function ExperienceItem({
 }) {
   return (
     <div className="mb-3">
-      <div className="flex flex-wrap items-center text-base italic text-gray-800 dark:text-gray-300 space-x-2">
+      <div className="flex flex-wrap items-center text-base italic text-[hsl(var(--code-foreground))] space-x-2">
         <div className="flex flex-row flex-wrap items-center gap-x-2">
           <h3 className="font-semibold text-xl">{`${company}`}</h3>
           <p className="text-lg font-normal">{title}</p>
@@ -362,7 +362,7 @@ function ExperienceItem({
           {`- ${date}`}
         </span>
       </div>{" "}
-      <ul className="list-disc pl-6 space-y-1">
+      <ul className="list-disc pl-6 space-y-1 marker:text-[hsl(var(--accent))] text-[hsl(var(--code-foreground))]">
         {description.map((desc, index) => (
           <li key={index}>{desc}</li>
         ))}
