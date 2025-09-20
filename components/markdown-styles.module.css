@@ -111,3 +111,47 @@
   @apply border-dashed;
   border-color: hsl(var(--destructive));
 }
+
+.markdown figure[data-rehype-pretty-code-figure] {
+  background-color: hsl(var(--code));
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.19),
+    0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.markdown
+  figure[data-rehype-pretty-code-figure]
+  div[data-rehype-pretty-code-title] {
+  padding: 0.5rem 1rem;
+  background-color: hsl(var(--code));
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  color: hsl(var(--code-foreground));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.markdown figure[data-rehype-pretty-code-figure] pre {
+  background-color: transparent !important;
+  padding: 1rem !important;
+  margin: 0 !important;
+  overflow-x: auto;
+}
+
+.markdown .line {
+  display: block;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.markdown .line--highlighted {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.markdown .word--highlighted {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.2rem;
+}
