@@ -37,7 +37,7 @@
   .markdown h2,
   .markdown h3,
   .markdown h4 {
-    color: hsl(var(--foreground-light));
+    color: hsl(var(--foreground));
   }
 
   .markdown hr {
@@ -94,17 +94,17 @@
 
 .markdown h2 {
   @apply text-3xl mt-12 mb-4 leading-snug;
-  color: hsl(var(--foreground));
+  color: hsl(var(--accent));
 }
 
 .markdown h3 {
   @apply text-2xl mt-8 mb-4 leading-snug;
-  color: hsl(var(--foreground));
+  color: hsl(var(--destructive));
 }
 
 .markdown h4 {
   @apply text-xl mt-8 mb-4 leading-snug;
-  color: hsl(var(--foreground));
+  color: hsl(var(--destructive));
 }
 
 .markdown hr {
