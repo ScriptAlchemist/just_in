@@ -111,7 +111,7 @@ const PdfToSpeech = () => {
     window.speechSynthesis.onvoiceschanged = loadVoices;
 
     // Also try after a short delay (for browsers that don't fire the event)
-    timeoutId = setTimeout(loadVoices, 100);
+    timeoutId = setTimeout(loadVoices, 5000);
 
     // Cleanup: Cancel speech and remove event listener when component unmounts
     return () => {
