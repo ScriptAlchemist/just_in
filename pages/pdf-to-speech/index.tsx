@@ -25,11 +25,15 @@ const PdfToSpeech = () => {
   const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isCancellingRef = useRef<boolean>(false);
 
-  // Load available voices
+  // Load available voices (American English only)
   useEffect(() => {
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices();
-      setVoices(availableVoices);
+      // Filter to only American English (en-US) voices
+      const americanVoices = availableVoices.filter(
+        (voice) => voice.lang === "en-US",
+      );
+      setVoices(americanVoices);
     };
 
     loadVoices();
