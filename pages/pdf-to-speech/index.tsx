@@ -20,6 +20,8 @@ const PdfToSpeech = () => {
   const [chunks, setChunks] = useState<string[]>([]);
   const [showKeyboardHelp, setShowKeyboardHelp] =
     useState<boolean>(false);
+  const [showVoicesModal, setShowVoicesModal] =
+    useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -1178,23 +1180,10 @@ const PdfToSpeech = () => {
                 </button>
 
                 <button
-                  onClick={() => {
-                    console.log("=== VOICE LIST ===");
-                    const allVoices =
-                      window.speechSynthesis.getVoices();
-                    console.log(
-                      "Total voices available:",
-                      allVoices.length,
-                    );
-                    allVoices.forEach((v, i) => {
-                      console.log(
-                        `${i}: ${v.name} (${v.lang}) - ${v.voiceURI}`,
-                      );
-                    });
-                  }}
+                  onClick={() => setShowVoicesModal(true)}
                   className="mt-2 w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
                 >
-                  📋 Log All Voices to Console
+                  📋 Show All Voices
                 </button>
 
                 <button
@@ -1329,6 +1318,110 @@ const PdfToSpeech = () => {
                     {chunk}
                   </p>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Voices Modal */}
+          {showVoicesModal && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+              onClick={() => setShowVoicesModal(false)}
+            >
+              <div
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden flex flex-col"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-2xl font-bold">
+                    Available Voices (
+                    {window.speechSynthesis.getVoices().length})
+                  </h2>
+                  <button
+                    onClick={() => setShowVoicesModal(false)}
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    aria-label="Close modal"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="overflow-y-auto flex-1 p-6">
+                  <div className="space-y-2">
+                    {window.speechSynthesis
+                      .getVoices()
+                      .map((voice, index) => (
+                        <div
+                          key={index}
+                          className={`p-3 rounded-lg border ${
+                            voices[selectedVoice]?.voiceURI ===
+                            voice.voiceURI
+                              ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                              : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50"
+                          }`}
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="font-semibold text-lg">
+                                {voice.name}
+                              </div>
+                              <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                <span className="font-mono bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded">
+                                  {voice.lang}
+                                </span>
+                                {voice.default && (
+                                  <span className="ml-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-2 py-0.5 rounded text-xs">
+                                    Default
+                                  </span>
+                                )}
+                                {voice.localService && (
+                                  <span className="ml-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded text-xs">
+                                    Local
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-xs text-gray-500 dark:text-gray-500 mt-1 font-mono">
+                                {voice.voiceURI}
+                              </div>
+                            </div>
+                            {voices[selectedVoice]?.voiceURI ===
+                              voice.voiceURI && (
+                              <div className="ml-4 text-blue-600 dark:text-blue-400">
+                                <svg
+                                  className="w-6 h-6"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+                <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+                  <button
+                    onClick={() => setShowVoicesModal(false)}
+                    className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           )}
