@@ -36,6 +36,7 @@ const PdfToSpeech = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const [isAudioPrimed, setIsAudioPrimed] = useState<boolean>(false);
   const chunkRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const extractedTextContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Load saved progress on mount
   useEffect(() => {
@@ -142,6 +143,17 @@ const PdfToSpeech = () => {
       );
 
       setVoices(americanVoices);
+
+      // Default to Samantha if available
+      if (americanVoices.length > 0) {
+        const samanthaIndex = americanVoices.findIndex(
+          (v) => v.name === "Samantha",
+        );
+        if (samanthaIndex !== -1) {
+          setSelectedVoice(samanthaIndex);
+          console.log("✅ Defaulted to Samantha voice");
+        }
+      }
     };
 
     // Try to load voices immediately
@@ -225,6 +237,27 @@ const PdfToSpeech = () => {
       }
     };
   }, [error]);
+
+  // Auto-scroll to current chunk within the container
+  useEffect(() => {
+    if (
+      currentChunk >= 0 &&
+      chunkRefs.current[currentChunk] &&
+      extractedTextContainerRef.current
+    ) {
+      const chunkElement = chunkRefs.current[currentChunk];
+      const container = extractedTextContainerRef.current;
+
+      if (chunkElement) {
+        // Calculate the position to scroll to (top of container)
+        const chunkTop = chunkElement.offsetTop;
+        container.scrollTo({
+          top: chunkTop,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [currentChunk]);
 
   // ---------- Text processing ----------
   const cleanTextForSpeech = (text: string): string => {
@@ -1404,6 +1437,7 @@ const PdfToSpeech = () => {
                 Extracted Text
               </h2>
               <div
+                ref={extractedTextContainerRef}
                 className="max-h-96 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700 text-sm leading-relaxed"
                 role="region"
                 aria-label="Extracted document text"
@@ -1412,6 +1446,9 @@ const PdfToSpeech = () => {
                 {chunks.map((chunk, index) => (
                   <p
                     key={index}
+                    ref={(el) => {
+                      chunkRefs.current[index] = el;
+                    }}
                     className={`mb-3 p-2 rounded transition-colors ${
                       index === currentChunk && (isSpeaking || isPaused)
                         ? "bg-yellow-100 dark:bg-yellow-900/30 border-l-4 border-yellow-500"
