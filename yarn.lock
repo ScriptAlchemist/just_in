@@ -474,6 +474,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@opendocsg/pdf2md@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@opendocsg/pdf2md@npm:0.2.2"
+  dependencies:
+    enumify: "npm:^1.0.4"
+    minimist: "npm:^1.2.5"
+    unpdf: "npm:^0.12.1"
+  bin:
+    pdf2md: lib/pdf2md-cli.js
+  checksum: 10c0/1777983bc3b8ed3f626fc49df3f0edf7824d660500cd5642063e26aa7054d586269ff88a73432febc003fddae975ed7842a7cb8815e822d8dfed3b23060ca99a
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -2254,6 +2267,13 @@ __metadata:
   version: 6.0.1
   resolution: "entities@npm:6.0.1"
   checksum: 10c0/ed836ddac5acb34341094eb495185d527bd70e8632b6c0d59548cbfa23defdbae70b96f9a405c82904efa421230b5b3fd2283752447d737beffd3f3e6ee74414
+  languageName: node
+  linkType: hard
+
+"enumify@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "enumify@npm:1.0.4"
+  checksum: 10c0/a92cbd2ff4afaee21dacf0b9269131587982b2c4a81610ab12e674f032047ec789be56ccd99d99a178322c0aa3c595b2886d3b3c5b51846fa3cbbc6e75f1e3fa
   languageName: node
   linkType: hard
 
@@ -4253,6 +4273,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimist@npm:^1.2.5":
+  version: 1.2.8
+  resolution: "minimist@npm:1.2.8"
+  checksum: 10c0/19d3fcdca050087b84c2029841a093691a91259a47def2f18222f41e7645a0b7c44ef4b40e88a1e58a40c84d2ef0ee6047c55594d298146d0eb3f6b737c20ce6
+  languageName: node
+  linkType: hard
+
 "minipass-collect@npm:^2.0.1":
   version: 2.0.1
   resolution: "minipass-collect@npm:2.0.1"
@@ -4706,13 +4733,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path2d-polyfill@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "path2d-polyfill@npm:2.0.1"
-  checksum: 10c0/b6d8c0764f65438cd884ef3b62c5af07d4f526b379c4c804effc26dd17936f18076941941f9e804c0df96d39720f155e9f0723e4b30feaee152ea4a441df023e
-  languageName: node
-  linkType: hard
-
 "pdf-parse@npm:^1.1.1":
   version: 1.1.1
   resolution: "pdf-parse@npm:1.1.1"
@@ -4720,21 +4740,6 @@ __metadata:
     debug: "npm:^3.1.0"
     node-ensure: "npm:^0.0.0"
   checksum: 10c0/cba2b6ddfbfa73d94ff0cd342cbe8ef2ef0501863ada687eddf99487a4d06766e00fc44525c40cef3b01f04376cb99d5873ab789bd3e2379a28c3ae5377f3298
-  languageName: node
-  linkType: hard
-
-"pdfjs-dist@npm:3.11.174":
-  version: 3.11.174
-  resolution: "pdfjs-dist@npm:3.11.174"
-  dependencies:
-    canvas: "npm:^2.11.2"
-    path2d-polyfill: "npm:^2.0.1"
-  dependenciesMeta:
-    canvas:
-      optional: true
-    path2d-polyfill:
-      optional: true
-  checksum: 10c0/0cb26561fd9bea90f2c1c8029d4cf972d338838de0f7f7aa3f369b2e555b99a2d8bbf1b81cc682fb26331241201a432726ae356a7ad3a930d86a308ca941d29c
   languageName: node
   linkType: hard
 
@@ -5344,6 +5349,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@opendocsg/pdf2md": "npm:^0.2.2"
     "@radix-ui/react-navigation-menu": "npm:^1.2.0"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@radix-ui/react-toast": "npm:^1.2.14"
@@ -5355,6 +5361,7 @@ __metadata:
     "@types/react": "npm:^18.0.15"
     "@types/react-dom": "npm:^18.0.6"
     autoprefixer: "npm:^10.4.7"
+    buffer: "npm:^6.0.3"
     class-variance-authority: "npm:^0.7.0"
     classnames: "npm:^2.3.1"
     clsx: "npm:^2.1.1"
@@ -5368,7 +5375,6 @@ __metadata:
     mini-svg-data-uri: "npm:^1.4.4"
     next: "npm:latest"
     pdf-parse: "npm:^1.1.1"
-    pdfjs-dist: "npm:3.11.174"
     postcss: "npm:^8.4.14"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -6290,6 +6296,18 @@ __metadata:
     unist-util-is: "npm:^6.0.0"
     unist-util-visit-parents: "npm:^6.0.0"
   checksum: 10c0/51434a1d80252c1540cce6271a90fd1a106dbe624997c09ed8879279667fb0b2d3a685e02e92bf66598dcbe6cdffa7a5f5fb363af8fdf90dda6c855449ae39a5
+  languageName: node
+  linkType: hard
+
+"unpdf@npm:^0.12.1":
+  version: 0.12.2
+  resolution: "unpdf@npm:0.12.2"
+  dependencies:
+    canvas: "npm:^2.11.2"
+  dependenciesMeta:
+    canvas:
+      optional: true
+  checksum: 10c0/1dae6a00ecc652f1a3a936d7f6da24447bdf2314ac4599a138a794a343a3d1fd29e66675b7502e99053e0970494343c73bb6beffe8ae1861d2389da6f00a0ea2
   languageName: node
   linkType: hard
 

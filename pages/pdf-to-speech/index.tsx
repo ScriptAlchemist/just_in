@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
-import * as pdfjsLib from "pdfjs-dist";
+import { Buffer } from "buffer";
 
 const PdfToSpeech = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -127,59 +127,30 @@ const PdfToSpeech = () => {
   const cleanTextForSpeech = (text: string): string => {
     let cleanedText = text;
 
-    // Fix PDFs with spaces between characters (e.g., "L a st" -> "Last")
-    // This aggressive approach removes ALL single spaces between letters
-    // Works in multiple passes to reconstruct words
+    // // Fix PDFs with spaces between characters (e.g., "L a st" -> "Last")
+    // // This aggressive approach removes ALL single spaces between letters
+    // // Works in multiple passes to reconstruct words
 
-    // Pass 1: Join all single letters separated by single space
-    // Repeat multiple times to handle long words
-    for (let i = 0; i < 10; i++) {
-      // Join lowercase to lowercase: "u p d a t e d" -> "updated"
-      cleanedText = cleanedText.replace(/([a-z])\s([a-z])/g, "$1$2");
-      // Join uppercase to lowercase: "L a st" -> "Last"
-      cleanedText = cleanedText.replace(/([A-Z])\s([a-z])/g, "$1$2");
-      // Join lowercase to uppercase (new word): keep space
-      // Join within CamelCase or acronyms
-      cleanedText = cleanedText.replace(
-        /([a-z])\s([A-Z])(?=[a-z])/g,
-        "$1$2",
-      );
-    }
+    // // Pass 1: Join all single letters separated by single space
+    // // Repeat multiple times to handle long words
+    // for (let i = 0; i < 10; i++) {
+    //   // Join lowercase to lowercase: "u p d a t e d" -> "updated"
+    //   cleanedText = cleanedText.replace(/([a-z])\s([a-z])/g, "$1$2");
+    //   // Join uppercase to lowercase: "L a st" -> "Last"
+    //   cleanedText = cleanedText.replace(/([A-Z])\s([a-z])/g, "$1$2");
+    //   // Join lowercase to uppercase (new word): keep space
+    //   // Join within CamelCase or acronyms
+    //   cleanedText = cleanedText.replace(
+    //     /([a-z])\s([A-Z])(?=[a-z])/g,
+    //     "$1$2",
+    //   );
+    // }
 
-    // Pass 2: Join numbers with letters
-    cleanedText = cleanedText.replace(/(\d)\s+([a-zA-Z])/g, "$1$2");
-    cleanedText = cleanedText.replace(/([a-zA-Z])\s+(\d)/g, "$1$2");
+    // // Pass 2: Join numbers with letters
+    // cleanedText = cleanedText.replace(/(\d)\s+([a-zA-Z])/g, "$1$2");
+    // cleanedText = cleanedText.replace(/([a-zA-Z])\s+(\d)/g, "$1$2");
 
-    return (
-      cleanedText
-        // Normalize whitespace - replace multiple spaces/tabs/newlines with single space
-        .replace(/\s+/g, " ")
-        // Remove special characters that screen readers can't pronounce well
-        .replace(/[^\w\s.,;:!?'"()\-–—]/g, " ")
-        // Remove common PDF artifacts
-        .replace(/\f/g, " ") // Form feed
-        .replace(/\r/g, " ") // Carriage return
-        .replace(/\t/g, " ") // Tabs
-        // Remove multiple periods (except ellipsis)
-        .replace(/\.{4,}/g, "...")
-        .replace(/\.{2}(?!\.)/g, ".")
-        // Remove standalone numbers/page numbers that are artifacts
-        .replace(/^\d+\s*$/gm, "")
-        // Fix common spacing issues around punctuation
-        .replace(/\s+([.,;:!?])/g, "$1")
-        .replace(/([.,;:!?])([^\s])/g, "$1 $2")
-        // Remove hyphenation at line breaks
-        .replace(/(\w)-\s+(\w)/g, "$1$2")
-        // Remove extra spaces around parentheses
-        .replace(/\(\s+/g, "(")
-        .replace(/\s+\)/g, ")")
-        // Clean up quotes
-        .replace(/``|''/g, '"')
-        .replace(/`/g, "'")
-        // Final trim and normalize spaces
-        .replace(/\s+/g, " ")
-        .trim()
-    );
+    return cleanedText.trim();
   };
 
   // Split text into manageable chunks (by sentences)
@@ -234,28 +205,17 @@ const PdfToSpeech = () => {
     clearError();
 
     try {
-      // Set worker from CDN
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
+      // Dynamic import of pdf2md
+      const pdf2md = (await import("@opendocsg/pdf2md")).default;
 
       const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer })
-        .promise;
+      const buffer = Buffer.from(arrayBuffer);
 
-      let fullText = "";
-      const numPages = pdf.numPages;
+      // Convert PDF to markdown text
+      const markdownText = await pdf2md(buffer);
 
-      for (let i = 1; i <= numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items
-          .map((item: any) => item.str)
-          .join(" ");
-
-        fullText += pageText + " ";
-        setProgress(Math.round((i / numPages) * 100));
-      }
-
-      const cleanedText = cleanTextForSpeech(fullText);
+      // Use raw text without cleaning
+      const cleanedText = markdownText;
       setExtractedText(cleanedText);
 
       // Split into chunks for seeking
@@ -263,6 +223,7 @@ const PdfToSpeech = () => {
       setChunks(textChunks);
       setTotalChunks(textChunks.length);
 
+      setProgress(100);
       setIsExtracting(false);
     } catch (err) {
       console.error("Error extracting text:", err);
