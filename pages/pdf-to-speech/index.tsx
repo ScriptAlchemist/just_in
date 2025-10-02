@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../components/ui/popover";
+import { Slider } from "../../components/ui/slider";
 
 type Voice = {
   value: number;
@@ -682,43 +683,33 @@ const PdfToSpeech = () => {
 
                 {/* Speed Control */}
                 <div>
-                  <label
-                    htmlFor="rate-slider"
-                    className="block text-sm font-medium mb-2"
-                  >
+                  <label className="block text-sm font-medium mb-2">
                     Speed: {rate.toFixed(1)}x
                   </label>
-                  <input
-                    id="rate-slider"
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={rate}
-                    onChange={(e) => setRate(Number(e.target.value))}
-                    className="w-full"
+                  <Slider
+                    min={0.5}
+                    max={2}
+                    step={0.1}
+                    value={[rate]}
+                    onValueChange={(value) => setRate(value[0])}
                     disabled={isSpeaking}
+                    className="w-full"
                   />
                 </div>
 
                 {/* Pitch Control */}
                 <div>
-                  <label
-                    htmlFor="pitch-slider"
-                    className="block text-sm font-medium mb-2"
-                  >
+                  <label className="block text-sm font-medium mb-2">
                     Pitch: {pitch.toFixed(1)}
                   </label>
-                  <input
-                    id="pitch-slider"
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={pitch}
-                    onChange={(e) => setPitch(Number(e.target.value))}
-                    className="w-full"
+                  <Slider
+                    min={0.5}
+                    max={2}
+                    step={0.1}
+                    value={[pitch]}
+                    onValueChange={(value) => setPitch(value[0])}
                     disabled={isSpeaking}
+                    className="w-full"
                   />
                 </div>
               </div>
@@ -734,30 +725,15 @@ const PdfToSpeech = () => {
                       {currentChunk + 1} / {totalChunks}
                     </span>
                   </div>
-                  <div
-                    className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                    onClick={handleProgressBarClick}
-                    role="slider"
+                  <Slider
+                    min={0}
+                    max={totalChunks - 1}
+                    step={1}
+                    value={[currentChunk]}
+                    onValueChange={(value) => seekToChunk(value[0])}
+                    className="w-full"
                     aria-label="Seek position in document"
-                    aria-valuenow={currentChunk}
-                    aria-valuemin={0}
-                    aria-valuemax={totalChunks}
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "ArrowRight") {
-                        goToNext();
-                      } else if (e.key === "ArrowLeft") {
-                        goToPrevious();
-                      }
-                    }}
-                  >
-                    <div
-                      className="bg-blue-600 h-3 rounded-full transition-all duration-200 relative"
-                      style={{ width: `${progressPercentage}%` }}
-                    >
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-700 rounded-full border-2 border-white dark:border-gray-800" />
-                    </div>
-                  </div>
+                  />
                 </div>
               )}
 
