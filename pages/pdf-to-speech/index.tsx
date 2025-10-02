@@ -29,7 +29,59 @@ const PdfToSpeech = () => {
   // Load available voices (American English only)
   useEffect(() => {
     const loadVoices = () => {
-      const availableVoices = window.speechSynthesis.getVoices();
+      let availableVoices = window.speechSynthesis.getVoices();
+
+      // iOS lies about available voices - filter to only ones that actually work
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+        !(window as any).MSStream;
+      const iOSVoiceNames = [
+        "Maged",
+        "Zuzana",
+        "Sara",
+        "Anna",
+        "Melina",
+        "Karen",
+        "Samantha",
+        "Daniel",
+        "Rishi",
+        "Moira",
+        "Tessa",
+        "Mónica",
+        "Paulina",
+        "Satu",
+        "Amélie",
+        "Thomas",
+        "Carmit",
+        "Lekha",
+        "Mariska",
+        "Damayanti",
+        "Alice",
+        "Kyoko",
+        "Yuna",
+        "Ellen",
+        "Xander",
+        "Nora",
+        "Zosia",
+        "Luciana",
+        "Joana",
+        "Ioana",
+        "Milena",
+        "Laura",
+        "Alva",
+        "Kanya",
+        "Yelda",
+        "Tian-Tian",
+        "Sin-Ji",
+        "Mei-Jia",
+        "Alex",
+      ];
+
+      if (isIOS) {
+        availableVoices = availableVoices.filter((voice) =>
+          iOSVoiceNames.includes(voice.name),
+        );
+      }
 
       // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
       const americanVoices = availableVoices.filter(
@@ -117,19 +169,36 @@ const PdfToSpeech = () => {
   }, [error]);
 
   // ---------- Text processing ----------
-  const cleanTextForSpeech = (text: string): string => text.trim();
+  const cleanTextForSpeech = (text: string): string => {
+    return text
+      .replace(/\n+/g, " ") // Replace multiple newlines with space
+      .replace(/#+/g, "") // Remove markdown headers
+      .replace(/\s+/g, " ") // Normalize whitespace
+      .trim();
+  };
 
   const splitTextIntoChunks = (text: string): string[] => {
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-    const chunkSize = 3;
+    // Split by sentence endings but keep the punctuation
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+
+    // Use single sentences to avoid browser timeout issues
     const result: string[] = [];
-    for (let i = 0; i < sentences.length; i += chunkSize) {
-      const chunk = sentences
-        .slice(i, i + chunkSize)
-        .join(" ")
-        .trim();
-      if (chunk) result.push(chunk);
+    for (const sentence of sentences) {
+      const trimmed = sentence.trim();
+      if (trimmed && trimmed.length > 3) {
+        result.push(trimmed);
+      }
     }
+
+    // If no sentences found, split by length
+    if (result.length === 0 && text.length > 0) {
+      const maxLength = 200;
+      for (let i = 0; i < text.length; i += maxLength) {
+        const chunk = text.substring(i, i + maxLength).trim();
+        if (chunk) result.push(chunk);
+      }
+    }
+
     return result;
   };
 
@@ -217,9 +286,58 @@ const PdfToSpeech = () => {
     };
 
     utterance.onerror = (event) => {
-      console.error("Speech synthesis error:", event);
-      if (!isCancellingRef.current)
-        setError("An error occurred during speech synthesis.");
+      console.error("=== SPEECH ERROR DEBUG ===");
+      console.error("Full event:", event);
+      console.error("Error type:", event.error);
+      console.error("Char index:", event.charIndex);
+      console.error("Elapsed time (ms):", event.elapsedTime);
+      console.error("isCancellingRef:", isCancellingRef.current);
+      console.error("Chunk index:", chunkIndex);
+      console.error(
+        "Chunk text preview:",
+        chunks[chunkIndex]?.substring(0, 50),
+      );
+      console.error("Selected voice:", voices[selectedVoice]?.name);
+      console.error(
+        "speechSynthesis.speaking:",
+        window.speechSynthesis.speaking,
+      );
+      console.error(
+        "speechSynthesis.pending:",
+        window.speechSynthesis.pending,
+      );
+      console.error(
+        "speechSynthesis.paused:",
+        window.speechSynthesis.paused,
+      );
+
+      // If error happens very quickly (under 1 second), it's likely a voice loading issue
+      if (event.elapsedTime < 1000 && event.error === "canceled") {
+        console.error(
+          "Speech canceled immediately - stopping to prevent loop",
+        );
+        setError(
+          "Speech failed to start. Try selecting a different voice or reloading the page.",
+        );
+        setIsSpeaking(false);
+        setIsPaused(false);
+        isCancellingRef.current = false;
+        return;
+      }
+
+      // If it's just a "canceled" error after some speech, continue to next chunk
+      if (event.error === "canceled" && !isCancellingRef.current) {
+        console.log(
+          "Speech was canceled mid-way, moving to next chunk",
+        );
+        speakChunk(chunkIndex + 1);
+        return;
+      }
+
+      // Only show error if it wasn't an intentional cancellation
+      if (!isCancellingRef.current) {
+        setError(`Speech error: ${event.error || "unknown error"}`);
+      }
       setIsSpeaking(false);
       setIsPaused(false);
       isCancellingRef.current = false;
@@ -254,14 +372,21 @@ const PdfToSpeech = () => {
   };
 
   const pause = () => {
-    window.speechSynthesis.pause();
-    setIsPaused(true);
-    setIsSpeaking(false);
+    // Check if actually speaking before pausing
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.pause();
+      setIsPaused(true);
+      setIsSpeaking(false);
+    }
   };
 
   const stop = () => {
     isCancellingRef.current = true;
     window.speechSynthesis.cancel();
+    // Force a complete reset
+    setTimeout(() => {
+      window.speechSynthesis.cancel();
+    }, 100);
     setIsSpeaking(false);
     setIsPaused(false);
     setCurrentChunk(0);
@@ -772,3 +897,4 @@ const PdfToSpeech = () => {
 };
 
 export default PdfToSpeech;
+
