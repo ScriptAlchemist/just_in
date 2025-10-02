@@ -49,25 +49,64 @@ const PdfToSpeech = () => {
   const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isCancellingRef = useRef<boolean>(false);
 
-  // Load available voices (American English only)
+  // ---- iOS Web Speech helpers ----
+  const waitForVoices = async (timeoutMs = 2000) =>
+    new Promise<SpeechSynthesisVoice[]>((resolve) => {
+      const start = performance.now();
+      const tryLoad = () => {
+        const v = window.speechSynthesis.getVoices();
+        if (v && v.length) return resolve(v);
+        if (performance.now() - start > timeoutMs) return resolve(v);
+        setTimeout(tryLoad, 100);
+      };
+      // also listen once to voiceschanged
+      const handler = () => resolve(window.speechSynthesis.getVoices());
+      // @ts-ignore addEventListener isn't always typed on older TS libdom
+      window.speechSynthesis.addEventListener?.(
+        "voiceschanged",
+        handler,
+        { once: true },
+      );
+      tryLoad();
+    });
+
+  const warmupSpeech = () => {
+    const u = new SpeechSynthesisUtterance(" ");
+    u.volume = 0;
+    // avoid stacking utterances
+    if (
+      !window.speechSynthesis.speaking &&
+      !window.speechSynthesis.pending
+    ) {
+      window.speechSynthesis.speak(u);
+      window.speechSynthesis.cancel();
+    }
+  };
+
+  // Load available voices (do not hard-filter to en-US)
   useEffect(() => {
-    const loadVoices = () => {
-      const availableVoices = window.speechSynthesis.getVoices();
+    let cancelled = false;
 
-      // Filter to only American English voices (includes en-US variants)
-      const americanVoices = availableVoices.filter(
+    const loadVoices = async () => {
+      const availableVoices = await waitForVoices();
+      if (cancelled) return;
+
+      // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
+      const americanVoices = (availableVoices || []).filter(
         (voice) =>
-          voice.lang.startsWith("en-US") || voice.lang === "en_US",
+          voice.lang.startsWith("en-US") ||
+          voice.lang === "en_US" ||
+          voice.name.includes("Enhanced") ||
+          voice.name.includes("Premium"),
       );
 
-      // Map to Voice type
-      const voiceOptions: Voice[] = americanVoices.map(
-        (voice, index) => ({
+      const voiceOptions: Voice[] = americanVoices
+        .map((voice, index) => ({
           value: index,
-          label: `${voice.name} (${voice.lang})`,
-          voice: voice,
-        }),
-      );
+          label: `${voice.name} (${voice.lang})${voice.default ? " • default" : ""}`,
+          voice,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label));
 
       setVoices(voiceOptions);
       if (voiceOptions.length > 0 && !selectedVoice) {
@@ -76,20 +115,23 @@ const PdfToSpeech = () => {
     };
 
     loadVoices();
+
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = loadVoices;
     }
 
-    // Cleanup: Cancel speech when component unmounts
     return () => {
+      cancelled = true;
       window.speechSynthesis.cancel();
+      if (window.speechSynthesis.onvoiceschanged) {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
     };
   }, []);
 
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement
@@ -101,6 +143,7 @@ const PdfToSpeech = () => {
         case " ":
           e.preventDefault();
           if (!extractedText) return;
+          warmupSpeech();
           if (isSpeaking) {
             pause();
           } else if (isPaused) {
@@ -144,12 +187,9 @@ const PdfToSpeech = () => {
   // Auto-dismiss error after 5 seconds
   useEffect(() => {
     if (error) {
-      // Clear any existing timeout
       if (errorTimeoutRef.current) {
         clearTimeout(errorTimeoutRef.current);
       }
-
-      // Set new timeout to clear error
       errorTimeoutRef.current = setTimeout(() => {
         setError("");
       }, 5000);
@@ -162,42 +202,14 @@ const PdfToSpeech = () => {
     };
   }, [error]);
 
-  // Clean text for speech synthesis
   const cleanTextForSpeech = (text: string): string => {
     let cleanedText = text;
-
-    // // Fix PDFs with spaces between characters (e.g., "L a st" -> "Last")
-    // // This aggressive approach removes ALL single spaces between letters
-    // // Works in multiple passes to reconstruct words
-
-    // // Pass 1: Join all single letters separated by single space
-    // // Repeat multiple times to handle long words
-    // for (let i = 0; i < 10; i++) {
-    //   // Join lowercase to lowercase: "u p d a t e d" -> "updated"
-    //   cleanedText = cleanedText.replace(/([a-z])\s([a-z])/g, "$1$2");
-    //   // Join uppercase to lowercase: "L a st" -> "Last"
-    //   cleanedText = cleanedText.replace(/([A-Z])\s([a-z])/g, "$1$2");
-    //   // Join lowercase to uppercase (new word): keep space
-    //   // Join within CamelCase or acronyms
-    //   cleanedText = cleanedText.replace(
-    //     /([a-z])\s([A-Z])(?=[a-z])/g,
-    //     "$1$2",
-    //   );
-    // }
-
-    // // Pass 2: Join numbers with letters
-    // cleanedText = cleanedText.replace(/(\d)\s+([a-zA-Z])/g, "$1$2");
-    // cleanedText = cleanedText.replace(/([a-zA-Z])\s+(\d)/g, "$1$2");
-
     return cleanedText.trim();
   };
 
   // Split text into manageable chunks (by sentences)
   const splitTextIntoChunks = (text: string): string[] => {
-    // Split by sentence endings but keep the punctuation
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-
-    // Group sentences into chunks of roughly 2-3 sentences for better control
     const chunkSize = 3;
     const result: string[] = [];
 
@@ -244,20 +256,16 @@ const PdfToSpeech = () => {
     clearError();
 
     try {
-      // Dynamic import of pdf2md
       const pdf2md = (await import("@opendocsg/pdf2md")).default;
 
       const arrayBuffer = await pdfFile.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      // Convert PDF to markdown text
       const markdownText = await pdf2md(buffer);
 
-      // Use raw text without cleaning
       const cleanedText = markdownText;
       setExtractedText(cleanedText);
 
-      // Split into chunks for seeking
       const textChunks = splitTextIntoChunks(cleanedText);
       setChunks(textChunks);
       setTotalChunks(textChunks.length);
@@ -275,14 +283,12 @@ const PdfToSpeech = () => {
 
   const speakChunk = (chunkIndex: number) => {
     if (chunkIndex >= chunks.length) {
-      // Finished reading all chunks
       setIsSpeaking(false);
       setIsPaused(false);
       setCurrentChunk(0);
       return;
     }
 
-    // Cancel any ongoing speech
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
@@ -301,13 +307,11 @@ const PdfToSpeech = () => {
     };
 
     utterance.onend = () => {
-      // Automatically move to next chunk
       speakChunk(chunkIndex + 1);
     };
 
     utterance.onerror = (event) => {
       console.error("Speech synthesis error:", event);
-      // Only show error if it wasn't an intentional cancellation
       if (!isCancellingRef.current) {
         setError("An error occurred during speech synthesis.");
       }
@@ -325,6 +329,9 @@ const PdfToSpeech = () => {
       setError("No text to read. Please upload a PDF first.");
       return;
     }
+
+    // Warm up on user-initiated play to ensure iOS voices are loaded
+    warmupSpeech();
 
     if (isPaused) {
       window.speechSynthesis.resume();
