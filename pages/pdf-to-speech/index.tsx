@@ -28,9 +28,17 @@ const PdfToSpeech = () => {
 
   // Load available voices (American English only)
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     const loadVoices = () => {
       let availableVoices = window.speechSynthesis.getVoices();
-      alert(JSON.stringify(availableVoices));
+
+      // If no voices are loaded yet, they might load asynchronously
+      if (availableVoices.length === 0) {
+        // Try again in a bit
+        timeoutId = setTimeout(loadVoices, 100);
+        return;
+      }
 
       // iOS lies about available voices - filter to only ones that actually work
       const isIOS =
@@ -95,14 +103,23 @@ const PdfToSpeech = () => {
       setVoices(americanVoices);
     };
 
+    // Try to load voices immediately
     loadVoices();
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    }
 
-    // Cleanup: Cancel speech when component unmounts
+    // Set up the event listener for when voices change
+    // This is necessary because voices might not be loaded yet
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+
+    // Also try after a short delay (for browsers that don't fire the event)
+    timeoutId = setTimeout(loadVoices, 100);
+
+    // Cleanup: Cancel speech and remove event listener when component unmounts
     return () => {
       window.speechSynthesis.cancel();
+      window.speechSynthesis.onvoiceschanged = null;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, []);
 
