@@ -22,11 +22,21 @@ const PdfToSpeech = () => {
     useState<boolean>(false);
   const [showVoicesModal, setShowVoicesModal] =
     useState<boolean>(false);
+  const [showHistoryModal, setShowHistoryModal] =
+    useState<boolean>(false);
   const [savedProgress, setSavedProgress] = useState<{
     pdfName: string;
     chunk: number;
     timestamp: number;
   } | null>(null);
+  const [readingHistory, setReadingHistory] = useState<
+    Array<{
+      pdfName: string;
+      chunk: number;
+      totalChunks: number;
+      timestamp: number;
+    }>
+  >([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -38,7 +48,7 @@ const PdfToSpeech = () => {
   const chunkRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const extractedTextContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // Load saved progress on mount
+  // Load saved progress and history on mount
   useEffect(() => {
     const saved = localStorage.getItem("pdf-speech-progress");
     if (saved) {
@@ -50,6 +60,22 @@ const PdfToSpeech = () => {
         console.error("Failed to parse saved progress:", err);
       }
     }
+
+    // Load reading history
+    const history = localStorage.getItem("pdf-speech-history");
+    if (history) {
+      try {
+        const parsed = JSON.parse(history);
+        setReadingHistory(parsed);
+        console.log(
+          "📚 Reading history loaded:",
+          parsed.length,
+          "sessions",
+        );
+      } catch (err) {
+        console.error("Failed to parse reading history:", err);
+      }
+    }
   }, []);
 
   // Save progress whenever chunk changes
@@ -58,6 +84,7 @@ const PdfToSpeech = () => {
       const progressData = {
         pdfName: file.name,
         chunk: currentChunk,
+        totalChunks: chunks.length,
         timestamp: Date.now(),
       };
       localStorage.setItem(
@@ -65,8 +92,40 @@ const PdfToSpeech = () => {
         JSON.stringify(progressData),
       );
       console.log("💾 Progress saved:", progressData);
+
+      // Update history
+      updateReadingHistory(progressData);
     }
   }, [currentChunk, file, chunks.length]);
+
+  // Function to update reading history (keep last 5)
+  const updateReadingHistory = (progressData: {
+    pdfName: string;
+    chunk: number;
+    totalChunks: number;
+    timestamp: number;
+  }) => {
+    setReadingHistory((prev) => {
+      // Remove existing entry for this PDF (we'll add updated one)
+      const filtered = prev.filter(
+        (item) => item.pdfName !== progressData.pdfName,
+      );
+
+      // Add new entry at the start
+      const updated = [progressData, ...filtered];
+
+      // Keep only last 5
+      const latest5 = updated.slice(0, 5);
+
+      // Save to localStorage
+      localStorage.setItem(
+        "pdf-speech-history",
+        JSON.stringify(latest5),
+      );
+
+      return latest5;
+    });
+  };
 
   // Load available voices (American English only)
   useEffect(() => {
@@ -1030,9 +1089,17 @@ const PdfToSpeech = () => {
           {/* Voice Controls */}
           {extractedText && !isExtracting && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
-              <h2 className="text-xl font-semibold mb-4">
-                Voice Settings
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">
+                  Voice Settings
+                </h2>
+                <button
+                  onClick={() => setShowHistoryModal(true)}
+                  className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+                >
+                  📚 History ({readingHistory.length})
+                </button>
+              </div>
 
               {/* Saved Progress Indicator */}
               {savedProgress &&
@@ -1503,6 +1570,158 @@ const PdfToSpeech = () => {
                     {chunk}
                   </p>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Reading History Modal */}
+          {showHistoryModal && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+              onClick={() => setShowHistoryModal(false)}
+            >
+              <div
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-2xl font-bold">
+                    📚 Reading History
+                  </h2>
+                  <button
+                    onClick={() => setShowHistoryModal(false)}
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    aria-label="Close modal"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="overflow-y-auto flex-1 p-6">
+                  {readingHistory.length === 0 ? (
+                    <div className="text-center py-12">
+                      <p className="text-gray-500 dark:text-gray-400">
+                        No reading history yet. Start reading a PDF to
+                        create history!
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {readingHistory.map((session, index) => {
+                        const progress =
+                          ((session.chunk + 1) / session.totalChunks) *
+                          100;
+                        const isCurrentPDF =
+                          file?.name === session.pdfName;
+
+                        return (
+                          <div
+                            key={index}
+                            className={`p-4 rounded-lg border ${
+                              isCurrentPDF
+                                ? "border-green-500 bg-green-50 dark:bg-green-900/20"
+                                : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <div className="font-semibold text-lg truncate">
+                                    {session.pdfName}
+                                  </div>
+                                  {isCurrentPDF && (
+                                    <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-2 py-0.5 rounded text-xs">
+                                      Current
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                  Chunk {session.chunk + 1} of{" "}
+                                  {session.totalChunks} •{" "}
+                                  {progress.toFixed(1)}% complete
+                                </div>
+                                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                                  <div
+                                    className="bg-purple-600 h-2 rounded-full"
+                                    style={{ width: `${progress}%` }}
+                                  />
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-500">
+                                  {new Date(
+                                    session.timestamp,
+                                  ).toLocaleString()}
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => {
+                                  if (isCurrentPDF) {
+                                    setCurrentChunk(session.chunk);
+                                    setShowHistoryModal(false);
+                                    setError(
+                                      `Jumped to chunk ${session.chunk + 1}`,
+                                    );
+                                    setTimeout(
+                                      () => setError(""),
+                                      3000,
+                                    );
+                                  } else {
+                                    setError(
+                                      `Please upload "${session.pdfName}" first to resume from this position.`,
+                                    );
+                                    setTimeout(
+                                      () => setError(""),
+                                      5000,
+                                    );
+                                  }
+                                }}
+                                className={`ml-4 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                  isCurrentPDF
+                                    ? "bg-purple-600 hover:bg-purple-700 text-white"
+                                    : "bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-600"
+                                }`}
+                              >
+                                {isCurrentPDF ? "Resume" : "Upload PDF"}
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex gap-3">
+                  <button
+                    onClick={() => {
+                      if (
+                        confirm(
+                          "Clear all reading history? This cannot be undone.",
+                        )
+                      ) {
+                        localStorage.removeItem("pdf-speech-history");
+                        setReadingHistory([]);
+                        console.log("🗑️ Reading history cleared");
+                      }
+                    }}
+                    className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    Clear History
+                  </button>
+                  <button
+                    onClick={() => setShowHistoryModal(false)}
+                    className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           )}
