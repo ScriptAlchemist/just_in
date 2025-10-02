@@ -294,6 +294,16 @@ export const Navbar = () => {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
+          <NavigationMenuItem className="w-full">
+            <Link href="/pdf-to-speech" legacyBehavior passHref>
+              <NavigationMenuLink
+                active={router.pathname === "/pdf-to-speech"}
+                className={navigationMenuTriggerStyle()}
+              >
+                PDF to Speech
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
           {/* )} */}
         </NavigationMenuList>
       </NavigationMenu>
