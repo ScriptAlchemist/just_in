@@ -22,6 +22,11 @@ const PdfToSpeech = () => {
     useState<boolean>(false);
   const [showVoicesModal, setShowVoicesModal] =
     useState<boolean>(false);
+  const [savedProgress, setSavedProgress] = useState<{
+    pdfName: string;
+    chunk: number;
+    timestamp: number;
+  } | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -30,6 +35,37 @@ const PdfToSpeech = () => {
   const isCreatingUtteranceRef = useRef<boolean>(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const [isAudioPrimed, setIsAudioPrimed] = useState<boolean>(false);
+  const chunkRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+
+  // Load saved progress on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("pdf-speech-progress");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setSavedProgress(parsed);
+        console.log("📖 Saved progress found:", parsed);
+      } catch (err) {
+        console.error("Failed to parse saved progress:", err);
+      }
+    }
+  }, []);
+
+  // Save progress whenever chunk changes
+  useEffect(() => {
+    if (file && currentChunk > 0 && chunks.length > 0) {
+      const progressData = {
+        pdfName: file.name,
+        chunk: currentChunk,
+        timestamp: Date.now(),
+      };
+      localStorage.setItem(
+        "pdf-speech-progress",
+        JSON.stringify(progressData),
+      );
+      console.log("💾 Progress saved:", progressData);
+    }
+  }, [currentChunk, file, chunks.length]);
 
   // Load available voices (American English only)
   useEffect(() => {
@@ -267,6 +303,19 @@ const PdfToSpeech = () => {
       const textChunks = splitTextIntoChunks(cleanedText);
       setChunks(textChunks);
       setTotalChunks(textChunks.length);
+
+      // Check if we have saved progress for this PDF
+      if (savedProgress && savedProgress.pdfName === pdfFile.name) {
+        console.log(
+          `📖 Restoring progress for "${pdfFile.name}" at chunk ${savedProgress.chunk}`,
+        );
+        setCurrentChunk(savedProgress.chunk);
+        setError(
+          `Restored progress: Starting from chunk ${savedProgress.chunk + 1}/${textChunks.length}`,
+        );
+        // Clear error after showing it
+        setTimeout(() => setError(""), 5000);
+      }
 
       setProgress(100);
       setIsExtracting(false);
@@ -591,6 +640,12 @@ const PdfToSpeech = () => {
     setIsSpeaking(false);
     setIsPaused(false);
     setCurrentChunk(0);
+    // Clear saved progress when user stops
+    if (file) {
+      localStorage.removeItem("pdf-speech-progress");
+      setSavedProgress(null);
+      console.log("🗑️ Progress cleared");
+    }
   };
 
   const primeAudioContext = () => {
@@ -900,6 +955,40 @@ const PdfToSpeech = () => {
               <h2 className="text-xl font-semibold mb-4">
                 Voice Settings
               </h2>
+
+              {/* Saved Progress Indicator */}
+              {savedProgress &&
+                file &&
+                savedProgress.pdfName === file.name && (
+                  <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                          📖 Saved Progress Found
+                        </p>
+                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                          Chunk {savedProgress.chunk + 1} of{" "}
+                          {totalChunks} •{" "}
+                          {new Date(
+                            savedProgress.timestamp,
+                          ).toLocaleString()}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setCurrentChunk(savedProgress.chunk);
+                          setError(
+                            `Jumped to saved position: chunk ${savedProgress.chunk + 1}`,
+                          );
+                          setTimeout(() => setError(""), 3000);
+                        }}
+                        className="ml-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded"
+                      >
+                        Jump to
+                      </button>
+                    </div>
+                  </div>
+                )}
 
               <div className="space-y-4">
                 {/* Voice Selection */}
@@ -1244,6 +1333,20 @@ const PdfToSpeech = () => {
                   className="mt-2 w-full px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg transition-colors"
                 >
                   🔄 Reload Page (Fix Ghost Utterances)
+                </button>
+
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("pdf-speech-progress");
+                    setSavedProgress(null);
+                    setCurrentChunk(0);
+                    console.log("🗑️ Progress cleared manually");
+                    setError("Progress cleared!");
+                    setTimeout(() => setError(""), 2000);
+                  }}
+                  className="mt-2 w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  🗑️ Clear Saved Progress
                 </button>
 
                 <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-xs">
