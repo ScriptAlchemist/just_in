@@ -243,21 +243,29 @@ const PdfToSpeech = () => {
     if (
       currentChunk >= 0 &&
       chunkRefs.current[currentChunk] &&
-      extractedTextContainerRef.current
+      extractedTextContainerRef.current &&
+      (isSpeaking || isPaused)
     ) {
       const chunkElement = chunkRefs.current[currentChunk];
       const container = extractedTextContainerRef.current;
 
       if (chunkElement) {
-        // Calculate the position to scroll to (top of container)
-        const chunkTop = chunkElement.offsetTop;
-        container.scrollTo({
-          top: chunkTop,
-          behavior: "smooth",
-        });
+        // Small delay to ensure DOM is updated
+        setTimeout(() => {
+          // Calculate the position relative to the container
+          const relativeTop =
+            chunkElement.offsetTop - container.offsetTop;
+
+          container.scrollTo({
+            top: relativeTop,
+            behavior: "smooth",
+          });
+
+          console.log(`📜 Scrolled to chunk ${currentChunk}`);
+        }, 50);
       }
     }
-  }, [currentChunk]);
+  }, [currentChunk, isSpeaking, isPaused]);
 
   // ---------- Text processing ----------
   const cleanTextForSpeech = (text: string): string => {
@@ -485,8 +493,14 @@ const PdfToSpeech = () => {
           console.error(
             "Speech canceled immediately - stopping to prevent loop",
           );
-          setError(
-            "Speech failed to start. Try selecting a different voice or reloading the page.",
+          console.error("⚠️ POSSIBLE CAUSES:");
+          console.error("1. Ghost utterances from previous attempts");
+          console.error("2. Voice not properly loaded");
+          console.error("3. Arc's speech queue is corrupted");
+          console.error("");
+          console.error("🔧 TRY THIS:");
+          console.error(
+            "1peech failed to start. Try selecting a different voice or reloading the page.",
           );
           setIsSpeaking(false);
           setIsPaused(false);
@@ -628,10 +642,38 @@ const PdfToSpeech = () => {
             console.log("✅ Arc is ready! Starting speech...");
 
             if (isPaused) {
-              console.log("Resuming from pause...");
-              window.speechSynthesis.resume();
+              console.log(
+                "▶️ Resuming from pause at chunk:",
+                currentChunk,
+              );
+              // Don't use resume() - Arc doesn't handle it well
+              // Instead, restart from current chunk
               setIsPaused(false);
-              setIsSpeaking(true);
+              console.log(
+                "Restarting speech from chunk:",
+                currentChunk,
+              );
+              speakChunk(currentChunk);
+
+              // Force scroll update on resume
+              setTimeout(() => {
+                if (
+                  chunkRefs.current[currentChunk] &&
+                  extractedTextContainerRef.current
+                ) {
+                  const chunkElement = chunkRefs.current[currentChunk];
+                  const container = extractedTextContainerRef.current;
+                  const relativeTop =
+                    chunkElement.offsetTop - container.offsetTop;
+                  container.scrollTo({
+                    top: relativeTop,
+                    behavior: "smooth",
+                  });
+                  console.log(
+                    `📜 Re-scrolled to chunk ${currentChunk} on resume`,
+                  );
+                }
+              }, 100);
             } else {
               console.log("Starting speech from chunk:", currentChunk);
               speakChunk(currentChunk);
@@ -654,12 +696,15 @@ const PdfToSpeech = () => {
   };
 
   const pause = () => {
-    // Check if actually speaking before pausing
-    if (window.speechSynthesis.speaking) {
-      window.speechSynthesis.pause();
-      setIsPaused(true);
-      setIsSpeaking(false);
-    }
+    // Arc doesn't handle pause/resume well, so we cancel instead
+    console.log("⏸️ Pausing at chunk:", currentChunk);
+    isCancellingRef.current = true;
+    window.speechSynthesis.cancel();
+    setTimeout(() => {
+      isCancellingRef.current = false;
+    }, 100);
+    setIsPaused(true);
+    setIsSpeaking(false);
   };
 
   const stop = () => {
