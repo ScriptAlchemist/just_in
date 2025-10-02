@@ -1,27 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import { Buffer } from "buffer";
-import { Button } from "../../components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "../../components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../components/ui/popover";
 import { Slider } from "../../components/ui/slider";
-
-type Voice = {
-  value: string; // voiceURI is stable
-  label: string;
-  voice: SpeechSynthesisVoice;
-};
 
 const PdfToSpeech = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -29,11 +9,8 @@ const PdfToSpeech = () => {
   const [isExtracting, setIsExtracting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [voices, setVoices] = useState<Voice[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState<Voice | null>(
-    null,
-  );
-  const [voiceOpen, setVoiceOpen] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState<number>(0);
   const [rate, setRate] = useState<number>(1);
   const [pitch, setPitch] = useState<number>(1);
   const [error, setError] = useState<string>("");
@@ -49,122 +26,32 @@ const PdfToSpeech = () => {
   const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isCancellingRef = useRef<boolean>(false);
 
-  // ---------- Speech helpers ----------
-  const warmupSpeech = () => {
-    // Trigger iOS to populate voices after a user gesture
-    const u = new SpeechSynthesisUtterance(" ");
-    u.volume = 0;
-    if (
-      !window.speechSynthesis.speaking &&
-      !window.speechSynthesis.pending
-    ) {
-      window.speechSynthesis.speak(u);
-      window.speechSynthesis.cancel();
-    }
-  };
-
-  const buildVoiceOptions = (list: SpeechSynthesisVoice[]) => {
-    // Deduplicate voices by voiceURI
-    const seen = new Set<string>();
-    const uniqueVoices: SpeechSynthesisVoice[] = [];
-
-    for (const voice of list || []) {
-      if (!seen.has(voice.voiceURI)) {
-        seen.add(voice.voiceURI);
-        uniqueVoices.push(voice);
-      }
-    }
-
-    // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
-    const americanVoices = uniqueVoices.filter(
-      (voice) =>
-        voice.lang.startsWith("en-US") ||
-        voice.lang === "en_US" ||
-        voice.name.includes("Enhanced") ||
-        voice.name.includes("Premium"),
-    );
-
-    const options = americanVoices.map((voice) => ({
-      value: voice.voiceURI,
-      label: `${voice.name} (${voice.lang})${voice.default ? " • default" : ""}`,
-      voice,
-    }));
-
-    setVoices(options);
-    if (!selectedVoice && options.length) setSelectedVoice(options[0]);
-  };
-
-  const loadVoicesNow = () => {
-    const list = window.speechSynthesis.getVoices() || [];
-    buildVoiceOptions(list);
-  };
-
-  // Wait for voices with fallback polling and warmup
-  const waitForVoices = async (timeoutMs = 5000) =>
-    new Promise<SpeechSynthesisVoice[]>((resolve) => {
-      const t0 = performance.now();
-      const done = (v: SpeechSynthesisVoice[] | null | undefined) =>
-        resolve(v || []);
-      const tick = () => {
-        const v = window.speechSynthesis.getVoices();
-        if (v && v.length) return done(v);
-        if (performance.now() - t0 > timeoutMs) return done(v);
-        setTimeout(tick, 100);
-      };
-      warmupSpeech();
-      // @ts-ignore older libdom typings
-      window.speechSynthesis.addEventListener?.(
-        "voiceschanged",
-        () => done(window.speechSynthesis.getVoices()),
-        { once: true },
-      );
-      tick();
-    });
-
-  // ---------- Load voices (robust on iOS) ----------
+  // Load available voices (American English only)
   useEffect(() => {
-    let cancelled = false;
+    const loadVoices = () => {
+      const availableVoices = window.speechSynthesis.getVoices();
 
-    const init = async () => {
-      // Desktop or platforms that populate immediately
-      if (window.speechSynthesis.onvoiceschanged !== undefined) {
-        window.speechSynthesis.onvoiceschanged = () => {
-          if (!cancelled) loadVoicesNow();
-        };
-      }
-      // First attempt
-      loadVoicesNow();
+      // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
+      const americanVoices = availableVoices.filter(
+        (voice) =>
+          voice.lang.startsWith("en-US") ||
+          voice.lang === "en_US" ||
+          voice.name.includes("Enhanced") ||
+          voice.name.includes("Premium"),
+      );
 
-      // Ensure iOS gets a chance post-gesture
-      let primed = false;
-      const onFirstGesture = () => {
-        if (primed) return;
-        primed = true;
-        warmupSpeech();
-        setTimeout(loadVoicesNow, 300);
-        window.removeEventListener("touchstart", onFirstGesture);
-        window.removeEventListener("click", onFirstGesture);
-      };
-      window.addEventListener("touchstart", onFirstGesture, {
-        once: true,
-      });
-      window.addEventListener("click", onFirstGesture, { once: true });
-
-      // Final fallback
-      const v = await waitForVoices(5000);
-      if (!cancelled && v.length) buildVoiceOptions(v);
+      setVoices(americanVoices);
     };
 
-    init();
+    loadVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
 
+    // Cleanup: Cancel speech when component unmounts
     return () => {
-      cancelled = true;
       window.speechSynthesis.cancel();
-      if (window.speechSynthesis.onvoiceschanged) {
-        window.speechSynthesis.onvoiceschanged = null;
-      }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ---------- Keyboard shortcuts ----------
@@ -180,7 +67,6 @@ const PdfToSpeech = () => {
         case " ":
           e.preventDefault();
           if (!extractedText) return;
-          warmupSpeech();
           if (isSpeaking) {
             pause();
           } else if (isPaused) {
@@ -314,7 +200,9 @@ const PdfToSpeech = () => {
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
-    if (selectedVoice) utterance.voice = selectedVoice.voice;
+    if (voices.length > 0 && voices[selectedVoice]) {
+      utterance.voice = voices[selectedVoice];
+    }
     utterance.rate = rate;
     utterance.pitch = pitch;
 
@@ -346,7 +234,16 @@ const PdfToSpeech = () => {
       setError("No text to read. Please upload a PDF first.");
       return;
     }
-    warmupSpeech();
+
+    // If speechSynthesis is stuck (not speaking but also not ready), reset it
+    if (
+      !window.speechSynthesis.speaking &&
+      window.speechSynthesis.pending
+    ) {
+      console.log("SpeechSynthesis stuck, resetting...");
+      window.speechSynthesis.cancel();
+    }
+
     if (isPaused) {
       window.speechSynthesis.resume();
       setIsPaused(false);
@@ -640,52 +537,27 @@ const PdfToSpeech = () => {
               <div className="space-y-4">
                 {/* Voice Selection */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label
+                    htmlFor="voice-select"
+                    className="block text-sm font-medium mb-2"
+                  >
                     Voice
                   </label>
-                  <Popover open={voiceOpen} onOpenChange={setVoiceOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start"
-                      >
-                        {selectedVoice ? (
-                          <>{selectedVoice.label}</>
-                        ) : (
-                          <>+ Select voice</>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="p-0 w-full"
-                      align="start"
-                    >
-                      <Command>
-                        <CommandInput placeholder="Search voice..." />
-                        <CommandList>
-                          <CommandEmpty>No voice found.</CommandEmpty>
-                          <CommandGroup>
-                            {voices.map((voice) => (
-                              <CommandItem
-                                key={voice.value}
-                                value={voice.label}
-                                onSelect={() => {
-                                  const v =
-                                    voices.find(
-                                      (v) => v.value === voice.value,
-                                    ) || null;
-                                  setSelectedVoice(v);
-                                  setVoiceOpen(false);
-                                }}
-                              >
-                                {voice.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
+                  <select
+                    id="voice-select"
+                    value={selectedVoice}
+                    onChange={(e) =>
+                      setSelectedVoice(Number(e.target.value))
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    disabled={isSpeaking}
+                  >
+                    {voices.map((voice, index) => (
+                      <option key={index} value={index}>
+                        {voice.name} ({voice.lang})
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* Speed */}
