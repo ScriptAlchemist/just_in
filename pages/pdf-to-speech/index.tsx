@@ -18,7 +18,7 @@ import {
 import { Slider } from "../../components/ui/slider";
 
 type Voice = {
-  value: number;
+  value: string; // voiceURI is stable
   label: string;
   voice: SpeechSynthesisVoice;
 };
@@ -49,31 +49,11 @@ const PdfToSpeech = () => {
   const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isCancellingRef = useRef<boolean>(false);
 
-  // ---- iOS Web Speech helpers ----
-  const waitForVoices = async (timeoutMs = 2000) =>
-    new Promise<SpeechSynthesisVoice[]>((resolve) => {
-      const start = performance.now();
-      const tryLoad = () => {
-        const v = window.speechSynthesis.getVoices();
-        if (v && v.length) return resolve(v);
-        if (performance.now() - start > timeoutMs) return resolve(v);
-        setTimeout(tryLoad, 100);
-      };
-      // also listen once to voiceschanged
-      const handler = () => resolve(window.speechSynthesis.getVoices());
-      // @ts-ignore addEventListener isn't always typed on older TS libdom
-      window.speechSynthesis.addEventListener?.(
-        "voiceschanged",
-        handler,
-        { once: true },
-      );
-      tryLoad();
-    });
-
+  // ---------- Speech helpers ----------
   const warmupSpeech = () => {
+    // Trigger iOS to populate voices after a user gesture
     const u = new SpeechSynthesisUtterance(" ");
     u.volume = 0;
-    // avoid stacking utterances
     if (
       !window.speechSynthesis.speaking &&
       !window.speechSynthesis.pending
@@ -83,42 +63,99 @@ const PdfToSpeech = () => {
     }
   };
 
-  // Load available voices (do not hard-filter to en-US)
+  const buildVoiceOptions = (list: SpeechSynthesisVoice[]) => {
+    // Deduplicate voices by voiceURI
+    const seen = new Set<string>();
+    const uniqueVoices: SpeechSynthesisVoice[] = [];
+
+    for (const voice of list || []) {
+      if (!seen.has(voice.voiceURI)) {
+        seen.add(voice.voiceURI);
+        uniqueVoices.push(voice);
+      }
+    }
+
+    // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
+    const americanVoices = uniqueVoices.filter(
+      (voice) =>
+        voice.lang.startsWith("en-US") ||
+        voice.lang === "en_US" ||
+        voice.name.includes("Enhanced") ||
+        voice.name.includes("Premium"),
+    );
+
+    const options = americanVoices.map((voice) => ({
+      value: voice.voiceURI,
+      label: `${voice.name} (${voice.lang})${voice.default ? " • default" : ""}`,
+      voice,
+    }));
+
+    setVoices(options);
+    if (!selectedVoice && options.length) setSelectedVoice(options[0]);
+  };
+
+  const loadVoicesNow = () => {
+    const list = window.speechSynthesis.getVoices() || [];
+    buildVoiceOptions(list);
+  };
+
+  // Wait for voices with fallback polling and warmup
+  const waitForVoices = async (timeoutMs = 5000) =>
+    new Promise<SpeechSynthesisVoice[]>((resolve) => {
+      const t0 = performance.now();
+      const done = (v: SpeechSynthesisVoice[] | null | undefined) =>
+        resolve(v || []);
+      const tick = () => {
+        const v = window.speechSynthesis.getVoices();
+        if (v && v.length) return done(v);
+        if (performance.now() - t0 > timeoutMs) return done(v);
+        setTimeout(tick, 100);
+      };
+      warmupSpeech();
+      // @ts-ignore older libdom typings
+      window.speechSynthesis.addEventListener?.(
+        "voiceschanged",
+        () => done(window.speechSynthesis.getVoices()),
+        { once: true },
+      );
+      tick();
+    });
+
+  // ---------- Load voices (robust on iOS) ----------
   useEffect(() => {
     let cancelled = false;
 
-    const loadVoices = async () => {
-      const availableVoices = await waitForVoices();
-      if (cancelled) return;
-
-      // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
-      const americanVoices = (availableVoices || []).filter(
-        (voice) =>
-          voice.lang.startsWith("en-US") ||
-          voice.lang === "en_US" ||
-          voice.name.includes("Enhanced") ||
-          voice.name.includes("Premium"),
-      );
-
-      const voiceOptions: Voice[] = americanVoices
-        .map((voice, index) => ({
-          value: index,
-          label: `${voice.name} (${voice.lang})${voice.default ? " • default" : ""}`,
-          voice,
-        }))
-        .sort((a, b) => a.label.localeCompare(b.label));
-
-      setVoices(voiceOptions);
-      if (voiceOptions.length > 0 && !selectedVoice) {
-        setSelectedVoice(voiceOptions[0]);
+    const init = async () => {
+      // Desktop or platforms that populate immediately
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          if (!cancelled) loadVoicesNow();
+        };
       }
+      // First attempt
+      loadVoicesNow();
+
+      // Ensure iOS gets a chance post-gesture
+      let primed = false;
+      const onFirstGesture = () => {
+        if (primed) return;
+        primed = true;
+        warmupSpeech();
+        setTimeout(loadVoicesNow, 300);
+        window.removeEventListener("touchstart", onFirstGesture);
+        window.removeEventListener("click", onFirstGesture);
+      };
+      window.addEventListener("touchstart", onFirstGesture, {
+        once: true,
+      });
+      window.addEventListener("click", onFirstGesture, { once: true });
+
+      // Final fallback
+      const v = await waitForVoices(5000);
+      if (!cancelled && v.length) buildVoiceOptions(v);
     };
 
-    loadVoices();
-
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    }
+    init();
 
     return () => {
       cancelled = true;
@@ -127,9 +164,10 @@ const PdfToSpeech = () => {
         window.speechSynthesis.onvoiceschanged = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Global keyboard shortcuts
+  // ---------- Keyboard shortcuts ----------
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -138,7 +176,6 @@ const PdfToSpeech = () => {
       ) {
         return;
       }
-
       switch (e.key) {
         case " ":
           e.preventDefault();
@@ -165,17 +202,11 @@ const PdfToSpeech = () => {
           }
           break;
         case "?":
-          if (e.shiftKey) {
-            setShowKeyboardHelp((prev) => !prev);
-          }
+          if (e.shiftKey) setShowKeyboardHelp((prev) => !prev);
           break;
         case "Escape":
-          if (isSpeaking || isPaused) {
-            stop();
-          }
-          if (showKeyboardHelp) {
-            setShowKeyboardHelp(false);
-          }
+          if (isSpeaking || isPaused) stop();
+          if (showKeyboardHelp) setShowKeyboardHelp(false);
           break;
       }
     };
@@ -184,35 +215,28 @@ const PdfToSpeech = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [extractedText, isSpeaking, isPaused, showKeyboardHelp]);
 
-  // Auto-dismiss error after 5 seconds
+  // ---------- Error auto-dismiss ----------
   useEffect(() => {
     if (error) {
-      if (errorTimeoutRef.current) {
+      if (errorTimeoutRef.current)
         clearTimeout(errorTimeoutRef.current);
-      }
-      errorTimeoutRef.current = setTimeout(() => {
-        setError("");
-      }, 5000);
+      errorTimeoutRef.current = setTimeout(() => setError(""), 5000);
     }
-
     return () => {
       if (errorTimeoutRef.current) {
         clearTimeout(errorTimeoutRef.current);
+        errorTimeoutRef.current = null;
       }
     };
   }, [error]);
 
-  const cleanTextForSpeech = (text: string): string => {
-    let cleanedText = text;
-    return cleanedText.trim();
-  };
+  // ---------- Text processing ----------
+  const cleanTextForSpeech = (text: string): string => text.trim();
 
-  // Split text into manageable chunks (by sentences)
   const splitTextIntoChunks = (text: string): string[] => {
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
     const chunkSize = 3;
     const result: string[] = [];
-
     for (let i = 0; i < sentences.length; i += chunkSize) {
       const chunk = sentences
         .slice(i, i + chunkSize)
@@ -220,10 +244,10 @@ const PdfToSpeech = () => {
         .trim();
       if (chunk) result.push(chunk);
     }
-
     return result;
   };
 
+  // ---------- File handling ----------
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -257,13 +281,10 @@ const PdfToSpeech = () => {
 
     try {
       const pdf2md = (await import("@opendocsg/pdf2md")).default;
-
       const arrayBuffer = await pdfFile.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-
       const markdownText = await pdf2md(buffer);
-
-      const cleanedText = markdownText;
+      const cleanedText = cleanTextForSpeech(markdownText);
       setExtractedText(cleanedText);
 
       const textChunks = splitTextIntoChunks(cleanedText);
@@ -281,6 +302,7 @@ const PdfToSpeech = () => {
     }
   };
 
+  // ---------- Speech controls ----------
   const speakChunk = (chunkIndex: number) => {
     if (chunkIndex >= chunks.length) {
       setIsSpeaking(false);
@@ -292,11 +314,7 @@ const PdfToSpeech = () => {
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
-
-    if (selectedVoice) {
-      utterance.voice = selectedVoice.voice;
-    }
-
+    if (selectedVoice) utterance.voice = selectedVoice.voice;
     utterance.rate = rate;
     utterance.pitch = pitch;
 
@@ -312,9 +330,8 @@ const PdfToSpeech = () => {
 
     utterance.onerror = (event) => {
       console.error("Speech synthesis error:", event);
-      if (!isCancellingRef.current) {
+      if (!isCancellingRef.current)
         setError("An error occurred during speech synthesis.");
-      }
       setIsSpeaking(false);
       setIsPaused(false);
       isCancellingRef.current = false;
@@ -329,17 +346,13 @@ const PdfToSpeech = () => {
       setError("No text to read. Please upload a PDF first.");
       return;
     }
-
-    // Warm up on user-initiated play to ensure iOS voices are loaded
     warmupSpeech();
-
     if (isPaused) {
       window.speechSynthesis.resume();
       setIsPaused(false);
       setIsSpeaking(true);
       return;
     }
-
     speakChunk(currentChunk);
   };
 
@@ -373,16 +386,6 @@ const PdfToSpeech = () => {
   const goToNext = () => {
     const newChunk = Math.min(chunks.length - 1, currentChunk + 1);
     seekToChunk(newChunk);
-  };
-
-  const handleProgressBarClick = (
-    event: React.MouseEvent<HTMLDivElement>,
-  ) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const percentage = x / rect.width;
-    const targetChunk = Math.floor(percentage * chunks.length);
-    seekToChunk(Math.max(0, Math.min(chunks.length - 1, targetChunk)));
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -452,7 +455,6 @@ const PdfToSpeech = () => {
             </p>
           </div>
 
-          {/* Keyboard Shortcuts Help */}
           {showKeyboardHelp && (
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6">
               <div className="flex items-start justify-between mb-4">
@@ -525,7 +527,7 @@ const PdfToSpeech = () => {
             </div>
           )}
 
-          {/* File Upload Area */}
+          {/* File Upload */}
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -535,9 +537,8 @@ const PdfToSpeech = () => {
             aria-label="File upload area. Click to select a PDF file or drag and drop"
             onClick={() => fileInputRef.current?.click()}
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
+              if (e.key === "Enter" || e.key === " ")
                 fileInputRef.current?.click();
-              }
             }}
           >
             <input
@@ -579,7 +580,7 @@ const PdfToSpeech = () => {
             </p>
           </div>
 
-          {/* Error Message */}
+          {/* Error */}
           {error && (
             <div
               className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg mb-6 flex items-start justify-between gap-3"
@@ -647,7 +648,6 @@ const PdfToSpeech = () => {
                       <Button
                         variant="outline"
                         className="w-full justify-start"
-                        disabled={isSpeaking}
                       >
                         {selectedVoice ? (
                           <>{selectedVoice.label}</>
@@ -670,11 +670,11 @@ const PdfToSpeech = () => {
                                 key={voice.value}
                                 value={voice.label}
                                 onSelect={() => {
-                                  setSelectedVoice(
+                                  const v =
                                     voices.find(
                                       (v) => v.value === voice.value,
-                                    ) || null,
-                                  );
+                                    ) || null;
+                                  setSelectedVoice(v);
                                   setVoiceOpen(false);
                                 }}
                               >
@@ -688,7 +688,7 @@ const PdfToSpeech = () => {
                   </Popover>
                 </div>
 
-                {/* Speed Control */}
+                {/* Speed */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Speed: {rate.toFixed(1)}x
@@ -698,13 +698,12 @@ const PdfToSpeech = () => {
                     max={2}
                     step={0.1}
                     value={[rate]}
-                    onValueChange={(value) => setRate(value[0])}
-                    disabled={isSpeaking}
+                    onValueChange={(v) => setRate(v[0])}
                     className="w-full"
                   />
                 </div>
 
-                {/* Pitch Control */}
+                {/* Pitch */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Pitch: {pitch.toFixed(1)}
@@ -714,14 +713,13 @@ const PdfToSpeech = () => {
                     max={2}
                     step={0.1}
                     value={[pitch]}
-                    onValueChange={(value) => setPitch(value[0])}
-                    disabled={isSpeaking}
+                    onValueChange={(v) => setPitch(v[0])}
                     className="w-full"
                   />
                 </div>
               </div>
 
-              {/* Progress Bar for Seeking */}
+              {/* Seek Slider */}
               {totalChunks > 0 && (
                 <div className="mt-6">
                   <div className="flex items-center justify-between mb-2">
@@ -744,7 +742,7 @@ const PdfToSpeech = () => {
                 </div>
               )}
 
-              {/* Navigation Controls */}
+              {/* Navigation */}
               <div className="flex gap-2 mt-4">
                 <button
                   onClick={goToPrevious}
@@ -779,7 +777,7 @@ const PdfToSpeech = () => {
                 </button>
               </div>
 
-              {/* Playback Controls */}
+              {/* Playback */}
               <div
                 className="flex gap-3 mt-6"
                 role="group"
@@ -868,7 +866,7 @@ const PdfToSpeech = () => {
             </div>
           )}
 
-          {/* Extracted Text Preview */}
+          {/* Extracted Text */}
           {extractedText && !isExtracting && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold mb-4">
