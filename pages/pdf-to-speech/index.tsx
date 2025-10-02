@@ -22,6 +22,8 @@ const PdfToSpeech = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isCancellingRef = useRef<boolean>(false);
 
   // Load available voices
   useEffect(() => {
@@ -96,6 +98,27 @@ const PdfToSpeech = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [extractedText, isSpeaking, isPaused, showKeyboardHelp]);
 
+  // Auto-dismiss error after 5 seconds
+  useEffect(() => {
+    if (error) {
+      // Clear any existing timeout
+      if (errorTimeoutRef.current) {
+        clearTimeout(errorTimeoutRef.current);
+      }
+
+      // Set new timeout to clear error
+      errorTimeoutRef.current = setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+
+    return () => {
+      if (errorTimeoutRef.current) {
+        clearTimeout(errorTimeoutRef.current);
+      }
+    };
+  }, [error]);
+
   // Split text into manageable chunks (by sentences)
   const splitTextIntoChunks = (text: string): string[] => {
     // Split by sentence endings but keep the punctuation
@@ -128,16 +151,24 @@ const PdfToSpeech = () => {
     }
 
     setFile(selectedFile);
-    setError("");
+    clearError();
     setExtractedText("");
     setProgress(0);
     setCurrentChunk(0);
     await extractTextFromPdf(selectedFile);
   };
 
+  const clearError = () => {
+    setError("");
+    if (errorTimeoutRef.current) {
+      clearTimeout(errorTimeoutRef.current);
+      errorTimeoutRef.current = null;
+    }
+  };
+
   const extractTextFromPdf = async (pdfFile: File) => {
     setIsExtracting(true);
-    setError("");
+    clearError();
 
     try {
       // Set worker from CDN
@@ -213,9 +244,13 @@ const PdfToSpeech = () => {
 
     utterance.onerror = (event) => {
       console.error("Speech synthesis error:", event);
-      setError("An error occurred during speech synthesis.");
+      // Only show error if it wasn't an intentional cancellation
+      if (!isCancellingRef.current) {
+        setError("An error occurred during speech synthesis.");
+      }
       setIsSpeaking(false);
       setIsPaused(false);
+      isCancellingRef.current = false;
     };
 
     utteranceRef.current = utterance;
@@ -245,6 +280,7 @@ const PdfToSpeech = () => {
   };
 
   const stop = () => {
+    isCancellingRef.current = true;
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
     setIsPaused(false);
@@ -254,6 +290,7 @@ const PdfToSpeech = () => {
   const seekToChunk = (chunkIndex: number) => {
     setCurrentChunk(chunkIndex);
     if (isSpeaking || isPaused) {
+      isCancellingRef.current = true;
       speakChunk(chunkIndex);
     }
   };
@@ -284,7 +321,7 @@ const PdfToSpeech = () => {
 
     if (droppedFile && droppedFile.type === "application/pdf") {
       setFile(droppedFile);
-      setError("");
+      clearError();
       setExtractedText("");
       setProgress(0);
       setCurrentChunk(0);
@@ -475,11 +512,29 @@ const PdfToSpeech = () => {
           {/* Error Message */}
           {error && (
             <div
-              className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg mb-6"
+              className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg mb-6 flex items-start justify-between gap-3"
               role="alert"
               aria-live="polite"
             >
-              <p>{error}</p>
+              <p className="flex-1">{error}</p>
+              <button
+                onClick={clearError}
+                className="text-red-800 dark:text-red-200 hover:text-red-900 dark:hover:text-red-100 transition-colors flex-shrink-0"
+                aria-label="Dismiss error message"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
             </div>
           )}
 
