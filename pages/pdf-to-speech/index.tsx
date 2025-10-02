@@ -25,6 +25,9 @@ const PdfToSpeech = () => {
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isCancellingRef = useRef<boolean>(false);
+  const isCreatingUtteranceRef = useRef<boolean>(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const [isAudioPrimed, setIsAudioPrimed] = useState<boolean>(false);
 
   // Load available voices (American English only)
   useEffect(() => {
@@ -283,85 +286,197 @@ const PdfToSpeech = () => {
       return;
     }
 
+    // Guard against duplicate simultaneous creation
+    if (isCreatingUtteranceRef.current) {
+      console.log(
+        "⚠️ Already creating utterance, skipping duplicate call",
+      );
+      return;
+    }
+
+    console.log("=== SPEAK CHUNK DEBUG ===");
+    console.log("Chunk index:", chunkIndex);
+    console.log("Total chunks:", chunks.length);
+    console.log("Text preview:", chunks[chunkIndex]?.substring(0, 50));
+
+    // Force complete cancellation first (Arc browser workaround)
+    console.log("Canceling before chunk...");
+    isCreatingUtteranceRef.current = true;
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
-    if (voices.length > 0 && voices[selectedVoice]) {
-      utterance.voice = voices[selectedVoice];
+    // Check if still busy after cancel
+    if (
+      window.speechSynthesis.speaking ||
+      window.speechSynthesis.pending
+    ) {
+      console.log("Still busy after cancel, waiting longer...");
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel();
     }
-    utterance.rate = rate;
-    utterance.pitch = pitch;
 
-    utterance.onstart = () => {
-      setIsSpeaking(true);
-      setIsPaused(false);
-      setCurrentChunk(chunkIndex);
-    };
+    // Increased delay to let Arc's audio system reset (100ms instead of 50ms)
+    setTimeout(() => {
+      if (!isCreatingUtteranceRef.current) {
+        console.log("⚠️ Creation was canceled, aborting");
+        return;
+      }
 
-    utterance.onend = () => {
-      speakChunk(chunkIndex + 1);
-    };
+      console.log("=== CREATING UTTERANCE ===");
+      console.log("Available voices:", voices.length);
+      console.log("Selected voice index:", selectedVoice);
+      console.log("Selected voice:", voices[selectedVoice]);
+      console.log("Rate:", rate, "Pitch:", pitch);
 
-    utterance.onerror = (event) => {
-      console.error("=== SPEECH ERROR DEBUG ===");
-      console.error("Full event:", event);
-      console.error("Error type:", event.error);
-      console.error("Char index:", event.charIndex);
-      console.error("Elapsed time (ms):", event.elapsedTime);
-      console.error("isCancellingRef:", isCancellingRef.current);
-      console.error("Chunk index:", chunkIndex);
-      console.error(
-        "Chunk text preview:",
-        chunks[chunkIndex]?.substring(0, 50),
+      const utterance = new SpeechSynthesisUtterance(
+        chunks[chunkIndex],
       );
-      console.error("Selected voice:", voices[selectedVoice]?.name);
-      console.error(
-        "speechSynthesis.speaking:",
-        window.speechSynthesis.speaking,
-      );
-      console.error(
-        "speechSynthesis.pending:",
-        window.speechSynthesis.pending,
-      );
-      console.error(
-        "speechSynthesis.paused:",
-        window.speechSynthesis.paused,
-      );
+      if (voices.length > 0 && voices[selectedVoice]) {
+        utterance.voice = voices[selectedVoice];
+        console.log("Voice set to:", utterance.voice?.name);
+      } else {
+        console.warn("No voice selected, using default");
+      }
+      utterance.rate = rate;
+      utterance.pitch = pitch;
+      utterance.volume = 1.0; // Ensure volume is max
 
-      // If error happens very quickly (under 1 second), it's likely a voice loading issue
-      if (event.elapsedTime < 1000 && event.error === "canceled") {
+      console.log("=== AUDIO SETTINGS ===");
+      console.log("Volume:", utterance.volume);
+      console.log("Rate:", utterance.rate);
+      console.log("Pitch:", utterance.pitch);
+
+      utterance.onstart = () => {
+        console.log(
+          "✅ Speech started successfully for chunk",
+          chunkIndex,
+        );
+        console.log("🔊 AUDIO SHOULD BE PLAYING NOW!");
+        console.log("If you hear nothing:");
+        console.log("1. Check Arc's volume mixer in system settings");
+        console.log("2. Check if Arc site has audio permissions");
+        console.log(
+          "3. Try a different voice (Samantha instead of Tom)",
+        );
+        console.log("4. Check system Sound settings for output device");
+        isCreatingUtteranceRef.current = false;
+        setIsSpeaking(true);
+        setIsPaused(false);
+        setCurrentChunk(chunkIndex);
+      };
+
+      utterance.onend = () => {
+        console.log("✅ Speech ended for chunk", chunkIndex);
+        isCreatingUtteranceRef.current = false;
+        speakChunk(chunkIndex + 1);
+      };
+
+      utterance.onerror = (event) => {
+        console.error("=== SPEECH ERROR DEBUG ===");
+        console.error("Full event:", event);
+        console.error("Error type:", event.error);
+        console.error("Char index:", event.charIndex);
+        console.error("Elapsed time (ms):", event.elapsedTime);
+        console.error("isCancellingRef:", isCancellingRef.current);
+        console.error("Chunk index:", chunkIndex);
         console.error(
-          "Speech canceled immediately - stopping to prevent loop",
+          "Chunk text preview:",
+          chunks[chunkIndex]?.substring(0, 50),
         );
-        setError(
-          "Speech failed to start. Try selecting a different voice or reloading the page.",
+        console.error("Selected voice:", voices[selectedVoice]?.name);
+        console.error(
+          "speechSynthesis.speaking:",
+          window.speechSynthesis.speaking,
         );
+        console.error(
+          "speechSynthesis.pending:",
+          window.speechSynthesis.pending,
+        );
+        console.error(
+          "speechSynthesis.paused:",
+          window.speechSynthesis.paused,
+        );
+
+        // If error happens very quickly (under 1 second), it's likely a voice loading issue
+        if (event.elapsedTime < 1000 && event.error === "canceled") {
+          console.error(
+            "Speech canceled immediately - stopping to prevent loop",
+          );
+          setError(
+            "Speech failed to start. Try selecting a different voice or reloading the page.",
+          );
+          setIsSpeaking(false);
+          setIsPaused(false);
+          isCancellingRef.current = false;
+          isCreatingUtteranceRef.current = false;
+          return;
+        }
+
+        // If it's just a "canceled" error after some speech, continue to next chunk
+        if (event.error === "canceled" && !isCancellingRef.current) {
+          console.log(
+            "Speech was canceled mid-way, moving to next chunk",
+          );
+          isCreatingUtteranceRef.current = false;
+          speakChunk(chunkIndex + 1);
+          return;
+        }
+
+        // Only show error if it wasn't an intentional cancellation
+        if (!isCancellingRef.current) {
+          setError(`Speech error: ${event.error || "unknown error"}`);
+        }
         setIsSpeaking(false);
         setIsPaused(false);
         isCancellingRef.current = false;
-        return;
-      }
+        isCreatingUtteranceRef.current = false;
+      };
 
-      // If it's just a "canceled" error after some speech, continue to next chunk
-      if (event.error === "canceled" && !isCancellingRef.current) {
+      utteranceRef.current = utterance;
+
+      console.log("=== CALLING speechSynthesis.speak() ===");
+      console.log(
+        "speechSynthesis.speaking (before):",
+        window.speechSynthesis.speaking,
+      );
+      console.log(
+        "speechSynthesis.pending (before):",
+        window.speechSynthesis.pending,
+      );
+      console.log(
+        "speechSynthesis.paused (before):",
+        window.speechSynthesis.paused,
+      );
+
+      window.speechSynthesis.speak(utterance);
+
+      // Check state immediately after speak call
+      setTimeout(() => {
+        console.log("=== STATE CHECK (100ms after speak) ===");
         console.log(
-          "Speech was canceled mid-way, moving to next chunk",
+          "speechSynthesis.speaking:",
+          window.speechSynthesis.speaking,
         );
-        speakChunk(chunkIndex + 1);
-        return;
-      }
+        console.log(
+          "speechSynthesis.pending:",
+          window.speechSynthesis.pending,
+        );
+        console.log(
+          "speechSynthesis.paused:",
+          window.speechSynthesis.paused,
+        );
 
-      // Only show error if it wasn't an intentional cancellation
-      if (!isCancellingRef.current) {
-        setError(`Speech error: ${event.error || "unknown error"}`);
-      }
-      setIsSpeaking(false);
-      setIsPaused(false);
-      isCancellingRef.current = false;
-    };
-
-    utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
+        // If not speaking after 100ms, something went wrong
+        if (
+          !window.speechSynthesis.speaking &&
+          !isCancellingRef.current
+        ) {
+          console.error("❌ Speech did not start! Possible Arc issue.");
+          setError(
+            "Speech failed to start. Try stopping all speech first, then clicking Play again.",
+          );
+        }
+      }, 100);
+    }, 100);
   };
 
   const speak = () => {
@@ -370,22 +485,88 @@ const PdfToSpeech = () => {
       return;
     }
 
-    // If speechSynthesis is stuck (not speaking but also not ready), reset it
-    if (
-      !window.speechSynthesis.speaking &&
-      window.speechSynthesis.pending
-    ) {
-      console.log("SpeechSynthesis stuck, resetting...");
-      window.speechSynthesis.cancel();
-    }
+    console.log("=== SPEAK BUTTON CLICKED ===");
+    console.log("Current chunk:", currentChunk);
+    console.log("Total chunks:", chunks.length);
+    console.log("Is paused:", isPaused);
+    console.log("Is speaking:", isSpeaking);
 
-    if (isPaused) {
-      window.speechSynthesis.resume();
-      setIsPaused(false);
-      setIsSpeaking(true);
+    console.log("=== CHECKING SPEECH SYNTHESIS STATE ===");
+    console.log(
+      "speechSynthesis.speaking:",
+      window.speechSynthesis.speaking,
+    );
+    console.log(
+      "speechSynthesis.pending:",
+      window.speechSynthesis.pending,
+    );
+    console.log(
+      "speechSynthesis.paused:",
+      window.speechSynthesis.paused,
+    );
+
+    // Check if Arc has ghost utterances running
+    if (window.speechSynthesis.speaking && !isSpeaking && !isPaused) {
+      console.error("❌ ARC HAS GHOST UTTERANCES RUNNING!");
+      console.error(
+        "Arc's speech queue is corrupted with old utterances.",
+      );
+      console.error("SOLUTION: Reload the page (Cmd+Shift+R)");
+      setError(
+        "Arc browser has ghost utterances. Please reload the page (Cmd+Shift+R) and try again.",
+      );
       return;
     }
-    speakChunk(currentChunk);
+
+    // NUCLEAR OPTION FOR ARC - Cancel multiple times with delays
+    console.log("Performing nuclear cancel...");
+    window.speechSynthesis.cancel();
+
+    setTimeout(() => {
+      window.speechSynthesis.cancel();
+      setTimeout(() => {
+        window.speechSynthesis.cancel();
+
+        // Poll until Arc is truly ready (max 2 seconds)
+        let attempts = 0;
+        const maxAttempts = 20;
+
+        const pollUntilReady = () => {
+          attempts++;
+          console.log(`Polling attempt ${attempts}/${maxAttempts}`);
+          console.log("  speaking:", window.speechSynthesis.speaking);
+          console.log("  pending:", window.speechSynthesis.pending);
+
+          if (
+            !window.speechSynthesis.speaking &&
+            !window.speechSynthesis.pending
+          ) {
+            console.log("✅ Arc is ready! Starting speech...");
+
+            if (isPaused) {
+              console.log("Resuming from pause...");
+              window.speechSynthesis.resume();
+              setIsPaused(false);
+              setIsSpeaking(true);
+            } else {
+              console.log("Starting speech from chunk:", currentChunk);
+              speakChunk(currentChunk);
+            }
+          } else if (attempts < maxAttempts) {
+            console.log("⏳ Arc still busy, waiting 100ms more...");
+            window.speechSynthesis.cancel(); // Cancel again
+            setTimeout(pollUntilReady, 100);
+          } else {
+            console.error("❌ Arc won't clear after 2 seconds!");
+            setError(
+              "Arc browser audio stuck. Please reload the page and try again.",
+            );
+          }
+        };
+
+        pollUntilReady();
+      }, 100);
+    }, 100);
   };
 
   const pause = () => {
@@ -399,6 +580,7 @@ const PdfToSpeech = () => {
 
   const stop = () => {
     isCancellingRef.current = true;
+    isCreatingUtteranceRef.current = false;
     window.speechSynthesis.cancel();
     // Force a complete reset
     setTimeout(() => {
@@ -407,6 +589,47 @@ const PdfToSpeech = () => {
     setIsSpeaking(false);
     setIsPaused(false);
     setCurrentChunk(0);
+  };
+
+  const primeAudioContext = () => {
+    console.log("=== PRIMING AUDIO CONTEXT ===");
+    try {
+      // Create and play silent audio to unlock Arc's autoplay
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext();
+      }
+
+      const ctx = audioContextRef.current;
+      console.log("AudioContext state:", ctx.state);
+
+      if (ctx.state === "suspended") {
+        ctx.resume().then(() => {
+          console.log("✅ AudioContext resumed");
+        });
+      }
+
+      // Play a silent tone to unlock audio
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      gainNode.gain.value = 0; // Silent
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      oscillator.start(0);
+      oscillator.stop(ctx.currentTime + 0.1);
+
+      console.log(
+        "✅ Silent audio played - Arc audio should be unlocked",
+      );
+      setIsAudioPrimed(true);
+
+      // Also try speaking empty text to prime speech synthesis
+      const primer = new SpeechSynthesisUtterance(" ");
+      primer.volume = 0;
+      window.speechSynthesis.speak(primer);
+      console.log("✅ Speech synthesis primed");
+    } catch (err) {
+      console.error("❌ Failed to prime audio:", err);
+    }
   };
 
   const seekToChunk = (chunkIndex: number) => {
@@ -876,6 +1099,208 @@ const PdfToSpeech = () => {
                     </span>
                   </button>
                 )}
+              </div>
+
+              {/* Debug Panel for Arc Browser */}
+              <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">
+                  🔧 Debug Info (Arc Browser Troubleshooting)
+                </h3>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Available Voices:
+                    </span>
+                    <span className="font-mono font-semibold">
+                      {voices.length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Selected Voice:
+                    </span>
+                    <span className="font-mono text-xs">
+                      {voices[selectedVoice]?.name || "None"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Browser:
+                    </span>
+                    <span className="font-mono text-xs">
+                      {navigator.userAgent.includes("Arc")
+                        ? "Arc"
+                        : "Other"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Simple Test Button */}
+                <button
+                  onClick={() => {
+                    console.log("=== SIMPLE TEST SPEECH ===");
+                    console.log("Creating test utterance...");
+                    const test = new SpeechSynthesisUtterance(
+                      "Testing one two three",
+                    );
+                    test.volume = 1.0;
+                    test.rate = 1.0;
+                    test.pitch = 1.0;
+                    console.log("Test utterance created");
+                    console.log("Volume:", test.volume);
+                    console.log("Calling speak...");
+                    window.speechSynthesis.speak(test);
+                    console.log("Speak called");
+                    console.log(
+                      "🔊 You should hear 'Testing one two three'",
+                    );
+                    console.log("If you hear nothing, check:");
+                    console.log(
+                      "- System Sound preferences (Arc not muted)",
+                    );
+                    console.log(
+                      "- Arc site permissions (Sound allowed)",
+                    );
+                    console.log("- Output device is correct");
+
+                    test.onstart = () => {
+                      console.log("✅ Test speech started!");
+                      console.log("🔊 AUDIO IS PLAYING RIGHT NOW!");
+                    };
+                    test.onend = () =>
+                      console.log("✅ Test speech ended!");
+                    test.onerror = (e) =>
+                      console.error("❌ Test speech error:", e.error);
+                  }}
+                  className="mt-3 w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  🧪 Test Simple Speech (Check Console)
+                </button>
+
+                <button
+                  onClick={() => {
+                    console.log("=== VOICE LIST ===");
+                    const allVoices =
+                      window.speechSynthesis.getVoices();
+                    console.log(
+                      "Total voices available:",
+                      allVoices.length,
+                    );
+                    allVoices.forEach((v, i) => {
+                      console.log(
+                        `${i}: ${v.name} (${v.lang}) - ${v.voiceURI}`,
+                      );
+                    });
+                  }}
+                  className="mt-2 w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  📋 Log All Voices to Console
+                </button>
+
+                <button
+                  onClick={() => {
+                    console.log("=== SYSTEM AUDIO CHECK ===");
+                    console.log(
+                      "Browser:",
+                      navigator.userAgent.includes("Arc")
+                        ? "Arc"
+                        : navigator.userAgent.split("/").pop(),
+                    );
+                    console.log("Platform:", navigator.platform);
+                    console.log(
+                      "Available voices:",
+                      window.speechSynthesis.getVoices().length,
+                    );
+                    console.log(
+                      "speechSynthesis API available:",
+                      typeof window.speechSynthesis !== "undefined",
+                    );
+                    console.log("");
+                    console.log("⚠️ CHECK THESE IN macOS:");
+                    console.log(
+                      "1. System Settings → Sound → Output device",
+                    );
+                    console.log(
+                      "2. System Settings → Sound → Arc volume slider",
+                    );
+                    console.log(
+                      "3. Right-click Arc in Dock → check if muted",
+                    );
+                    console.log(
+                      "4. Arc → Site permissions for this URL",
+                    );
+                  }}
+                  className="mt-2 w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  🔊 Check Audio Settings
+                </button>
+
+                <button
+                  onClick={primeAudioContext}
+                  className={`mt-2 w-full px-4 py-2 ${isAudioPrimed ? "bg-green-600 hover:bg-green-700" : "bg-yellow-600 hover:bg-yellow-700"} text-white text-sm font-medium rounded-lg transition-colors`}
+                >
+                  {isAudioPrimed
+                    ? "✅ Audio Unlocked"
+                    : "🔓 Unlock Arc Audio (Click First!)"}
+                </button>
+
+                <button
+                  onClick={() => {
+                    console.log("=== FORCE PAGE RELOAD ===");
+                    console.log(
+                      "This will clear Arc's corrupted speech queue.",
+                    );
+                    window.location.reload();
+                  }}
+                  className="mt-2 w-full px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  🔄 Reload Page (Fix Ghost Utterances)
+                </button>
+
+                <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-xs">
+                  <p className="font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                    ⚠️ Arc Browser Issue Detected
+                  </p>
+                  <p className="text-yellow-700 dark:text-yellow-300">
+                    Arc keeps old utterances in memory. If you see
+                    "ghost utterances" error or no audio plays:
+                  </p>
+                  <ol className="list-decimal ml-4 mt-2 text-yellow-700 dark:text-yellow-300 space-y-1">
+                    <li>Click "🔄 Reload Page" button above</li>
+                    <li>Upload your PDF again</li>
+                    <li>Click "Stop All Speech" once</li>
+                    <li>Wait 2 seconds</li>
+                    <li>Click Play - should work!</li>
+                  </ol>
+                </div>
+
+                <button
+                  onClick={() => {
+                    console.log("=== EMERGENCY STOP ALL SPEECH ===");
+                    isCancellingRef.current = true;
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.cancel();
+                    setTimeout(() => {
+                      window.speechSynthesis.cancel();
+                      console.log("Speech queue cleared");
+                      console.log(
+                        "speechSynthesis.speaking:",
+                        window.speechSynthesis.speaking,
+                      );
+                      console.log(
+                        "speechSynthesis.pending:",
+                        window.speechSynthesis.pending,
+                      );
+                      isCancellingRef.current = false;
+                      setIsSpeaking(false);
+                      setIsPaused(false);
+                    }, 100);
+                  }}
+                  className="mt-2 w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  🛑 Stop All Speech (Emergency Reset)
+                </button>
               </div>
             </div>
           )}
