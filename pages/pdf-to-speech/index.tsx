@@ -1,6 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import { Buffer } from "buffer";
+import { Button } from "../../components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../../components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../components/ui/popover";
+
+type Voice = {
+  value: number;
+  label: string;
+  voice: SpeechSynthesisVoice;
+};
 
 const PdfToSpeech = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -8,8 +28,11 @@ const PdfToSpeech = () => {
   const [isExtracting, setIsExtracting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState<number>(0);
+  const [voices, setVoices] = useState<Voice[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState<Voice | null>(
+    null,
+  );
+  const [voiceOpen, setVoiceOpen] = useState(false);
   const [rate, setRate] = useState<number>(1);
   const [pitch, setPitch] = useState<number>(1);
   const [error, setError] = useState<string>("");
@@ -48,7 +71,18 @@ const PdfToSpeech = () => {
       console.log("Filtered American voices:", americanVoices.length);
 
       // Temporarily show ALL voices for debugging
-      setVoices(availableVoices);
+      const voiceOptions: Voice[] = availableVoices.map(
+        (voice, index) => ({
+          value: index,
+          label: `${voice.name} (${voice.lang})`,
+          voice: voice,
+        }),
+      );
+
+      setVoices(voiceOptions);
+      if (voiceOptions.length > 0 && !selectedVoice) {
+        setSelectedVoice(voiceOptions[0]);
+      }
     };
 
     loadVoices();
@@ -263,8 +297,8 @@ const PdfToSpeech = () => {
 
     const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
 
-    if (voices.length > 0 && voices[selectedVoice]) {
-      utterance.voice = voices[selectedVoice];
+    if (selectedVoice) {
+      utterance.voice = selectedVoice.voice;
     }
 
     utterance.rate = rate;
@@ -608,27 +642,53 @@ const PdfToSpeech = () => {
               <div className="space-y-4">
                 {/* Voice Selection */}
                 <div>
-                  <label
-                    htmlFor="voice-select"
-                    className="block text-sm font-medium mb-2"
-                  >
+                  <label className="block text-sm font-medium mb-2">
                     Voice
                   </label>
-                  <select
-                    id="voice-select"
-                    value={selectedVoice}
-                    onChange={(e) =>
-                      setSelectedVoice(Number(e.target.value))
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    disabled={isSpeaking}
-                  >
-                    {voices.map((voice, index) => (
-                      <option key={index} value={index}>
-                        {voice.name} ({voice.lang})
-                      </option>
-                    ))}
-                  </select>
+                  <Popover open={voiceOpen} onOpenChange={setVoiceOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start"
+                        disabled={isSpeaking}
+                      >
+                        {selectedVoice ? (
+                          <>{selectedVoice.label}</>
+                        ) : (
+                          <>+ Select voice</>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="p-0 w-full"
+                      align="start"
+                    >
+                      <Command>
+                        <CommandInput placeholder="Search voice..." />
+                        <CommandList>
+                          <CommandEmpty>No voice found.</CommandEmpty>
+                          <CommandGroup>
+                            {voices.map((voice) => (
+                              <CommandItem
+                                key={voice.value}
+                                value={voice.label}
+                                onSelect={() => {
+                                  setSelectedVoice(
+                                    voices.find(
+                                      (v) => v.value === voice.value,
+                                    ) || null,
+                                  );
+                                  setVoiceOpen(false);
+                                }}
+                              >
+                                {voice.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 {/* Speed Control */}

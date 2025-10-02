@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@opendocsg/pdf2md": "^0.2.2",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-navigation-menu": "^1.2.0",
+    "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.2.14",
     "@react-three/drei": "^9.107.0",
@@ -19,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "date-fns": "^2.28.0",
     "framer-motion": "^11.2.11",
     "gray-matter": "^4.0.3",
