@@ -123,6 +123,65 @@ const PdfToSpeech = () => {
     };
   }, [error]);
 
+  // Clean text for speech synthesis
+  const cleanTextForSpeech = (text: string): string => {
+    let cleanedText = text;
+
+    // Fix PDFs with spaces between characters (e.g., "L a st" -> "Last")
+    // This aggressive approach removes ALL single spaces between letters
+    // Works in multiple passes to reconstruct words
+
+    // Pass 1: Join all single letters separated by single space
+    // Repeat multiple times to handle long words
+    for (let i = 0; i < 10; i++) {
+      // Join lowercase to lowercase: "u p d a t e d" -> "updated"
+      cleanedText = cleanedText.replace(/([a-z])\s([a-z])/g, "$1$2");
+      // Join uppercase to lowercase: "L a st" -> "Last"
+      cleanedText = cleanedText.replace(/([A-Z])\s([a-z])/g, "$1$2");
+      // Join lowercase to uppercase (new word): keep space
+      // Join within CamelCase or acronyms
+      cleanedText = cleanedText.replace(
+        /([a-z])\s([A-Z])(?=[a-z])/g,
+        "$1$2",
+      );
+    }
+
+    // Pass 2: Join numbers with letters
+    cleanedText = cleanedText.replace(/(\d)\s+([a-zA-Z])/g, "$1$2");
+    cleanedText = cleanedText.replace(/([a-zA-Z])\s+(\d)/g, "$1$2");
+
+    return (
+      cleanedText
+        // Normalize whitespace - replace multiple spaces/tabs/newlines with single space
+        .replace(/\s+/g, " ")
+        // Remove special characters that screen readers can't pronounce well
+        .replace(/[^\w\s.,;:!?'"()\-–—]/g, " ")
+        // Remove common PDF artifacts
+        .replace(/\f/g, " ") // Form feed
+        .replace(/\r/g, " ") // Carriage return
+        .replace(/\t/g, " ") // Tabs
+        // Remove multiple periods (except ellipsis)
+        .replace(/\.{4,}/g, "...")
+        .replace(/\.{2}(?!\.)/g, ".")
+        // Remove standalone numbers/page numbers that are artifacts
+        .replace(/^\d+\s*$/gm, "")
+        // Fix common spacing issues around punctuation
+        .replace(/\s+([.,;:!?])/g, "$1")
+        .replace(/([.,;:!?])([^\s])/g, "$1 $2")
+        // Remove hyphenation at line breaks
+        .replace(/(\w)-\s+(\w)/g, "$1$2")
+        // Remove extra spaces around parentheses
+        .replace(/\(\s+/g, "(")
+        .replace(/\s+\)/g, ")")
+        // Clean up quotes
+        .replace(/``|''/g, '"')
+        .replace(/`/g, "'")
+        // Final trim and normalize spaces
+        .replace(/\s+/g, " ")
+        .trim()
+    );
+  };
+
   // Split text into manageable chunks (by sentences)
   const splitTextIntoChunks = (text: string): string[] => {
     // Split by sentence endings but keep the punctuation
@@ -196,7 +255,7 @@ const PdfToSpeech = () => {
         setProgress(Math.round((i / numPages) * 100));
       }
 
-      const cleanedText = fullText.trim();
+      const cleanedText = cleanTextForSpeech(fullText);
       setExtractedText(cleanedText);
 
       // Split into chunks for seeking
