@@ -54,14 +54,25 @@ const PdfToSpeech = () => {
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices();
 
+      // Debug: Log all available voices
+      console.log(
+        "All available voices:",
+        availableVoices.map((v) => ({
+          name: v.name,
+          lang: v.lang,
+        })),
+      );
+
       // Filter to only American English voices (includes en-US variants)
       const americanVoices = availableVoices.filter(
         (voice) =>
           voice.lang.startsWith("en-US") || voice.lang === "en_US",
       );
 
-      // Map to Voice type
-      const voiceOptions: Voice[] = americanVoices.map(
+      console.log("Filtered American voices:", americanVoices.length);
+
+      // Temporarily show ALL voices for debugging
+      const voiceOptions: Voice[] = availableVoices.map(
         (voice, index) => ({
           value: index,
           label: `${voice.name} (${voice.lang})`,
