@@ -36,12 +36,11 @@ const PdfToSpeech = () => {
         /iPad|iPhone|iPod/.test(navigator.userAgent) &&
         !(window as any).MSStream;
       const iOSVoiceNames = [
-        "Maged",
-        "Zuzana",
-        "Sara",
-        "Anna",
-        "Melina",
-        "Karen",
+        "Ava (Enhanced)",
+        "Ava (Premium)",
+        "Evan (Enhanced)",
+        "Ava",
+        "Evan",
         "Samantha",
         "Daniel",
         "Rishi",
@@ -897,4 +896,3 @@ const PdfToSpeech = () => {
 };
 
 export default PdfToSpeech;
-
