@@ -22,7 +22,6 @@ const PdfToSpeech = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);</parameter>
 
   // Load available voices
   useEffect(() => {
@@ -97,47 +96,10 @@ const PdfToSpeech = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [extractedText, isSpeaking, isPaused, showKeyboardHelp]);
 
-  // Clean text for better speech synthesis
-  const cleanTextForSpeech = (text: string): string => {
-    return text
-      // Remove multiple spaces
-      .replace(/\s+/g, " ")
-      // Remove excessive newlines
-      .replace(/\n+/g, " ")
-      // Fix common punctuation issues
-      .replace(/\s+([.,!?;:])/g, "$1")
-      // Remove multiple punctuation marks
-      .replace(/([.,!?;:]){2,}/g, "$1")
-      // Add space after punctuation if missing
-      .replace(/([.,!?;:])([A-Za-z])/g, "$1 $2")
-      // Remove special characters that sound bad
-      .replace(/[•●○■□▪▫]/g, "")
-      // Replace common symbols with words
-      .replace(/&/g, " and ")
-      .replace(/@/g, " at ")
-      .replace(/#/g, " number ")
-      .replace(/\$/g, " dollar ")
-      .replace(/%/g, " percent ")
-      // Remove underscores and replace with space
-      .replace(/_+/g, " ")
-      // Remove asterisks
-      .replace(/\*/g, "")
-      // Remove URLs (they sound terrible)
-      .replace(/https?:\/\/[^\s]+/g, "")
-      // Remove email addresses
-      .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "")
-      // Clean up any resulting multiple spaces again
-      .replace(/\s+/g, " ")
-      .trim();
-  };
-
-  // Split text into manageable chunks (by sentences)</parameter>
+  // Split text into manageable chunks (by sentences)
   const splitTextIntoChunks = (text: string): string[] => {
-    // Clean the text first
-    const cleanedText = cleanTextForSpeech(text);
-
     // Split by sentence endings but keep the punctuation
-    const sentences = cleanedText.match(/[^.!?]+[.!?]+/g) || [cleanedText];
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
 
     // Group sentences into chunks of roughly 2-3 sentences for better control
     const chunkSize = 3;
@@ -151,8 +113,7 @@ const PdfToSpeech = () => {
       if (chunk) result.push(chunk);
     }
 
-    return result.length > 0 ? result : [cleanedText];
-  };</parameter>
+    return result;
   };
 
   const handleFileChange = async (
@@ -162,24 +123,22 @@ const PdfToSpeech = () => {
     if (!selectedFile) return;
 
     if (selectedFile.type !== "application/pdf") {
-      showError("Please select a valid PDF file");
+      setError("Please select a valid PDF file");
       return;
     }
 
     setFile(selectedFile);
-    clearError();
+    setError("");
     setExtractedText("");
     setProgress(0);
     setCurrentChunk(0);
     await extractTextFromPdf(selectedFile);
-  };</parameter>
   };
 
   const extractTextFromPdf = async (pdfFile: File) => {
     setIsExtracting(true);
-    clearError();
+    setError("");
 
-    try {</parameter>
     try {
       // Set worker from CDN
       pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
@@ -213,35 +172,11 @@ const PdfToSpeech = () => {
       setIsExtracting(false);
     } catch (err) {
       console.error("Error extracting text:", err);
-      showError(
+      setError(
         "Failed to extract text from PDF. Please try another file.",
       );
       setIsExtracting(false);
     }
-  };
-
-  // Error handling with auto-dismiss
-  const showError = (message: string) => {
-    setError(message);
-
-    // Clear any existing timeout
-    if (errorTimeoutRef.current) {
-      clearTimeout(errorTimeoutRef.current);
-    }
-
-    // Auto-dismiss after 5 seconds
-    errorTimeoutRef.current = setTimeout(() => {
-      setError("");
-    }, 5000);
-  };
-
-  const clearError = () => {
-    setError("");
-    if (errorTimeoutRef.current) {
-      clearTimeout(errorTimeoutRef.current);
-      errorTimeoutRef.current = null;
-    }
-  };</parameter>
   };
 
   const speakChunk = (chunkIndex: number) => {
@@ -278,10 +213,9 @@ const PdfToSpeech = () => {
 
     utterance.onerror = (event) => {
       console.error("Speech synthesis error:", event);
-      showError("An error occurred during speech synthesis.");
+      setError("An error occurred during speech synthesis.");
       setIsSpeaking(false);
       setIsPaused(false);
-    };</parameter>
     };
 
     utteranceRef.current = utterance;
@@ -290,12 +224,8 @@ const PdfToSpeech = () => {
 
   const speak = () => {
     if (!extractedText || chunks.length === 0) {
-      showError("No text to read. Please upload a PDF first.");
+      setError("No text to read. Please upload a PDF first.");
       return;
-    }
-
-    // Clear any errors since we're successfully playing
-    clearError();</parameter>
     }
 
     if (isPaused) {
@@ -354,14 +284,13 @@ const PdfToSpeech = () => {
 
     if (droppedFile && droppedFile.type === "application/pdf") {
       setFile(droppedFile);
-      clearError();
+      setError("");
       setExtractedText("");
       setProgress(0);
       setCurrentChunk(0);
       extractTextFromPdf(droppedFile);
     } else {
-      showError("Please drop a valid PDF file");
-    }</parameter>
+      setError("Please drop a valid PDF file");
     }
   };
 
@@ -546,45 +475,12 @@ const PdfToSpeech = () => {
           {/* Error Message */}
           {error && (
             <div
-              className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg mb-6 flex items-start justify-between gap-3"
+              className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg mb-6"
               role="alert"
               aria-live="polite"
             >
-              <div className="flex-1 flex items-start gap-2">
-                <svg
-                  className="w-5 h-5 flex-shrink-0 mt-0.5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <p>{error}</p>
-              </div>
-              <button
-                onClick={clearError}
-                className="flex-shrink-0 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 transition-colors"
-                aria-label="Dismiss error"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+              <p>{error}</p>
             </div>
-          )}</parameter>
           )}
 
           {/* Extraction Progress */}
