@@ -30,6 +30,7 @@ const PdfToSpeech = () => {
   useEffect(() => {
     const loadVoices = () => {
       let availableVoices = window.speechSynthesis.getVoices();
+      alert(JSON.stringify(availableVoices));
 
       // iOS lies about available voices - filter to only ones that actually work
       const isIOS =
@@ -76,11 +77,11 @@ const PdfToSpeech = () => {
         "Alex",
       ];
 
-      if (isIOS) {
-        availableVoices = availableVoices.filter((voice) =>
-          iOSVoiceNames.includes(voice.name),
-        );
-      }
+      // if (isIOS) {
+      //   availableVoices = availableVoices.filter((voice) =>
+      //     iOSVoiceNames.includes(voice.name),
+      //   );
+      // }
 
       // Filter to only American English voices (en-US variants) and Enhanced/Premium voices
       const americanVoices = availableVoices.filter(
