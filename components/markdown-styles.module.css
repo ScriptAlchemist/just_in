@@ -53,7 +53,7 @@
 }
 
 .markdown blockquote p {
-  @apply p-3 rounded bg-muted text-muted-foreground;
+  @apply p-3 rounded bg-muted text-foreground;
 }
 
 .markdown :not(pre) > code {
@@ -113,7 +113,7 @@
 }
 
 .markdown figure[data-rehype-pretty-code-figure] {
-  background-color: hsl(var(--code));
+  background-color: #2d3748;
   border-radius: 0.75rem;
   margin-bottom: 1.5rem;
   position: relative;
@@ -130,10 +130,10 @@
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: hsl(var(--code));
+  background-color: #252d3a;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
-  color: hsl(var(--code-foreground));
+  color: #d6deeb;
   border-bottom: 1px solid hsl(var(--border));
 }
 
