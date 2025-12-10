@@ -37,7 +37,7 @@ export default async function markdownToHtml(
     .use(remarkParse)
     .use(remarkToc)
     .use(remarkRehype)
-    .use(rehypeSlug)
+    .use(rehypeSlug as any)
     // .use(rehypeAutolinkHeadings, {
     //   behavior: "wrap",
     // })
