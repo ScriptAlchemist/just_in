@@ -166,3 +166,70 @@
   border-radius: 0.2rem;
   padding: 0.1rem 0.2rem;
 }
+
+/* Collapsible code blocks */
+.markdown :global(details.code-collapse) {
+  margin-bottom: 1.5rem;
+}
+
+.markdown
+  :global(details.code-collapse)
+  :global(summary.code-collapse-summary) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #252d3a;
+  border-radius: 0.75rem;
+  color: #d6deeb;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid hsl(var(--border));
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.markdown
+  :global(details.code-collapse)
+  :global(summary.code-collapse-summary):hover {
+  background-color: #2d3748;
+}
+
+.markdown
+  :global(details.code-collapse)
+  :global(summary.code-collapse-summary)::before {
+  content: "▶";
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.markdown
+  :global(details.code-collapse[open])
+  :global(summary.code-collapse-summary)::before {
+  transform: rotate(90deg);
+}
+
+.markdown
+  :global(details.code-collapse[open])
+  :global(summary.code-collapse-summary) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+}
+
+.markdown
+  :global(details.code-collapse)
+  figure[data-rehype-pretty-code-figure] {
+  margin-bottom: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Hide the default title in figure when inside details since summary shows it */
+.markdown
+  :global(details.code-collapse)
+  figure[data-rehype-pretty-code-figure]
+  [data-rehype-pretty-code-title] {
+  display: none;
+}

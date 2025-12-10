@@ -12,6 +12,11 @@ const PostBody = ({ content }: Props) => {
     );
 
     codeBlocks.forEach((codeBlock) => {
+      // Skip if already wrapped in details
+      if (codeBlock.parentElement?.tagName === "DETAILS") {
+        return;
+      }
+
       let title = codeBlock.querySelector(
         "[data-rehype-pretty-code-title]",
       );
@@ -20,6 +25,35 @@ const PostBody = ({ content }: Props) => {
         return;
       }
 
+      // Get summary text from title or language
+      let summaryText = "View Code";
+      if (title && title.textContent) {
+        summaryText =
+          title.textContent.replace("Copy", "").trim() || summaryText;
+      } else {
+        const code = pre.querySelector("code");
+        const language = code?.getAttribute("data-language");
+        if (language) {
+          summaryText = `View ${language} Code`;
+        }
+      }
+
+      // Create details element
+      const details = document.createElement("details");
+      details.className = "code-collapse";
+      details.open = true;
+
+      // Create summary element
+      const summary = document.createElement("summary");
+      summary.className = "code-collapse-summary";
+      summary.textContent = summaryText;
+
+      // Wrap the code block
+      codeBlock.parentNode?.insertBefore(details, codeBlock);
+      details.appendChild(summary);
+      details.appendChild(codeBlock);
+
+      // Now handle title and copy button
       if (!title) {
         title = document.createElement("div");
         title.setAttribute("data-rehype-pretty-code-title", "");

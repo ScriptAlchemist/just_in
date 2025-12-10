@@ -3,6 +3,9 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode, { type Options } from "rehype-pretty-code";
+// import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
+import remarkToc from "remark-toc";
 
 const prettyCodeOptions: Options = {
   theme: "night-owl",
@@ -27,12 +30,20 @@ const prettyCodeOptions: Options = {
   },
 };
 
-export default async function markdownToHtml(markdown: string) {
+export default async function markdownToHtml(
+  markdown: string,
+): Promise<string> {
   const result = await unified()
     .use(remarkParse)
+    .use(remarkToc)
     .use(remarkRehype)
-    .use(rehypePrettyCode, prettyCodeOptions)
+    .use(rehypeSlug)
+    // .use(rehypeAutolinkHeadings, {
+    //   behavior: "wrap",
+    // })
+    .use(rehypePrettyCode, prettyCodeOptions) // only once
     .use(rehypeStringify)
     .process(markdown);
-  return result.toString();
+
+  return String(result);
 }
