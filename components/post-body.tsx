@@ -48,10 +48,67 @@ const PostBody = ({ content }: Props) => {
       summary.className = "code-collapse-summary";
       summary.textContent = summaryText;
 
+      // Create a wrapper for the content to animate
+      const contentWrapper = document.createElement("div");
+      contentWrapper.className = "code-collapse-content";
+
       // Wrap the code block
       codeBlock.parentNode?.insertBefore(details, codeBlock);
       details.appendChild(summary);
-      details.appendChild(codeBlock);
+      contentWrapper.appendChild(codeBlock);
+      details.appendChild(contentWrapper);
+
+      // Add click handler for smooth animation
+      summary.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        if (details.open) {
+          // Closing animation
+          const contentHeight = contentWrapper.scrollHeight;
+          contentWrapper.style.height = `${contentHeight}px`;
+          contentWrapper.style.overflow = "hidden";
+
+          // Force reflow
+          contentWrapper.offsetHeight;
+
+          contentWrapper.style.height = "0px";
+          contentWrapper.style.opacity = "0";
+
+          contentWrapper.addEventListener(
+            "transitionend",
+            () => {
+              details.open = false;
+              contentWrapper.style.height = "";
+              contentWrapper.style.overflow = "";
+              contentWrapper.style.opacity = "";
+            },
+            { once: true },
+          );
+        } else {
+          // Opening animation
+          details.open = true;
+          const contentHeight = contentWrapper.scrollHeight;
+
+          contentWrapper.style.height = "0px";
+          contentWrapper.style.overflow = "hidden";
+          contentWrapper.style.opacity = "0";
+
+          // Force reflow
+          contentWrapper.offsetHeight;
+
+          contentWrapper.style.height = `${contentHeight}px`;
+          contentWrapper.style.opacity = "1";
+
+          contentWrapper.addEventListener(
+            "transitionend",
+            () => {
+              contentWrapper.style.height = "";
+              contentWrapper.style.overflow = "";
+            },
+            { once: true },
+          );
+        }
+      });
 
       // Now handle title and copy button
       if (!title) {
