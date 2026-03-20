@@ -1,68 +1,128 @@
 import {
   IconBrandGithub,
   IconBrandLinkedin,
+  IconBrandX,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import Container from "./container";
+import { BackgroundGradient } from "./ui/backgroundGradiant";
+
+const footerLinks = [
+  { href: "/", label: "Home" },
+  { href: "/#moreStoriesHeading", label: "Post List" },
+  { href: "/about-me", label: "About Me" },
+  { href: "/pdf-to-speech", label: "PDF to Speech" },
+];
+
+const socialLinks = [
+  {
+    href: "https://www.linkedin.com/in/benderjustin",
+    label: "LinkedIn",
+    icon: IconBrandLinkedin,
+    className: "text-blue-500",
+  },
+  {
+    href: "https://twitter.com/ScriptAlchemist",
+    label: "X",
+    icon: IconBrandX,
+    className: "text-[hsl(var(--foreground))]",
+  },
+  {
+    href: "https://github.com/ScriptAlchemist",
+    label: "GitHub",
+    icon: IconBrandGithub,
+    className: "text-[hsl(var(--destructive))]",
+  },
+];
 
 const Footer = () => {
   return (
-    <footer className="bg-[hsl(var(--background))] border-t border-[hsl(var(--border))]">
-      <Container>
-        <div className="py-10 flex flex-col lg:flex-row items-center justify-between text-[hsl(var(--foreground))] max-w-screen-lg mx-auto">
-          <nav className="mb-6 lg:mb-0 flex gap-x-6 text-lg font-semibold tracking-tight">
-            <Link
-              href="/"
-              className="hover:text-[hsl(var(--destructive))] transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about-me"
-              className="hover:text-[hsl(var(--destructive))] transition-colors"
-            >
-              About Me
-            </Link>
-          </nav>
-          <div className="flex gap-x-8 text-xl">
-            <Link
-              href="https://www.linkedin.com/in/benderjustin"
-              aria-label="Justin's LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-700 text-blue-400 transition-colors"
-            >
-              <IconBrandLinkedin className="w-6 h-6" />
-            </Link>
-            <Link
-              href="https://twitter.com/ScriptAlchemist"
-              aria-label="Justin's Twitter"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-400 text-[hsl(var(--foreground))] transition-colors"
-            >
-              <svg
-                viewBox="0 0 1200 1227"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                role="img"
-                className="w-5 h-5 fill-[hsl(var(--foreground))] hover:fill-blue-400 transition-colors"
-              >
-                <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"></path>
-              </svg>
-            </Link>
-            <Link
-              href="https://github.com/ScriptAlchemist"
-              aria-label="Justin's Github"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[hsl(var(--foreground))] text-[hsl(var(--destructive))] transition-colors"
-            >
-              <IconBrandGithub className="w-6 h-6" />
-            </Link>
+    <footer className="w-full px-4 pb-8 pt-10 sm:px-6 lg:px-8">
+      <div className="footer-shell w-full">
+        <div className="footer-surface">
+          <div className="footer-grid">
+            <div className="footer-brand-block">
+              <Link href="/" className="footer-brand">
+                <span className="footer-brand-mark font-bold">
+                  <span className="underline decoration-[hsl(var(--primary))]">
+                    Some
+                  </span>
+                  <span className="text-[hsl(var(--destructive))]">
+                    (
+                  </span>
+                  <span className="underline decoration-[hsl(var(--primary))]">
+                    Scripting
+                  </span>
+                  <span className="text-[hsl(var(--destructive))]">
+                    )
+                  </span>
+                </span>
+                <span className="footer-brand-subtitle">
+                  By Justin Bender
+                </span>
+              </Link>
+
+              <p className="footer-copy">
+                Notes on frontend engineering, Rust, developer tools,
+                and experiments that turn into real shipped work.
+              </p>
+            </div>
+
+            <section className="footer-section">
+              <p className="footer-eyebrow">Explore</p>
+              <nav className="footer-link-list" aria-label="Footer">
+                {footerLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="footer-link"
+                  >
+                    <span>{item.label}</span>
+                  </Link>
+                ))}
+              </nav>
+            </section>
+
+            <section className="footer-section">
+              <p className="footer-eyebrow">Elsewhere</p>
+              <div className="footer-social-list">
+                {socialLinks.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Visit Justin's ${item.label}`}
+                      className="group w-fit"
+                    >
+                      <BackgroundGradient
+                        className={`footer-social-button ${item.className}`}
+                      >
+                        <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                      </BackgroundGradient>
+                    </Link>
+                  );
+                })}
+              </div>
+              <p className="footer-note">
+                New posts land here first. Reach out on LinkedIn or
+                GitHub if you want to talk shop.
+              </p>
+            </section>
+          </div>
+
+          <div className="footer-bottom">
+            <p className="footer-meta">
+              Built with Next.js and Tailwind CSS.
+            </p>
+            <p className="footer-meta">
+              © {new Date().getFullYear()} Justin Bender
+            </p>
           </div>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 };
