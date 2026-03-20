@@ -2,14 +2,14 @@
   "languages": {
     "Markdown": {
       "language_servers": ["marksman"],
-      "format_on_save": "prettier",
+      "format_on_save": "on",
       "preferred_line_length": 72,
       "soft_wrap": "preferred_line_length",
       "use_on_type_format": true,
       "formatter": "prettier",
       "prettier": {
-        "allowed": true
-      }
-    }
-  }
+        "allowed": true,
+      },
+    },
+  },
 }
