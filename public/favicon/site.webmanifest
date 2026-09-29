@@ -1,7 +1,15 @@
 {
-  "name": "Next.js",
-  "short_name": "Next.js",
+  "name": "Some(Scripting)",
+  "short_name": "Some(Scripting)",
+  "description": "Product engineering consulting and an independent engineering journal by Justin Bender.",
+  "start_url": "/",
   "icons": [
+    {
+      "src": "/assets/brand/some-scripting-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "/favicon/android-chrome-192x192.png",
       "sizes": "192x192",
@@ -13,7 +21,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#0b1727",
+  "background_color": "#0b1727",
   "display": "standalone"
 }

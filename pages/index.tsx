@@ -6,11 +6,11 @@ import {
   Layers3,
   Wrench,
 } from "lucide-react";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import HeroPost from "../components/hero-post";
 import MoreStories from "../components/more-stories";
+import PageMeta from "../components/page-meta";
 import Post from "../interfaces/post";
 import { getAllPosts } from "../lib/api";
 import JustinImg from "../public/assets/blog/authors/skydiver_justin.jpeg";
@@ -49,13 +49,11 @@ export default function Index({ allPosts }: Props) {
 
   return (
     <>
-      <Head>
-        <title>Some(Scripting) — Product Engineering &amp; Journal</title>
-        <meta
-          name="description"
-          content="Independent product engineering for teams building ambitious web products, frontend systems, and practical AI workflows."
-        />
-      </Head>
+      <PageMeta
+        title="Some(Scripting) | Product Engineering and Journal"
+        description="Independent product engineering for teams building ambitious web products, frontend systems, and practical AI workflows."
+        path="/"
+      />
 
       <section className="home-hero page-shell">
         <div className="hero-copy">
@@ -66,7 +64,7 @@ export default function Index({ allPosts }: Props) {
           </h1>
           <p className="hero-intro">
             I help teams turn ambitious ideas and tangled systems into useful,
-            resilient products—combining product judgment with hands-on
+            resilient products, combining product judgment with hands-on
             engineering.
           </p>
           <div className="hero-actions">
@@ -225,7 +223,7 @@ export default function Index({ allPosts }: Props) {
             applications, blockchain products, and AI-assisted development.
           </p>
           <p>
-            I care about making difficult technical work understandable—so the
+            I care about making difficult technical work understandable, so the
             people building, funding, and using the product can move together.
           </p>
           <Link href="/about-me" className="text-link">

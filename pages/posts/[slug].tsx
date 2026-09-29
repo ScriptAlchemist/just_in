@@ -7,11 +7,12 @@ import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import PostBody from "../../components/post-body";
 import PostHeader from "../../components/post-header";
+import PageMeta, { toAbsoluteUrl } from "../../components/page-meta";
 import PostTitle from "../../components/post-title";
 import { usePostContext } from "../../context/PostContext";
 import type PostType from "../../interfaces/post";
 import { getAllPosts, getPostBySlug } from "../../lib/api";
-import { CMS_NAME } from "../../lib/constants";
+import { CMS_NAME, SITE_AUTHOR, SITE_URL } from "../../lib/constants";
 import markdownToHtml from "../../lib/markdownToHtml";
 
 type Props = {
@@ -24,6 +25,33 @@ export default function Post({ post, morePosts, preview }: Props) {
   const { scrollYProgress } = useScroll();
   const router = useRouter();
   const title = `${post.title} | ${CMS_NAME}`;
+  const description = post.excerpt?.replace(/\s+/g, " ").trim();
+  const path = `/posts/${post.slug}`;
+  const socialImage = post.ogImage?.url || post.coverImage;
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description,
+    image: socialImage ? [toAbsoluteUrl(socialImage)] : undefined,
+    datePublished: post.date,
+    author: {
+      "@type": "Person",
+      name: post.author?.name || SITE_AUTHOR,
+      url: `${SITE_URL}/about-me`,
+    },
+    publisher: {
+      "@type": "Person",
+      name: SITE_AUTHOR,
+      url: SITE_URL,
+    },
+    mainEntityOfPage: toAbsoluteUrl(path),
+    isPartOf: {
+      "@type": "Blog",
+      name: CMS_NAME,
+      url: SITE_URL,
+    },
+  };
   const { setCurrentPost } = usePostContext();
 
   useEffect(() => {
@@ -51,10 +79,26 @@ export default function Post({ post, morePosts, preview }: Props) {
         ) : (
           <>
             <article>
+              <PageMeta
+                title={title}
+                description={description}
+                path={path}
+                image={socialImage}
+                imageAlt={`Cover image for ${post.title}`}
+                type="article"
+                publishedTime={post.date}
+              />
               <Head>
-                <title>{title}</title>
-                <meta property="og:image" content={post.ogImage.url} />
-                <meta name="twitter:image" content={post.ogImage.url} />
+                <script
+                  key="article-json-ld"
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(articleJsonLd).replace(
+                      /</g,
+                      "\\u003c",
+                    ),
+                  }}
+                />
               </Head>
               <Link href="/#insights" className="article-back">
                 <ArrowLeft aria-hidden="true" /> Back to the journal
@@ -86,6 +130,7 @@ export async function getStaticProps({ params }: Params) {
     "date",
     "slug",
     "author",
+    "excerpt",
     "content",
     "ogImage",
     "coverImage",

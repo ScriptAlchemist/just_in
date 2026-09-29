@@ -2,8 +2,8 @@
 
 import { ArrowUpRight, MapPin } from "lucide-react";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import Link from "next/link";
+import PageMeta from "../../components/page-meta";
 
 const InteractiveBadge = dynamic(
   () => import("../../components/interactive-badge"),
@@ -20,13 +20,13 @@ const InteractiveBadge = dynamic(
 export default function AboutMe() {
   return (
     <>
-      <Head>
-        <title>About Justin Bender | Some(Scripting)</title>
-        <meta
-          name="description"
-          content="Software engineering experience across product development, frontend systems, AI workflows, performance, and emerging technology."
-        />
-      </Head>
+      <PageMeta
+        title="About Justin Bender | Some(Scripting)"
+        description="Software engineering experience across product development, frontend systems, AI workflows, performance, and emerging technology."
+        path="/about-me"
+        image="/assets/blog/authors/skydiver_justin.jpeg"
+        imageAlt="Justin Bender skydiving"
+      />
       <main className="about-page page-shell">
         <AboutMeInfo />
       </main>

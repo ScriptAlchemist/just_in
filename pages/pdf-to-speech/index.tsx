@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import Head from "next/head";
 import { Buffer } from "buffer";
+import PageMeta from "../../components/page-meta";
 import { Slider } from "../../components/ui/slider";
 
 const PdfToSpeech = () => {
@@ -869,13 +869,11 @@ const PdfToSpeech = () => {
 
   return (
     <>
-      <Head>
-        <title>PDF to Speech | Some(Scripting)</title>
-        <meta
-          name="description"
-          content="Convert PDF documents to speech for accessible reading"
-        />
-      </Head>
+      <PageMeta
+        title="PDF to Speech | Some(Scripting)"
+        description="Convert PDF documents to speech in your browser for more accessible reading."
+        path="/pdf-to-speech"
+      />
 
       <div className="reader-page page-shell">
         <div className="reader-shell">

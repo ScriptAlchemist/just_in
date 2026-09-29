@@ -39,7 +39,7 @@ const Footer = () => {
           <p className="eyebrow eyebrow-light">Have a complex build?</p>
           <h2>Let&apos;s make the next release feel inevitable.</h2>
           <p>
-            I help teams move from product ambiguity to dependable software—with
+            I help teams move from product ambiguity to dependable software, with
             clear decisions, durable interfaces, and less engineering drag.
           </p>
           <Link
