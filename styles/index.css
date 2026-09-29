@@ -272,9 +272,7 @@
   width: 8.5rem;
   height: 2.7rem;
   flex: 0 0 auto;
-  border-radius: 0.75rem;
   background: transparent;
-  box-shadow: 0 9px 24px hsl(215 70% 8% / 0.18);
 }
 
 .site-brand-logo img {
