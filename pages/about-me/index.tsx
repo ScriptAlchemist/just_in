@@ -1,21 +1,9 @@
 // @ts-nocheck
 
 import { ArrowUpRight, MapPin } from "lucide-react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
+import InteractiveBadge from "../../components/interactive-badge";
 import PageMeta from "../../components/page-meta";
-
-const InteractiveBadge = dynamic(
-  () => import("../../components/interactive-badge"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="interactive-badge-loading" role="status">
-        Loading interactive badge…
-      </div>
-    ),
-  },
-);
 
 export default function AboutMe() {
   return (

@@ -1798,24 +1798,284 @@
   height: 25rem;
 }
 
-.interactive-badge-loading {
-  display: grid;
-  place-items: center;
-  color: hsl(var(--muted-foreground));
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.interactive-badge {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 25rem;
+  isolation: isolate;
 }
 
-.about-badge-stage canvas {
-  min-height: 25rem;
+.interactive-badge::before {
+  position: absolute;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  background: hsl(var(--primary) / 0.12);
+  content: "";
+  filter: blur(55px);
+  inset: 28% auto auto 38%;
+  pointer-events: none;
+}
+
+.interactive-badge-cord {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.badge-cord-shadow,
+.badge-cord-highlight {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.badge-cord-shadow {
+  stroke: hsl(var(--foreground) / 0.86);
+  stroke-width: 9;
+  filter: drop-shadow(0 4px 4px hsl(var(--inverse) / 0.24));
+}
+
+.badge-cord-highlight {
+  stroke: hsl(var(--muted-foreground) / 0.55);
+  stroke-dasharray: 2 7;
+  stroke-width: 2;
+}
+
+.badge-wall-anchor {
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  left: 50%;
+  display: grid;
+  width: 2.5rem;
+  height: 1.1rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.3rem 0.3rem 0.55rem 0.55rem;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card)),
+    hsl(var(--muted))
+  );
+  box-shadow: 0 5px 14px hsl(var(--inverse) / 0.16);
+  place-items: center;
+  transform: translateX(-50%);
+}
+
+.badge-wall-anchor > span {
+  width: 0.8rem;
+  height: 0.24rem;
+  border-radius: 999px;
+  background: hsl(var(--foreground) / 0.6);
+}
+
+.consultant-badge {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 282px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: hsl(var(--inverse-foreground));
+  cursor: grab;
+  opacity: 0;
+  text-align: left;
+  touch-action: none;
+  transform-origin: 50% 18px;
+  user-select: none;
+  will-change: transform;
+}
+
+.consultant-badge[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+.consultant-badge:focus-visible .badge-card-face {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: 4px;
+}
+
+.badge-hardware {
+  position: absolute;
+  z-index: 2;
+  top: 3px;
+  left: 50%;
+  display: block;
+  width: 3rem;
+  height: 3.2rem;
+  transform: translateX(-50%);
+}
+
+.badge-ring {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 0.3rem solid hsl(215 12% 58%);
+  border-radius: 50%;
+  background: hsl(var(--card));
+  box-shadow:
+    inset 0 2px 2px hsl(0 0% 100% / 0.5),
+    0 3px 7px hsl(var(--inverse) / 0.26);
+  transform: translateX(-50%);
+}
+
+.badge-clasp {
+  position: absolute;
+  top: 1.15rem;
+  left: 50%;
+  width: 2.65rem;
+  height: 2rem;
+  border: 1px solid hsl(215 12% 42%);
+  border-radius: 0.35rem 0.35rem 0.55rem 0.55rem;
+  background: linear-gradient(
+    135deg,
+    hsl(215 14% 76%),
+    hsl(215 12% 45%) 48%,
+    hsl(215 14% 68%)
+  );
+  box-shadow: 0 4px 8px hsl(var(--inverse) / 0.3);
+  transform: translateX(-50%);
+}
+
+.badge-card-face {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid hsl(214 26% 33%);
+  border-radius: 0.7rem;
+  background:
+    radial-gradient(
+      circle at 88% 10%,
+      hsl(var(--primary) / 0.3),
+      transparent 35%
+    ),
+    linear-gradient(150deg, hsl(216 44% 12%), hsl(216 50% 6%));
+  box-shadow:
+    0 1.3rem 2.5rem hsl(var(--inverse) / 0.34),
+    inset 0 1px hsl(0 0% 100% / 0.12);
+  flex-direction: column;
+  inset: 2.2rem 0 0;
+  padding: 1rem;
+}
+
+.badge-card-face::after {
+  position: absolute;
+  width: 8rem;
+  height: 15rem;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    hsl(0 0% 100% / 0.07),
+    transparent
+  );
+  content: "";
+  inset: -4rem auto auto -6rem;
+  pointer-events: none;
+  transform: rotate(22deg);
+}
+
+.badge-card-topline,
+.badge-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge-wordmark {
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.badge-status-light {
+  width: 0.48rem;
+  height: 0.48rem;
+  border-radius: 50%;
+  background: hsl(var(--accent));
+  box-shadow: 0 0 0 0.25rem hsl(var(--accent) / 0.12);
+}
+
+.badge-monogram {
+  display: grid;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-top: 1.2rem;
+  border: 1px solid hsl(var(--primary) / 0.5);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(135deg, hsl(var(--primary) / 0.35), transparent),
+    hsl(216 35% 14%);
+  color: hsl(0 0% 96%);
+  font-size: 1.45rem;
+  font-weight: 850;
+  letter-spacing: -0.08em;
+  place-items: center;
+}
+
+.badge-identity {
+  display: grid;
+  gap: 0.12rem;
+  margin-top: 0.8rem;
+}
+
+.badge-identity strong {
+  color: hsl(0 0% 96%);
+  font-size: 0.92rem;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.badge-identity > span {
+  color: hsl(214 16% 72%);
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.badge-capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.65rem;
+}
+
+.badge-capabilities > span {
+  border: 1px solid hsl(214 25% 34%);
+  border-radius: 999px;
+  padding: 0.16rem 0.34rem;
+  background: hsl(214 25% 18% / 0.8);
+  color: hsl(214 18% 77%);
+  font-size: 0.75rem;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.badge-footer-row {
+  margin-top: auto;
+  border-top: 1px solid hsl(214 25% 30%);
+  padding-top: 0.6rem;
+  color: hsl(214 14% 62%);
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
 }
 
 .about-badge-stage > p {
   position: absolute;
+  z-index: 4;
+  top: 1rem;
   right: 1rem;
-  bottom: 1rem;
   margin: 0;
   border-radius: 999px;
   padding: 0.4rem 0.65rem;
