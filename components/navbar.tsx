@@ -91,6 +91,12 @@ export const Navbar = () => {
               height="56"
             />
           </span>
+          <span className="site-brand-copy">
+            <span className="site-brand-name">Some(Scripting)</span>
+            <span className="site-brand-role">
+              Product engineering + journal
+            </span>
+          </span>
         </Link>
 
         <nav className="site-nav-links" aria-label="Primary navigation">

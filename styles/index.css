@@ -259,16 +259,18 @@
   display: inline-flex;
   width: fit-content;
   min-width: 0;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding-block: 0.6rem;
   color: hsl(var(--foreground));
 }
 
 .site-brand-logo {
   display: block;
   overflow: hidden;
-  width: 9.4rem;
-  height: 3rem;
+  width: 8.5rem;
+  height: 2.7rem;
   flex: 0 0 auto;
   border-radius: 0.75rem;
   background: transparent;
@@ -278,6 +280,33 @@
 .site-brand-logo img {
   width: 100%;
   height: 100%;
+}
+
+.site-brand-copy {
+  display: block;
+  min-width: 0;
+}
+
+.site-brand-name,
+.site-brand-role {
+  display: block;
+}
+
+.site-brand-name {
+  font-size: 0.94rem;
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.site-brand-role {
+  overflow: hidden;
+  max-width: 8.5rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.64rem;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dark .site-nav-cta {
@@ -1784,6 +1813,23 @@
 }
 
 @media (min-width: 520px) {
+  .site-brand {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding-block: 0;
+  }
+
+  .site-brand-logo {
+    width: 9.4rem;
+    height: 3rem;
+  }
+
+  .site-brand-role {
+    max-width: 11rem;
+    font-size: 0.72rem;
+  }
+
   .hero-actions,
   .archive-pagination {
     flex-direction: row;
