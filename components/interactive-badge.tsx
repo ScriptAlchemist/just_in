@@ -47,9 +47,9 @@ export default function InteractiveBadge() {
     const controlTwoY = attachmentY - cordLength * 0.28;
     const path = `M ${anchorX} ${anchorY} C ${controlOneX} ${controlOneY}, ${controlTwoX} ${controlTwoY}, ${attachmentX} ${attachmentY}`;
     const tilt = clamp(
-      horizontalPull * 0.035 + velocityRef.current.x * 0.16,
-      -13,
-      13,
+      horizontalPull * 0.045 + velocityRef.current.x * 0.28,
+      -18,
+      18,
     );
 
     cardRef.current?.style.setProperty(
@@ -125,10 +125,10 @@ export default function InteractiveBadge() {
           positionRef.current = { ...home };
           velocityRef.current = { x: 0, y: 0 };
         } else {
-          velocity.x += (home.x - position.x) * 0.035 * elapsed;
-          velocity.y += (home.y - position.y) * 0.035 * elapsed;
-          velocity.x *= Math.pow(0.88, elapsed);
-          velocity.y *= Math.pow(0.88, elapsed);
+          velocity.x += (home.x - position.x) * 0.026 * elapsed;
+          velocity.y += (home.y - position.y) * 0.026 * elapsed;
+          velocity.x *= Math.pow(0.94, elapsed);
+          velocity.y *= Math.pow(0.94, elapsed);
           position.x += velocity.x * elapsed;
           position.y += velocity.y * elapsed;
 
@@ -173,8 +173,16 @@ export default function InteractiveBadge() {
       const elapsed = Math.max(now - lastPointerRef.current.time, 8);
 
       velocityRef.current = {
-        x: ((clientX - lastPointerRef.current.x) / elapsed) * 7,
-        y: ((clientY - lastPointerRef.current.y) / elapsed) * 7,
+        x: clamp(
+          ((clientX - lastPointerRef.current.x) / elapsed) * 11,
+          -28,
+          28,
+        ),
+        y: clamp(
+          ((clientY - lastPointerRef.current.y) / elapsed) * 11,
+          -24,
+          24,
+        ),
       };
       lastPointerRef.current = { x: clientX, y: clientY, time: now };
       positionRef.current = { x, y };
@@ -287,9 +295,7 @@ export default function InteractiveBadge() {
               <span className="badge-wordmark">Some(Scripting)</span>
               <span className="badge-status-light" aria-hidden="true" />
             </span>
-            <span className="badge-monogram" aria-hidden="true">
-              JB
-            </span>
+            <span className="badge-photo" aria-hidden="true" />
             <span className="badge-identity">
               <strong>Justin Bender</strong>
               <span>Software engineering consultant</span>

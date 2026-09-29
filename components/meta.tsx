@@ -18,7 +18,7 @@ const Meta = () => {
       <link
         rel="icon"
         type="image/svg+xml"
-        href="/assets/brand/some-scripting-mark.svg"
+        href="/assets/brand/some-scripting-icon.svg"
       />
       <link
         rel="icon"
@@ -36,10 +36,10 @@ const Meta = () => {
       <link
         rel="mask-icon"
         href="/favicon/safari-pinned-tab.svg"
-        color="#000000"
+        color="#2a67b7"
       />
       <link rel="shortcut icon" href="/favicon/favicon.ico" />
-      <meta name="msapplication-TileColor" content="#000000" />
+      <meta name="msapplication-TileColor" content="#0b1727" />
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#0b1727" />
       <meta key="description" name="description" content={DEFAULT_DESCRIPTION} />

@@ -5,7 +5,7 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "/assets/brand/some-scripting-mark.svg",
+      "src": "/assets/brand/some-scripting-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
