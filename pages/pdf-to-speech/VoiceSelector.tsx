@@ -100,19 +100,19 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
     switch (quality) {
       case "Premium":
         return (
-          <span className="ml-2 inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
+          <span className="ml-2 inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800 dark:bg-purple-950/55 dark:text-purple-200">
             ⭐ Premium
           </span>
         );
       case "Enhanced":
         return (
-          <span className="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+          <span className="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-950/55 dark:text-blue-200">
             ✨ Enhanced
           </span>
         );
       case "Default":
         return (
-          <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-800">
+          <span className="ml-2 inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
             🔵 Default
           </span>
         );
@@ -130,7 +130,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
     ) {
       return (
         <span
-          className="ml-2 text-xs text-gray-500"
+          className="ml-2 text-xs text-muted-foreground"
           title="This voice may need to be downloaded in System Settings"
         >
           📥
@@ -163,25 +163,25 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
     <div className="space-y-4">
       {/* Header with controls */}
       <div className="flex items-center justify-between">
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-foreground">
           Voice Selection
         </label>
         <div className="flex items-center space-x-4 text-sm">
           <button
             onClick={() => setShowAllQualities(!showAllQualities)}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-primary hover:text-primary/80"
           >
             {showAllQualities ? "Hide" : "Show"} Default Quality
           </button>
           <button
             onClick={() => setGroupByLanguage(!groupByLanguage)}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-primary hover:text-primary/80"
           >
             {groupByLanguage ? "Ungroup" : "Group by Language"}
           </button>
           <button
             onClick={() => setShowDetails(!showDetails)}
-            className="text-blue-600 hover:text-blue-800"
+            className="text-primary hover:text-primary/80"
           >
             {showDetails ? "Hide" : "Show"} Details
           </button>
@@ -194,7 +194,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
         <div className="space-y-4">
           {Object.entries(groupedVoices).map(([language, voices]) => (
             <div key={language}>
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">
+              <h3 className="mb-2 text-sm font-semibold text-foreground">
                 {language}
               </h3>
               <div className="space-y-1">
@@ -228,7 +228,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
               onVoiceChange(voice.browserVoice);
             }
           }}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="block w-full rounded-md border-border bg-card text-foreground shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
         >
           {filteredVoices.map((voice) => (
             <option
@@ -253,7 +253,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
       )}
 
       {/* Quality legend */}
-      <div className="rounded-md bg-gray-50 p-3 text-xs text-gray-600">
+      <div className="rounded-md bg-muted/65 p-3 text-xs text-muted-foreground">
         <p className="font-semibold mb-2">Voice Quality Levels:</p>
         <ul className="space-y-1">
           <li className="flex items-center">
@@ -272,7 +272,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
             MB)
           </li>
         </ul>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-muted-foreground">
           📥 = May require download in System Settings → Accessibility →
           Spoken Content
         </p>
@@ -304,26 +304,26 @@ const VoiceOption: React.FC<VoiceOptionProps> = ({
       onClick={() => onSelect(voice.browserVoice)}
       className={`w-full text-left px-4 py-3 rounded-md border transition-colors ${
         isSelected
-          ? "border-blue-500 bg-blue-50"
-          : "border-gray-200 bg-white hover:bg-gray-50"
+          ? "border-primary bg-primary/10"
+          : "border-border bg-card hover:bg-muted/70"
       }`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <span className="font-medium text-gray-900">
+          <span className="font-medium text-foreground">
             {voice.browserVoice.name}
           </span>
           {getQualityBadge(voice.dbVoice?.quality)}
           {getDownloadIndicator(voice)}
         </div>
         {voice.dbVoice?.gender && (
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-muted-foreground">
             {voice.dbVoice.gender}
           </span>
         )}
       </div>
       {showDetails && voice.dbVoice && (
-        <div className="mt-2 text-xs text-gray-600 space-y-1">
+        <div className="mt-2 space-y-1 text-xs text-muted-foreground">
           <p>Language: {voice.dbVoice.language}</p>
           {voice.dbVoice.description && (
             <p>Type: {voice.dbVoice.description}</p>
@@ -346,51 +346,51 @@ const VoiceDetails: React.FC<VoiceDetailsProps> = ({ voice }) => {
   if (!voice) return null;
 
   return (
-    <div className="rounded-md border border-gray-200 bg-white p-4 space-y-3">
-      <h4 className="font-semibold text-gray-900">
+    <div className="space-y-3 rounded-md border border-border bg-card p-4 text-card-foreground">
+      <h4 className="font-semibold text-foreground">
         Selected Voice Details
       </h4>
 
       <div className="grid grid-cols-2 gap-3 text-sm">
         <div>
-          <span className="text-gray-500">Name:</span>
+          <span className="text-muted-foreground">Name:</span>
           <p className="font-medium">{voice.browserVoice.name}</p>
         </div>
 
         <div>
-          <span className="text-gray-500">Language:</span>
+          <span className="text-muted-foreground">Language:</span>
           <p className="font-medium">{voice.browserVoice.lang}</p>
         </div>
 
         {voice.dbVoice && (
           <>
             <div>
-              <span className="text-gray-500">Quality:</span>
+              <span className="text-muted-foreground">Quality:</span>
               <p className="font-medium">{voice.dbVoice.quality}</p>
             </div>
 
             {voice.dbVoice.gender && (
               <div>
-                <span className="text-gray-500">Gender:</span>
+                <span className="text-muted-foreground">Gender:</span>
                 <p className="font-medium">{voice.dbVoice.gender}</p>
               </div>
             )}
 
             <div className="col-span-2">
-              <span className="text-gray-500">Platform Support:</span>
+              <span className="text-muted-foreground">Platform Support:</span>
               <div className="flex space-x-2 mt-1">
                 {voice.dbVoice.supportsIOS && (
-                  <span className="inline-flex items-center rounded bg-gray-100 px-2 py-1 text-xs">
+                  <span className="inline-flex items-center rounded bg-muted px-2 py-1 text-xs">
                     📱 iOS
                   </span>
                 )}
                 {voice.dbVoice.supportsMacOS && (
-                  <span className="inline-flex items-center rounded bg-gray-100 px-2 py-1 text-xs">
+                  <span className="inline-flex items-center rounded bg-muted px-2 py-1 text-xs">
                     💻 macOS
                   </span>
                 )}
                 {voice.dbVoice.supportsWeb && (
-                  <span className="inline-flex items-center rounded bg-gray-100 px-2 py-1 text-xs">
+                  <span className="inline-flex items-center rounded bg-muted px-2 py-1 text-xs">
                     🌐 Web
                   </span>
                 )}
@@ -399,7 +399,7 @@ const VoiceDetails: React.FC<VoiceDetailsProps> = ({ voice }) => {
 
             {voice.dbVoice.description && (
               <div className="col-span-2">
-                <span className="text-gray-500">Description:</span>
+                <span className="text-muted-foreground">Description:</span>
                 <p className="font-medium">
                   {voice.dbVoice.description}
                 </p>
@@ -412,7 +412,7 @@ const VoiceDetails: React.FC<VoiceDetailsProps> = ({ voice }) => {
       {voice.dbVoice &&
         (voice.dbVoice.quality === "Premium" ||
           voice.dbVoice.quality === "Enhanced") && (
-          <div className="mt-3 rounded bg-blue-50 p-3 text-xs text-blue-800">
+          <div className="mt-3 rounded bg-primary/10 p-3 text-xs text-primary">
             <p className="font-semibold mb-1">📥 Download Required</p>
             <p>
               This voice may need to be downloaded on your device:

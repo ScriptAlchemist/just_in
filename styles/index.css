@@ -22,6 +22,8 @@
   --color-popover-foreground: hsl(var(--popover-foreground));
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
+  --color-inverse: hsl(var(--inverse));
+  --color-inverse-foreground: hsl(var(--inverse-foreground));
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -50,18 +52,20 @@
     --border: 214 24% 83%;
     --input: 214 24% 83%;
     --ring: 216 82% 47%;
+    --inverse: 216 45% 8%;
+    --inverse-foreground: 210 25% 92%;
     --radius: 0.75rem;
   }
 
   .dark {
     --background: 216 45% 8%;
-    --foreground: 210 25% 95%;
+    --foreground: 214 18% 88%;
     --card: 216 35% 12%;
-    --card-foreground: 210 25% 95%;
+    --card-foreground: 214 18% 88%;
     --code: 216 35% 11%;
-    --code-foreground: 210 25% 95%;
+    --code-foreground: 214 16% 86%;
     --popover: 216 35% 11%;
-    --popover-foreground: 210 25% 95%;
+    --popover-foreground: 214 18% 88%;
     --primary: 213 91% 66%;
     --primary-foreground: 216 45% 8%;
     --secondary: 38 94% 58%;
@@ -75,6 +79,8 @@
     --border: 214 25% 25%;
     --input: 214 25% 25%;
     --ring: 213 91% 66%;
+    --inverse: 215 28% 16%;
+    --inverse-foreground: 214 18% 86%;
   }
 
   * {
@@ -208,8 +214,8 @@
 }
 
 .button-inverse {
-  background: hsl(0 0% 100%);
-  color: hsl(216 45% 8%);
+  background: hsl(var(--inverse-foreground));
+  color: hsl(var(--inverse));
 }
 
 .text-link {
@@ -270,6 +276,12 @@
   font-size: 0.83rem;
   font-weight: 900;
   letter-spacing: -0.04em;
+}
+
+.dark .site-brand-monogram,
+.dark .site-nav-cta {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
 .site-brand-name,
@@ -491,9 +503,9 @@
   background:
     linear-gradient(hsl(215 28% 25% / 0.38) 1px, transparent 1px),
     linear-gradient(90deg, hsl(215 28% 25% / 0.38) 1px, transparent 1px),
-    hsl(216 45% 8%);
+    hsl(var(--inverse));
   background-size: 28px 28px;
-  color: hsl(210 25% 95%);
+  color: hsl(var(--inverse-foreground));
   box-shadow: 0 28px 70px hsl(215 60% 5% / 0.22);
 }
 
@@ -684,8 +696,8 @@
 .principles-panel {
   padding: clamp(1.5rem, 6vw, 4.5rem);
   border-radius: 0.65rem;
-  background: hsl(var(--foreground));
-  color: hsl(var(--background));
+  background: hsl(var(--inverse));
+  color: hsl(var(--inverse-foreground));
 }
 
 .principles-panel blockquote {
@@ -705,10 +717,10 @@
 }
 
 .principle-list span {
-  border: 1px solid hsl(var(--background) / 0.22);
+  border: 1px solid hsl(var(--inverse-foreground) / 0.22);
   border-radius: 999px;
   padding: 0.55rem 0.8rem;
-  color: hsl(var(--background) / 0.82);
+  color: hsl(var(--inverse-foreground) / 0.82);
   font-size: 0.76rem;
   font-weight: 700;
 }
@@ -1128,8 +1140,8 @@
   bottom: 1rem;
   border-radius: 999px;
   padding: 0.5rem 0.75rem;
-  background: hsl(var(--foreground));
-  color: hsl(var(--background));
+  background: hsl(var(--inverse));
+  color: hsl(var(--inverse-foreground));
   font-size: 0.7rem;
   font-weight: 800;
 }
@@ -1238,8 +1250,8 @@
   margin: 0;
   border-radius: 999px;
   padding: 0.4rem 0.65rem;
-  background: hsl(var(--foreground));
-  color: hsl(var(--background));
+  background: hsl(var(--inverse));
+  color: hsl(var(--inverse-foreground));
   font-size: 0.67rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -1379,12 +1391,12 @@
   align-items: end;
   padding: clamp(1.5rem, 6vw, 4rem);
   border-radius: 0.65rem;
-  background: hsl(var(--foreground));
-  color: hsl(var(--background));
+  background: hsl(var(--inverse));
+  color: hsl(var(--inverse-foreground));
 }
 
 .project-section > div > p:not(.eyebrow) {
-  color: hsl(var(--background) / 0.72);
+  color: hsl(var(--inverse-foreground) / 0.72);
 }
 
 .project-links {
@@ -1398,10 +1410,10 @@
   min-height: 3rem;
   align-items: center;
   gap: 0.55rem;
-  border: 1px solid hsl(var(--background) / 0.28);
+  border: 1px solid hsl(var(--inverse-foreground) / 0.28);
   border-radius: 0.45rem;
   padding: 0.7rem 0.9rem;
-  color: hsl(var(--background));
+  color: hsl(var(--inverse-foreground));
   font-size: 0.8rem;
   font-weight: 750;
 }
@@ -1686,8 +1698,8 @@
 /* Footer */
 .site-footer {
   margin-top: clamp(3rem, 8vw, 7rem);
-  background: hsl(216 45% 8%);
-  color: hsl(210 25% 95%);
+  background: hsl(var(--inverse));
+  color: hsl(var(--inverse-foreground));
 }
 
 .site-footer-inner {
@@ -1742,7 +1754,7 @@
   width: fit-content;
   align-items: center;
   gap: 0.55rem;
-  color: hsl(210 25% 93%);
+  color: hsl(var(--inverse-foreground) / 0.92);
   font-size: 0.9rem;
   font-weight: 650;
 }
