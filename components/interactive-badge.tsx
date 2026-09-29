@@ -20,10 +20,13 @@ const clamp = (value: number, min: number, max: number) =>
 export default function InteractiveBadge() {
   const stageRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLButtonElement>(null);
+  const flipperRef = useRef<HTMLSpanElement>(null);
   const cordRef = useRef<SVGPathElement>(null);
   const cordHighlightRef = useRef<SVGPathElement>(null);
   const positionRef = useRef<Point>({ x: 0, y: 0 });
   const velocityRef = useRef<Point>({ x: 0, y: 0 });
+  const rotationRef = useRef(0);
+  const angularVelocityRef = useRef(0);
   const homeRef = useRef<Point>({ x: 0, y: 0 });
   const stageSizeRef = useRef({ width: 0, height: 0 });
   const dragOffsetRef = useRef<Point>({ x: 0, y: 0 });
@@ -56,6 +59,11 @@ export default function InteractiveBadge() {
       "transform",
       `translate3d(${position.x}px, ${position.y}px, 0) rotate(${tilt}deg)`,
     );
+    const pitch = clamp(velocityRef.current.y * 0.45, -8, 8);
+    flipperRef.current?.style.setProperty(
+      "transform",
+      `rotateX(${pitch}deg) rotateY(${rotationRef.current}deg)`,
+    );
     cardRef.current?.style.setProperty("opacity", "1");
     cordRef.current?.setAttribute("d", path);
     cordHighlightRef.current?.setAttribute("d", path);
@@ -84,6 +92,8 @@ export default function InteractiveBadge() {
       } else if (!draggingRef.current) {
         positionRef.current = home;
         velocityRef.current = { x: 0, y: 0 };
+        rotationRef.current = 0;
+        angularVelocityRef.current = 0;
       }
 
       drawBadge();
@@ -124,6 +134,8 @@ export default function InteractiveBadge() {
         if (reducedMotionRef.current) {
           positionRef.current = { ...home };
           velocityRef.current = { x: 0, y: 0 };
+          rotationRef.current = 0;
+          angularVelocityRef.current = 0;
         } else {
           velocity.x += (home.x - position.x) * 0.026 * elapsed;
           velocity.y += (home.y - position.y) * 0.026 * elapsed;
@@ -131,6 +143,22 @@ export default function InteractiveBadge() {
           velocity.y *= Math.pow(0.94, elapsed);
           position.x += velocity.x * elapsed;
           position.y += velocity.y * elapsed;
+
+          const nearestFront = Math.round(rotationRef.current / 360) * 360;
+          const rotationDistance = nearestFront - rotationRef.current;
+          angularVelocityRef.current += rotationDistance * 0.009 * elapsed;
+          angularVelocityRef.current +=
+            (velocity.x * 0.07 + velocity.y * 0.025) * elapsed;
+          angularVelocityRef.current *= Math.pow(0.965, elapsed);
+          rotationRef.current += angularVelocityRef.current * elapsed;
+
+          if (
+            Math.abs(nearestFront - rotationRef.current) < 0.1 &&
+            Math.abs(angularVelocityRef.current) < 0.05
+          ) {
+            rotationRef.current = 0;
+            angularVelocityRef.current = 0;
+          }
 
           if (
             Math.abs(home.x - position.x) < 0.05 &&
@@ -171,19 +199,28 @@ export default function InteractiveBadge() {
       );
       const now = performance.now();
       const elapsed = Math.max(now - lastPointerRef.current.time, 8);
+      const pointerDeltaX = clientX - lastPointerRef.current.x;
+      const pointerDeltaY = clientY - lastPointerRef.current.y;
+      const spinDelta = pointerDeltaX * 2.4 + pointerDeltaY * 1.6;
 
       velocityRef.current = {
         x: clamp(
-          ((clientX - lastPointerRef.current.x) / elapsed) * 11,
+          (pointerDeltaX / elapsed) * 11,
           -28,
           28,
         ),
         y: clamp(
-          ((clientY - lastPointerRef.current.y) / elapsed) * 11,
+          (pointerDeltaY / elapsed) * 11,
           -24,
           24,
         ),
       };
+      rotationRef.current += spinDelta;
+      angularVelocityRef.current = clamp(
+        spinDelta * (16.67 / elapsed),
+        -24,
+        24,
+      );
       lastPointerRef.current = { x: clientX, y: clientY, time: now };
       positionRef.current = { x, y };
       drawBadge();
@@ -207,6 +244,7 @@ export default function InteractiveBadge() {
       time: performance.now(),
     };
     velocityRef.current = { x: 0, y: 0 };
+    angularVelocityRef.current = 0;
     event.currentTarget.setPointerCapture(event.pointerId);
     event.currentTarget.dataset.dragging = "true";
   };
@@ -253,6 +291,9 @@ export default function InteractiveBadge() {
       x: offset.x * 0.22,
       y: offset.y * 0.22,
     };
+    const keyboardSpin = offset.x * 2.4 + offset.y * 1.6;
+    rotationRef.current += keyboardSpin;
+    angularVelocityRef.current = clamp(keyboardSpin * 0.32, -18, 18);
     drawBadge();
   };
 
@@ -290,24 +331,26 @@ export default function InteractiveBadge() {
             <span className="badge-ring" />
             <span className="badge-clasp" />
           </span>
-          <span className="badge-card-face">
-            <span className="badge-card-topline">
-              <span className="badge-wordmark">Some(Scripting)</span>
-              <span className="badge-status-light" aria-hidden="true" />
-            </span>
-            <span className="badge-photo" aria-hidden="true" />
-            <span className="badge-identity">
-              <strong>Justin Bender</strong>
-              <span>Software engineering consultant</span>
-            </span>
-            <span className="badge-capabilities">
-              <span>Product</span>
-              <span>Systems</span>
-              <span>AI workflows</span>
-            </span>
-            <span className="badge-footer-row">
-              <span>Consultant</span>
-              <span aria-hidden="true">JB / 08</span>
+          <span className="badge-flipper" ref={flipperRef}>
+            <span className="badge-card-face badge-card-front" aria-hidden="true" />
+            <span className="badge-card-face badge-card-back">
+              <span className="badge-card-topline">
+                <span className="badge-wordmark">Some(Scripting)</span>
+                <span className="badge-status-light" aria-hidden="true" />
+              </span>
+              <span className="badge-identity">
+                <strong>Justin Bender</strong>
+                <span>Software engineering consultant</span>
+              </span>
+              <span className="badge-capabilities">
+                <span>Product</span>
+                <span>Systems</span>
+                <span>AI workflows</span>
+              </span>
+              <span className="badge-footer-row">
+                <span>Consultant</span>
+                <span aria-hidden="true">JB / 08</span>
+              </span>
             </span>
           </span>
         </button>

@@ -1887,6 +1887,7 @@
   color: hsl(var(--inverse-foreground));
   cursor: grab;
   opacity: 0;
+  perspective: 900px;
   text-align: left;
   touch-action: none;
   transform-origin: 50% 18px;
@@ -1898,7 +1899,7 @@
   cursor: grabbing;
 }
 
-.consultant-badge:focus-visible .badge-card-face {
+.consultant-badge:focus-visible .badge-flipper {
   outline: 3px solid hsl(var(--ring));
   outline-offset: 4px;
 }
@@ -1947,12 +1948,38 @@
   transform: translateX(-50%);
 }
 
+.badge-flipper {
+  position: absolute;
+  border-radius: 0.7rem;
+  inset: 2.2rem 0 0;
+  transform-style: preserve-3d;
+  transform-origin: 50% 10%;
+  will-change: transform;
+}
+
 .badge-card-face {
   position: absolute;
-  display: flex;
   overflow: hidden;
   border: 1px solid hsl(214 26% 33%);
   border-radius: 0.7rem;
+  backface-visibility: hidden;
+  box-shadow:
+    0 1.3rem 2.5rem hsl(var(--inverse) / 0.34),
+    inset 0 1px hsl(0 0% 100% / 0.12);
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+}
+
+.badge-card-front {
+  background-image: url("/assets/blog/img_bin/justin-badge-photo.webp");
+  background-position: center 35%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.badge-card-back {
+  display: flex;
+  padding: 1rem;
   background:
     radial-gradient(
       circle at 88% 10%,
@@ -1960,12 +1987,8 @@
       transparent 35%
     ),
     linear-gradient(150deg, hsl(216 44% 12%), hsl(216 50% 6%));
-  box-shadow:
-    0 1.3rem 2.5rem hsl(var(--inverse) / 0.34),
-    inset 0 1px hsl(0 0% 100% / 0.12);
   flex-direction: column;
-  inset: 2.2rem 0 0;
-  padding: 1rem;
+  transform: rotateY(180deg);
 }
 
 .badge-card-face::after {
@@ -2005,26 +2028,10 @@
   box-shadow: 0 0 0 0.25rem hsl(var(--accent) / 0.12);
 }
 
-.badge-photo {
-  display: block;
-  height: 5rem;
-  margin-top: 0.75rem;
-  border: 1px solid hsl(var(--primary) / 0.5);
-  border-radius: 0.65rem;
-  background-image:
-    linear-gradient(180deg, transparent 60%, hsl(216 50% 6% / 0.16)),
-    url("/assets/blog/img_bin/justin-badge-photo.webp");
-  background-position: center 35%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.08);
-  flex: 0 0 auto;
-}
-
 .badge-identity {
   display: grid;
   gap: 0.12rem;
-  margin-top: 0.65rem;
+  margin-top: 2rem;
 }
 
 .badge-identity strong {
