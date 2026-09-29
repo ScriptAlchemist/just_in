@@ -121,6 +121,7 @@ export const CardItem = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isMouseEntered] = useMouseEnter();
+  const Component: any = Tag;
 
   useEffect(() => {
     handleAnimations();
@@ -136,9 +137,9 @@ export const CardItem = ({
   };
 
   return (
-    <Tag ref={ref} className={cn("w-fit", className)} {...rest}>
+    <Component ref={ref} className={cn("w-fit", className)} {...rest}>
       {children}
-    </Tag>
+    </Component>
   );
 };
 
