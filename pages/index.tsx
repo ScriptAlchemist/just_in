@@ -1,15 +1,17 @@
 import {
   ArrowRight,
-  ArrowUpRight,
   Bot,
   Braces,
+  Gauge,
   Layers3,
-  Wrench,
+  Network,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import HeroPost from "../components/hero-post";
+import HomeHero from "../components/home-hero";
 import PageMeta from "../components/page-meta";
+import Reveal from "../components/reveal";
 import Post from "../interfaces/post";
 import { getAllPosts } from "../lib/api";
 import JustinImg from "../public/assets/blog/authors/skydiver_justin.jpeg";
@@ -23,22 +25,52 @@ const services = [
     icon: Braces,
     number: "01",
     title: "Product engineering",
-    copy: "Turn a fuzzy brief into a production-ready product with a clear technical path, thoughtful UX, and dependable delivery.",
+    copy: "Move from unclear requirements to a working product with one partner across discovery, architecture, interface, and delivery.",
     detail: "React · Next.js · TypeScript · APIs",
   },
   {
     icon: Layers3,
     number: "02",
     title: "Frontend systems",
-    copy: "Create reusable interfaces and shared foundations that help multiple applications move faster without drifting apart.",
+    copy: "Unify interfaces, component libraries, and delivery patterns so multiple products can move faster without drifting apart.",
     detail: "Design systems · Storybook · Monorepos",
   },
   {
     icon: Bot,
     number: "03",
     title: "AI-enabled workflows",
-    copy: "Add practical AI capabilities to real products and engineering workflows, with human review built into the system.",
+    copy: "Build practical AI into products and engineering workflows with review, correction, and accountability designed in.",
     detail: "Agents · Prompt systems · Integration",
+  },
+];
+
+const impactStories = [
+  {
+    icon: Gauge,
+    number: "01",
+    label: "Performance turnaround",
+    metric: "12s → 1 to 3s",
+    title: "A slow path made fast.",
+    copy: "Reduced a client site's load time by about 90% by finding the real bottlenecks and rebuilding the critical path.",
+    visual: "performance",
+  },
+  {
+    icon: Layers3,
+    number: "02",
+    label: "Shared frontend system",
+    metric: "3+ applications",
+    title: "One foundation, less drift.",
+    copy: "Built reusable React components and Storybook libraries in a Turborepo that support multiple product surfaces.",
+    visual: "system",
+  },
+  {
+    icon: Network,
+    number: "03",
+    label: "Agentic delivery",
+    metric: "Human reviewed",
+    title: "AI with a correction loop.",
+    copy: "Designed development prompts and project blueprints that keep generated work reviewable, correctable, and tied to intent.",
+    visual: "workflow",
   },
 ];
 
@@ -49,99 +81,26 @@ export default function Index({ allPosts }: Props) {
     <>
       <PageMeta
         title="Some(Scripting) | Product Engineering and Journal"
-        description="Independent product engineering for teams building ambitious web products, frontend systems, and practical AI workflows."
+        description="Independent product engineering for teams that need clear technical decisions, hands-on delivery, and software built to keep evolving."
         path="/"
       />
 
-      <section className="home-hero page-shell">
-        <div className="hero-copy">
-          <p className="eyebrow">Independent software consulting</p>
-          <h1>
-            Complex software,
-            <span>made clear.</span>
-          </h1>
-          <p className="hero-intro">
-            I help teams turn ambitious ideas and tangled systems into useful,
-            resilient products, combining product judgment with hands-on
-            engineering.
-          </p>
-          <div className="hero-actions">
-            <Link
-              href="https://www.linkedin.com/in/benderjustin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="button button-primary"
-            >
-              Discuss a project <ArrowUpRight aria-hidden="true" />
-            </Link>
-            <Link href="/writing" className="button button-secondary">
-              Explore the writing <ArrowRight aria-hidden="true" />
-            </Link>
-          </div>
-          <dl className="hero-proof" aria-label="Experience highlights">
-            <div>
-              <dt>8+ years</dt>
-              <dd>building software</dd>
-            </div>
-            <div>
-              <dt>90% faster</dt>
-              <dd>client load-time result</dd>
-            </div>
-            <div>
-              <dt>3+ apps</dt>
-              <dd>served by shared UI</dd>
-            </div>
-          </dl>
-        </div>
+      <div className="home-page">
+        <HomeHero />
 
-        <div className="hero-method" aria-label="Consulting process">
-          <div className="method-heading">
-            <span>From ambiguity to release</span>
-            <Wrench aria-hidden="true" />
-          </div>
-          <ol>
-            <li>
-              <span>01</span>
-              <div>
-                <strong>Frame the real problem</strong>
-                <p>Align the product need, constraints, and right-sized scope.</p>
-              </div>
-            </li>
-            <li>
-              <span>02</span>
-              <div>
-                <strong>Build the useful core</strong>
-                <p>Make the riskiest decisions visible and ship working software.</p>
-              </div>
-            </li>
-            <li>
-              <span>03</span>
-              <div>
-                <strong>Leave a stronger system</strong>
-                <p>Document the thinking and reduce the cost of what comes next.</p>
-              </div>
-            </li>
-          </ol>
-          <div className="method-note">
-            <span className="status-dot" aria-hidden="true" />
-            Available for focused consulting engagements
-          </div>
-        </div>
-      </section>
-
-      <section id="services" className="services-section page-shell">
-        <div className="section-heading section-heading-split">
+        <section id="services" className="services-section page-shell">
+        <Reveal className="section-heading section-heading-split">
           <div>
             <p className="eyebrow">Where I help</p>
-            <h2>Senior engineering for work that needs momentum.</h2>
+            <h2>Senior engineering where the path is not obvious.</h2>
           </div>
           <p>
-            Bring me in when the product matters, the path is not obvious, and
-            the solution has to hold up after launch.
+            Bring me in when a product needs momentum, the system needs a
+            rethink, or a difficult technical bet needs hands-on leadership.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="service-grid">
+        <Reveal className="service-grid" delay={0.08}>
           {services.map((service) => {
             const Icon = service.icon;
             return (
@@ -156,11 +115,47 @@ export default function Index({ allPosts }: Props) {
               </article>
             );
           })}
-        </div>
-      </section>
+        </Reveal>
+        </section>
 
-      <section className="principles-section page-shell">
-        <div className="principles-panel">
+        <section className="impact-section page-shell">
+          <Reveal className="section-heading section-heading-split">
+            <div>
+              <p className="eyebrow">Selected impact</p>
+              <h2>Proof in the shape of better systems.</h2>
+            </div>
+            <p>
+              The work is measured by what becomes faster, clearer, and easier
+              for the team to carry forward.
+            </p>
+          </Reveal>
+          <Reveal className="impact-grid" delay={0.08}>
+            {impactStories.map((story) => {
+              const Icon = story.icon;
+              return (
+                <article key={story.number} className="impact-card">
+                  <div className="impact-card-top">
+                    <span>{story.number}</span>
+                    <Icon aria-hidden="true" />
+                  </div>
+                  <div className={`impact-visual impact-visual-${story.visual}`} aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <p className="impact-label">{story.label}</p>
+                  <strong className="impact-metric">{story.metric}</strong>
+                  <h3>{story.title}</h3>
+                  <p>{story.copy}</p>
+                </article>
+              );
+            })}
+          </Reveal>
+        </section>
+
+        <section className="principles-section page-shell">
+        <Reveal className="principles-panel">
           <p className="eyebrow eyebrow-light">How I work</p>
           <blockquote>
             “Good consulting should leave you with more than working code. It
@@ -173,11 +168,11 @@ export default function Index({ allPosts }: Props) {
             <span>Human-reviewed AI</span>
             <span>Maintainable handoff</span>
           </div>
-        </div>
-      </section>
+        </Reveal>
+        </section>
 
-      <section id="insights" className="insights-section page-shell">
-        <div className="section-heading section-heading-split">
+        <section id="insights" className="insights-section page-shell">
+        <Reveal className="section-heading section-heading-split">
           <div>
             <p className="eyebrow">Some(Scripting) journal</p>
             <h2>Notes from the workbench.</h2>
@@ -186,27 +181,29 @@ export default function Index({ allPosts }: Props) {
             Detailed explorations of frontend architecture, Rust, developer
             tooling, AI, and the small decisions behind reliable software.
           </p>
-        </div>
+        </Reveal>
 
         {heroPost ? (
-          <HeroPost
-            title={heroPost.title}
-            coverImage={heroPost.coverImage}
-            date={heroPost.date}
-            author={heroPost.author}
-            slug={heroPost.slug}
-            excerpt={heroPost.excerpt}
-          />
+          <Reveal delay={0.08}>
+            <HeroPost
+              title={heroPost.title}
+              coverImage={heroPost.coverImage}
+              date={heroPost.date}
+              author={heroPost.author}
+              slug={heroPost.slug}
+              excerpt={heroPost.excerpt}
+            />
+          </Reveal>
         ) : null}
         <div className="writing-cta">
           <Link href="/writing" className="button button-secondary">
             Browse all writing <ArrowRight aria-hidden="true" />
           </Link>
         </div>
-      </section>
+        </section>
 
-      <section className="about-preview page-shell">
-        <div className="about-preview-image">
+        <section className="about-preview page-shell">
+        <Reveal className="about-preview-image">
           <Image
             src={JustinImg}
             alt="Justin Bender skydiving"
@@ -214,8 +211,8 @@ export default function Index({ allPosts }: Props) {
             sizes="(max-width: 768px) 100vw, 42vw"
           />
           <span>Engineering with altitude</span>
-        </div>
-        <div className="about-preview-copy">
+        </Reveal>
+        <Reveal className="about-preview-copy" delay={0.08}>
           <p className="eyebrow">Meet your consultant</p>
           <h2>Builder first. Translator always.</h2>
           <p>
@@ -230,8 +227,9 @@ export default function Index({ allPosts }: Props) {
           <Link href="/about-me" className="text-link">
             See my experience <ArrowRight aria-hidden="true" />
           </Link>
-        </div>
-      </section>
+        </Reveal>
+        </section>
+      </div>
     </>
   );
 }
