@@ -7,10 +7,10 @@ import "../styles/index.css";
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <PostProvider>
-      <div className="flex h-fit justify-center w-full bg-[hsl(var(--background))] bg-grid-yellow-800/10 dark:bg-[hsl(var(--background))] dark:bg-grid-gray-100/[0.1] transition-colors duration-500">
+      <div className="site-root">
         <Layout>
           <Component {...pageProps} />
-          <Toaster />
+          <Toaster richColors position="bottom-right" />
         </Layout>
       </div>
     </PostProvider>

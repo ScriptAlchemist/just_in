@@ -16,6 +16,9 @@ import {
   useSphericalJoint,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
+import { ArrowUpRight, MapPin } from "lucide-react";
+import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { BackgroundGradient } from "../../components/ui/backgroundGradiant";
@@ -25,29 +28,19 @@ useGLTF.preload("/assets/blog/img_bin/justin.glb");
 useTexture.preload("/assets/blog/img_bin/black.png");
 
 export default function AboutMe() {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 640);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
-    <div className="container mx-auto min-h-screen px-0 md:px-4 bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
-      <div className="flex flex-col h-auto mt-5 md:mt-10 gap-8">
-        <div className="flex-1 w-full flex flex-col justify-center rounded-2xl p-0 sm:p-2">
-          <AboutMeInfo />
-        </div>
-      </div>
-    </div>
+    <>
+      <Head>
+        <title>About Justin Bender — Product Engineering Consultant</title>
+        <meta
+          name="description"
+          content="Software engineering experience across product development, frontend systems, AI workflows, performance, and emerging technology."
+        />
+      </Head>
+      <main className="about-page page-shell">
+        <AboutMeInfo />
+      </main>
+    </>
   );
 }
 
@@ -105,92 +98,75 @@ export function ImagePhysics() {
 
 function AboutMeInfo() {
   return (
-    <div className="transition-colors duration-500 rounded-xl overflow-hidden p-8 space-y-8 bg-[hsl(var(--code))] text-[hsl(var(--code-foreground))] border border-[hsl(var(--border))] shadow-[0_10px_20px_rgba(0,0,0,0.19),_0_6px_6px_rgba(0,0,0,0.23)]">
-      <section className="transition-colors duration-1000 flex flex-col sm:flex-row items-center sm:items-start gap-8 p-6 min-h-80">
-        <div className="flex flex-col w-full sm:w-1/2 items-center sm:items-start text-center sm:text-left">
-          {/*
-            <h1 className="transition-colors duration-1000 text-4xl sm:text-5xl font-extrabold mb-4 text-gray-900 dark:text-gray-100">
-              Justin Bender
-            </h1>
-          */}
-          <div className="flex flex-col">
-            <p className="font-semibold">
-              <span className="text-red-500 text-2xl">Hello</span>, my
-              name is{" "}
-              <span className="text-indigo-500 text-2xl">Justin</span>
-            </p>
-            <p className="text-lg font-medium text-muted-foreground">
-              USA 🇺🇸
-            </p>
-            <p className="text-sm sm:text-base pb-2 font-thin text-muted-foreground">
-              These opinions are my own. Not for any employer that I
-              currently work.
-            </p>
-            <p className="text-sm sm:text-base font-medium">
-              Welcome to my website. It's a mess, but an example of some
-              very basic concepts. React, Next, TailwindCSS, and
-              TypeScript. <br />
-              <br />
-              Will add more later...
-            </p>
+    <div className="about-content">
+      <section className="about-hero">
+        <div className="about-hero-copy">
+          <p className="eyebrow">About Justin</p>
+          <h1>Builder first. Translator always.</h1>
+          <p className="about-lede">
+            I&apos;m a software engineer and consultant who helps teams turn
+            difficult product ideas into clear, maintainable systems.
+          </p>
+          <p>
+            My work spans frontend architecture, product development, legacy
+            modernization, AI-assisted workflows, developer tooling, and
+            emerging technology. I&apos;m most useful where technical depth and
+            practical product judgment need to meet.
+          </p>
+          <div className="about-location">
+            <MapPin aria-hidden="true" /> United States · Working remotely
           </div>
-
-          {/*
-            <nav className="flex flex-col space-y-2 text-base">
-              <Button
-                className="flex w-full text-start justify-start"
-                asChild
-              >
-                <Link
-                  href="https://somescripting.com"
-                  className=""
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  SomeScripting.com
-                </Link>
-              </Button>
-              <Button
-                className="flex w-full text-start justify-start"
-                asChild
-              >
-                <Link
-                  href="https://github.com/ScriptAlchemist"
-                  className=""
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  GitHub.com/ScriptAlchemist
-                </Link>
-              </Button>
-              <Button className="" asChild>
-                <Link
-                  href="https://linkedin.com/in/benderjustin"
-                  className=""
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  linkedin.com/in/benderjustin
-                </Link>
-              </Button>
-            </nav>
-          */}
+          <div className="hero-actions">
+            <Link
+              href="https://www.linkedin.com/in/benderjustin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button button-primary"
+            >
+              Connect on LinkedIn <ArrowUpRight aria-hidden="true" />
+            </Link>
+            <Link href="/#insights" className="button button-secondary">
+              Read the journal
+            </Link>
+          </div>
         </div>
-        <div className="w-full sm:w-1/2 h-[300px]">
+        <div className="about-badge-stage">
           <ImagePhysics />
+          <p>Drag the badge</p>
         </div>
       </section>
-      <section>
-        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-[hsl(var(--border))] pb-2 text-[hsl(var(--code-foreground))]">
-          Experience
-        </h2>
-        <div className="space-y-4 ml-1">
+
+      <section className="about-profile-strip" aria-label="Professional profile">
+        <div>
+          <strong>8+ years</strong>
+          <span>professional engineering</span>
+        </div>
+        <div>
+          <strong>Product + platform</strong>
+          <span>from interface to infrastructure</span>
+        </div>
+        <div>
+          <strong>Hands-on delivery</strong>
+          <span>strategy that ends in shipped work</span>
+        </div>
+      </section>
+
+      <section className="resume-section">
+        <div className="resume-heading">
+          <p className="eyebrow">Experience</p>
+          <h2>A career spent making software more useful.</h2>
+          <p>
+            From healthcare and contractor platforms to blockchain products,
+            shared frontend systems, and AI-assisted engineering.
+          </p>
+        </div>
+        <div className="experience-list">
           <ExperienceItem
             title="Prompt Engineer"
             company="Paperstac"
             date="Apr 2025 - Present"
             description={[
-              "Built out prompts (Agentic Development), that do work that I review. Fixing all of it's mistakes...",
+              "Designed agentic development prompts that produce reviewable work, with human oversight and correction built into the workflow.",
             ]}
           />
           <ExperienceItem
@@ -198,12 +174,9 @@ function AboutMeInfo() {
             company="Paperstac"
             date="Present"
             description={[
-              "Building with Turborepo, sharing UI Storybook design",
-              "libraries to scale 3+ applications at once",
-              "Developing React components for Next.js, ensuring",
-              "reusable design across multiple apps",
-              "Maintaining legacy applications, fixing bugs, and",
-              "integrating AI-driven features",
+              "Built shared UI and Storybook libraries in a Turborepo supporting three or more applications.",
+              "Developed reusable React components for Next.js products.",
+              "Maintained legacy applications, resolved production issues, and integrated AI-driven features.",
             ]}
           />
           <ExperienceItem
@@ -268,74 +241,78 @@ function AboutMeInfo() {
         </div>
       </section>
 
-      <section>
-        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-[hsl(var(--border))] pb-2 text-[hsl(var(--code-foreground))]">
-          Skills
-        </h2>
-        <div className="list-disc ml-1 space-y-2 text-base">
-          <div>
-            <span className="font-semibold">
-              Programming Languages:
-            </span>{" "}
+      <section className="capabilities-section">
+        <div className="resume-heading">
+          <p className="eyebrow">Technical range</p>
+          <h2>Broad enough to see the system. Deep enough to build it.</h2>
+        </div>
+        <div className="capability-grid">
+          <div className="capability-card">
+            <span>Languages</span>
+            <p>
             JavaScript, TypeScript, Rust, Golang, Python, PHP
+            </p>
           </div>
-          <div>
-            <span className="font-semibold">
-              Frontend Technologies:
-            </span>{" "}
+          <div className="capability-card">
+            <span>Frontend systems</span>
+            <p>
             HTML5, CSS3, React.js, Next.js, TailwindCSS, Bootstrap,
             Redux, Angular, AngularJS
+            </p>
           </div>
-          <div>
-            <span className="font-semibold">Backend & Databases:</span>{" "}
+          <div className="capability-card">
+            <span>Backend &amp; data</span>
+            <p>
             Node.js, Express.js, MongoDB, SQL, NoSQL, GraphQL, RESTful
             APIs, Google Firestore
+            </p>
           </div>
-          <div>
-            <span className="font-semibold">Cloud & DevOps:</span> AWS,
+          <div className="capability-card">
+            <span>Cloud &amp; delivery</span>
+            <p>AWS,
             Google Cloud (GCP), Firebase, CI/CD, Docker, Kubernetes,
-            Serverless, UNIX, Linux, Turborepo
+            Serverless, UNIX, Linux, Turborepo</p>
           </div>
-          <div>
-            <span className="font-semibold">Other:</span> Microservices,
-            Distributed Systems, Anthropic Prompting, Ollama Promting,
+          <div className="capability-card capability-card-wide">
+            <span>Specialties</span>
+            <p>Microservices,
+            Distributed Systems, Anthropic Prompting, Ollama Prompting,
             OpenAI Prompting, PWA, WebAssembly (WASM), Unreal Engine,
-            Storybook, IPFS, Cardano (Blockchain), Wix, GoDaddy
+            Storybook, IPFS, Cardano (Blockchain), Wix, GoDaddy</p>
           </div>
         </div>
       </section>
 
-      <section>
-        <h2 className="transition-colors duration-500 text-3xl font-semibold mb-4 border-b border-[hsl(var(--border))] pb-2 text-[hsl(var(--code-foreground))]">
-          Projects
-        </h2>
-        <div className="text-lg space-y-2 ml-1">
+      <section className="project-section">
+        <div>
+          <p className="eyebrow">Independent project</p>
+          <h2>Some(Scripting)</h2>
           <p>
-            <b>Some Scripting</b> - Software Developer - 2023
-          </p>
-          <p className="text-base">
-            Personal blog utilizing Markdown-based notes generation
-            <br />
-            <a
-              href="https://github.com/ScriptAlchemist/just_in"
-              className="underline text-[hsl(var(--destructive))] hover:text-[hsl(var(--primary))] transition-colors"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub Repository
-            </a>{" "}
-            |{" "}
-            <a
-              href="https://www.somescripting.com"
-              className="underline text-[hsl(var(--destructive))] hover:text-[hsl(var(--primary))] transition-colors"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Website
-            </a>
+            A Markdown-powered engineering journal and testing ground for ideas
+            in Next.js, TypeScript, accessibility, developer tooling, and the
+            occasional deep dive.
           </p>
         </div>
+        <div className="project-links">
+            <a
+              href="https://github.com/ScriptAlchemist/just_in"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub Repository <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a
+              href="https://www.somescripting.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Visit the journal <ArrowUpRight aria-hidden="true" />
+            </a>
+        </div>
       </section>
+      <p className="about-disclaimer">
+        Opinions shared here are my own and do not represent any employer.
+      </p>
     </div>
   );
 }
@@ -352,22 +329,20 @@ function ExperienceItem({
   description: string[];
 }) {
   return (
-    <div className="mb-3">
-      <div className="flex flex-wrap items-center text-base italic text-[hsl(var(--code-foreground))] space-x-2">
-        <div className="flex flex-row flex-wrap items-center gap-x-2">
-          <h3 className="font-semibold text-xl">{`${company}`}</h3>
-          <p className="text-lg font-normal">{title}</p>
+    <article className="experience-item">
+      <div className="experience-title">
+        <div>
+          <h3>{company}</h3>
+          <p>{title}</p>
         </div>
-        <span className="text-sm font-light text-muted-foreground my-2 sm:my-0">
-          {`- ${date}`}
-        </span>
-      </div>{" "}
-      <ul className="list-disc pl-6 space-y-1 marker:text-[hsl(var(--accent))] text-[hsl(var(--code-foreground))]">
+        <time>{date}</time>
+      </div>
+      <ul>
         {description.map((desc, index) => (
           <li key={index}>{desc}</li>
         ))}
       </ul>
-    </div>
+    </article>
   );
 }
 

@@ -1,127 +1,124 @@
 .markdown {
-  @apply text-lg leading-relaxed px-0;
   color: hsl(var(--foreground));
-}
-
-@media (prefers-color-scheme: light) {
-  .markdown {
-    color: hsl(var(--foreground-light));
-  }
-
-  .markdown blockquote p {
-    @apply rounded bg-muted text-muted-foreground;
-  }
-
-  .markdown code {
-    background-color: hsl(var(--card-light));
-    color: hsl(var(--card-foreground-light));
-  }
-
-  .markdown ol li::marker {
-    color: hsl(var(--destructive-light));
-  }
-
-  .markdown ul li::marker {
-    color: hsl(var(--accent-light));
-  }
-
-  .markdown a {
-    color: hsl(var(--destructive-light));
-  }
-
-  .markdown a:hover {
-    color: hsl(var(--primary-light));
-  }
-
-  .markdown h1,
-  .markdown h2,
-  .markdown h3,
-  .markdown h4 {
-    color: hsl(var(--foreground));
-  }
-
-  .markdown hr {
-    border-color: hsl(var(--destructive-light));
-  }
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  line-height: 1.82;
 }
 
 .markdown p,
 .markdown ul,
 .markdown ol,
 .markdown blockquote {
-  @apply my-6;
+  margin-block: 1.5rem;
 }
 
-.markdown blockquote p {
-  @apply p-3 rounded bg-muted text-foreground;
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  color: hsl(var(--foreground));
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
-.markdown :not(pre) > code {
-  @apply px-[0.1em] py-[0.1em] rounded;
-  background-color: hsl(var(--code));
-  color: hsl(var(--code-foreground));
+.markdown h1 {
+  margin: 3.75rem 0 1.25rem;
+  font-size: clamp(2.25rem, 5vw, 3.6rem);
+}
+
+.markdown h2 {
+  margin: 3.5rem 0 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid hsl(var(--border));
+  font-size: clamp(1.75rem, 4vw, 2.65rem);
+}
+
+.markdown h3 {
+  margin: 2.5rem 0 0.9rem;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.markdown h4 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.markdown a {
+  color: hsl(var(--primary));
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.35);
+  text-underline-offset: 0.25rem;
+}
+
+.markdown a:hover {
+  text-decoration-color: currentColor;
+}
+
+.markdown ul,
+.markdown ol {
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 1.5rem;
 }
 
 .markdown ul {
   list-style-type: disc;
-  @apply mx-7;
 }
 
 .markdown ol {
-  list-style-type: number;
-  @apply mx-7;
+  list-style-type: decimal;
 }
 
-.markdown ol li::marker {
-  color: hsl(var(--destructive));
-}
-
-.markdown ul li::marker {
-  color: hsl(var(--accent));
-}
-
-.markdown a {
-  color: hsl(var(--destructive));
-}
-.markdown a:hover {
+.markdown li::marker {
   color: hsl(var(--primary));
+  font-weight: 800;
 }
 
-.markdown h1 {
-  @apply text-4xl mt-12 mb-4 leading-snug;
+.markdown blockquote {
+  border-left: 3px solid hsl(var(--secondary));
+  padding: 0.2rem 0 0.2rem 1.4rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 1.08em;
+}
+
+.markdown blockquote p {
+  margin: 0;
+}
+
+.markdown :not(pre) > code {
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.3rem;
+  padding: 0.12em 0.35em;
+  background: hsl(var(--muted));
   color: hsl(var(--foreground));
-}
-
-.markdown h2 {
-  @apply text-3xl mt-12 mb-4 leading-snug;
-  color: hsl(var(--accent));
-}
-
-.markdown h3 {
-  @apply text-2xl mt-8 mb-4 leading-snug;
-  color: hsl(var(--destructive));
-}
-
-.markdown h4 {
-  @apply text-xl mt-8 mb-4 leading-snug;
-  color: hsl(var(--destructive));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
 }
 
 .markdown hr {
-  @apply border-dashed;
-  border-color: hsl(var(--destructive));
+  margin-block: 3rem;
+  border: 0;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  margin: 2rem auto;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
 }
 
 .markdown figure[data-rehype-pretty-code-figure] {
-  background-color: #2d3748;
-  border-radius: 0.75rem;
-  margin-bottom: 1.5rem;
   position: relative;
-  border: 1px solid hsl(var(--border));
   overflow: hidden;
-  box-shadow:
-    0 10px 20px rgba(0, 0, 0, 0.19),
-    0 6px 6px rgba(0, 0, 0, 0.23);
+  margin: 1.75rem 0;
+  border: 1px solid hsl(215 25% 27%);
+  border-radius: 0.55rem;
+  background: hsl(216 38% 10%);
+  box-shadow: 0 18px 40px hsl(215 40% 5% / 0.16);
 }
 
 .markdown
@@ -129,55 +126,53 @@
   [data-rehype-pretty-code-title] {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: #252d3a;
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
-  color: #d6deeb;
-  border-bottom: 1px solid hsl(var(--border));
+  min-height: 2.8rem;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid hsl(215 25% 27%);
+  background: hsl(216 38% 8%);
+  color: hsl(214 17% 78%);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.76rem;
 }
 
 .markdown figure[data-rehype-pretty-code-figure] pre {
-  background-color: transparent !important;
-  padding: 0.5rem 1rem 1rem !important;
-  margin: 0 !important;
   overflow-x: auto;
+  margin: 0 !important;
+  padding: 1rem !important;
+  background: transparent !important;
+  font-size: 0.82rem;
+  line-height: 1.65;
 }
 
 .markdown figure[data-rehype-pretty-code-figure] pre code {
-  background: none;
-  color: inherit;
   padding: 0;
   border-radius: 0;
+  background: none;
+  color: inherit;
 }
 
 .markdown .line {
   display: block;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 .markdown .line--highlighted {
-  background-color: rgba(255, 255, 255, 0.1);
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  background: hsl(var(--primary) / 0.15);
 }
 
 .markdown .word--highlighted {
-  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 0.2rem;
   padding: 0.1rem 0.2rem;
+  background: hsl(var(--secondary) / 0.22);
 }
 
-/* Collapsible code blocks */
 .markdown :global(details.code-collapse) {
   margin-bottom: 1.5rem;
 }
 
-.markdown
-  :global(details.code-collapse)
-  :global(.code-collapse-content) {
-  transition:
-    height 0.3s ease,
-    opacity 0.3s ease;
+.markdown :global(details.code-collapse) :global(.code-collapse-content) {
+  transition: height 0.3s ease, opacity 0.3s ease;
 }
 
 .markdown
@@ -186,29 +181,23 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #252d3a;
-  border-radius: 0.75rem;
-  color: #d6deeb;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid hsl(215 25% 27%);
+  border-radius: 0.55rem;
+  background: hsl(216 38% 8%);
+  color: hsl(214 17% 82%);
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border: 1px solid hsl(var(--border));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.76rem;
+  font-weight: 650;
   user-select: none;
-  transition: all 0.2s ease;
-}
-
-.markdown
-  :global(details.code-collapse)
-  :global(summary.code-collapse-summary):hover {
-  background-color: #2d3748;
 }
 
 .markdown
   :global(details.code-collapse)
   :global(summary.code-collapse-summary)::before {
   content: "▶";
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   transition: transform 0.2s ease;
 }
 
@@ -221,20 +210,19 @@
 .markdown
   :global(details.code-collapse[open])
   :global(summary.code-collapse-summary) {
-  border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  border-bottom: none;
+  border-bottom-left-radius: 0;
 }
 
 .markdown
   :global(details.code-collapse)
   figure[data-rehype-pretty-code-figure] {
-  margin-bottom: 0;
+  margin: 0;
+  border-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-/* Hide the default title in figure when inside details since summary shows it */
 .markdown
   :global(details.code-collapse)
   figure[data-rehype-pretty-code-figure]

@@ -877,16 +877,15 @@ const PdfToSpeech = () => {
         />
       </Head>
 
-      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <h1 className="text-4xl font-bold">
-                PDF to Speech Reader
-              </h1>
+      <div className="reader-page page-shell">
+        <div className="reader-shell">
+          <div className="reader-header">
+            <p className="eyebrow">Accessibility utility</p>
+            <div className="reader-title-row">
+              <h1>Listen to any PDF.</h1>
               <button
                 onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                className="reader-help-button"
                 aria-label="Toggle keyboard shortcuts help"
                 title="Keyboard shortcuts (Shift + ?)"
               >
@@ -906,13 +905,14 @@ const PdfToSpeech = () => {
                 </svg>
               </button>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              Upload a PDF document and have it read aloud to you
+            <p className="reader-intro">
+              A private, browser-based document reader. Upload a PDF, choose a
+              voice, and pick up where you left off.
             </p>
           </div>
 
           {showKeyboardHelp && (
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6">
+            <div className="reader-card reader-shortcuts">
               <div className="flex items-start justify-between mb-4">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
                   <svg
@@ -987,7 +987,7 @@ const PdfToSpeech = () => {
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 mb-6 text-center hover:border-gray-400 dark:hover:border-gray-600 transition-colors"
+            className="reader-upload"
             role="button"
             tabIndex={0}
             aria-label="File upload area. Click to select a PDF file or drag and drop"
@@ -1021,7 +1021,7 @@ const PdfToSpeech = () => {
               />
             </svg>
 
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <p className="reader-upload-title">
               {file ? (
                 <span className="font-semibold">{file.name}</span>
               ) : (
@@ -1031,8 +1031,8 @@ const PdfToSpeech = () => {
                 </>
               )}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-              PDF files only
+            <p className="reader-upload-note">
+              PDF files only · processed in your browser
             </p>
           </div>
 
@@ -1067,7 +1067,7 @@ const PdfToSpeech = () => {
 
           {/* Extraction Progress */}
           {isExtracting && (
-            <div className="mb-6" role="status" aria-live="polite">
+            <div className="reader-progress" role="status" aria-live="polite">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium">
                   Extracting text...
@@ -1088,7 +1088,7 @@ const PdfToSpeech = () => {
 
           {/* Voice Controls */}
           {extractedText && !isExtracting && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+            <div className="reader-card reader-controls">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">
                   Voice Settings
@@ -1544,7 +1544,7 @@ const PdfToSpeech = () => {
 
           {/* Extracted Text */}
           {extractedText && !isExtracting && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <div className="reader-card reader-document">
               <h2 className="text-xl font-semibold mb-4">
                 Extracted Text
               </h2>

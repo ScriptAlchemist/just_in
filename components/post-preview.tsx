@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import type Author from "../interfaces/author";
-import Avatar from "./avatar";
 import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";
 
@@ -22,24 +22,23 @@ const PostPreview = ({
   slug,
 }: Props) => {
   return (
-    <Link href={`/posts/${slug}`} className="">
-      <div className="bg-[hsl(var(--card))]/80 dark:bg-[hsl(var(--card))]/80 group p-4 border border-[hsl(var(--border))/0.4] rounded-2xl min-h-[340px] md:min-h-[400px] lg:min-h-[410px]">
-        <div className="w-fit mx-auto">
+    <Link href={`/posts/${slug}`} className="journal-card group">
+      <div>
+        <div className="journal-card-image">
           <CoverImage slug={slug} title={title} src={coverImage} />
         </div>
-        <div className="mt-4 flex flex-col gap-y-2">
-          <h3 className="group-hover:text-[hsl(var(--accent))] dark:group-hover:text-[hsl(var(--accent))] text-lg leading-snug h-fit truncate-lines text-[hsl(var(--primary))]">
-            {title}
-          </h3>
-          <div className="hidden md:flex mt-auto">
-            <Avatar name={author.name} picture={author.picture} />
-          </div>
-          <div className="hidden sm:block text-xs font-thin tracking-tighter text-[hsl(var(--muted-foreground))]">
+        <div className="journal-card-copy">
+          <div className="post-meta">
             <DateFormatter dateString={date} />
           </div>
-          <p className="text-sm leading-relaxed truncate-lines text-[hsl(var(--foreground))]">
-            {excerpt}
-          </p>
+          <h3 className="truncate-lines">
+            {title}
+          </h3>
+          <p className="truncate-lines">{excerpt}</p>
+          <div className="journal-card-footer">
+            <span>{author.name}</span>
+            <ArrowUpRight aria-hidden="true" />
+          </div>
         </div>
       </div>
     </Link>

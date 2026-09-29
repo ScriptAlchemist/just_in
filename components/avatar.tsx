@@ -5,15 +5,13 @@ type Props = {
 
 const Avatar = ({ name, picture }: Props) => {
   return (
-    <div className="flex items-center">
+    <div className="author-avatar">
       <img
         src={picture}
-        className="w-12 h-12 rounded-full mr-4"
+        className="author-avatar-image"
         alt={name}
       />
-      <div className="text-sm font-bold text-[hsl(var(--foreground))]">
-        {name}
-      </div>
+      <div>{name}</div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Container from "../../components/container";
+import { ArrowLeft } from "lucide-react";
 import PostBody from "../../components/post-body";
 import PostHeader from "../../components/post-header";
 import PostTitle from "../../components/post-title";
@@ -38,31 +38,25 @@ export default function Post({ post, morePosts, preview }: Props) {
     return <ErrorPage statusCode={404} />;
   }
   return (
-    <Container>
-      <div className="-mx-5 rounded-xl sm:mx-auto flex flex-col bg-[hsl(var(--background))]/70 dark:bg-[hsl(var(--background))]/80 mt-5 md:mt-10 transition-colors duration-700 p-4">
+    <div className="article-page page-shell">
+      <div className="article-shell">
         <motion.div
-          className="fixed top-0 left-0 bottom-0 w-[1px] md:w-[4px] bg-[hsl(var(--accent))] origin-top"
+          className="article-progress"
           style={{ scaleY: scrollYProgress }}
         />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
           <>
-            <article className="mb-32">
+            <article>
               <Head>
                 <title>{title}</title>
                 <meta property="og:image" content={post.ogImage.url} />
                 <meta name="twitter:image" content={post.ogImage.url} />
               </Head>
-              {/* Back button */}
-              <div className="mb-4">
-                <Link
-                  href={"/"}
-                  className="text-[hsl(var(--primary))] font-semibold underline hover:no-underline"
-                >
-                  ← Back
-                </Link>
-              </div>
+              <Link href="/#insights" className="article-back">
+                <ArrowLeft aria-hidden="true" /> Back to the journal
+              </Link>
               <PostHeader
                 title={post.title}
                 coverImage={post.coverImage}
@@ -74,7 +68,7 @@ export default function Post({ post, morePosts, preview }: Props) {
           </>
         )}
       </div>
-    </Container>
+    </div>
   );
 }
 

@@ -13,20 +13,20 @@ type Props = {
 
 const PostHeader = ({ title, coverImage, date, author }: Props) => {
   return (
-    <>
+    <header className="article-header">
+      <div className="article-kicker">Some(Scripting) / Engineering journal</div>
       <PostTitle>{title}</PostTitle>
-      <div className="mb-8 mx-auto w-1/2">
+      <div className="article-byline">
+        <Avatar name={author.name} picture={author.picture} />
+        <span aria-hidden="true" />
+        <time>
+          <DateFormatter dateString={date} />
+        </time>
+      </div>
+      <div className="article-cover">
         <CoverImage title={title} src={coverImage} />
       </div>
-      <div className="max-w-2xl mx-auto text-[hsl(var(--foreground))]">
-        <div className="">
-          <Avatar name={author.name} picture={author.picture} />
-        </div>
-        <div className="mb-6 text-sm text-[hsl(var(--muted-foreground))]">
-          <DateFormatter dateString={date} />
-        </div>
-      </div>
-    </>
+    </header>
   );
 };
 
