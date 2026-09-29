@@ -63,7 +63,7 @@ function AboutMeInfo() {
             >
               Connect on LinkedIn <ArrowUpRight aria-hidden="true" />
             </Link>
-            <Link href="/#insights" className="button button-secondary">
+            <Link href="/writing" className="button button-secondary">
               Read the journal
             </Link>
           </div>

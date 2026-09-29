@@ -9,7 +9,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import HeroPost from "../components/hero-post";
-import MoreStories from "../components/more-stories";
 import PageMeta from "../components/page-meta";
 import Post from "../interfaces/post";
 import { getAllPosts } from "../lib/api";
@@ -45,7 +44,6 @@ const services = [
 
 export default function Index({ allPosts }: Props) {
   const heroPost = allPosts[0];
-  const morePosts = allPosts.slice(1);
 
   return (
     <>
@@ -76,8 +74,8 @@ export default function Index({ allPosts }: Props) {
             >
               Discuss a project <ArrowUpRight aria-hidden="true" />
             </Link>
-            <Link href="/#insights" className="button button-secondary">
-              Read the journal <ArrowRight aria-hidden="true" />
+            <Link href="/writing" className="button button-secondary">
+              Explore the writing <ArrowRight aria-hidden="true" />
             </Link>
           </div>
           <dl className="hero-proof" aria-label="Experience highlights">
@@ -200,8 +198,11 @@ export default function Index({ allPosts }: Props) {
             excerpt={heroPost.excerpt}
           />
         ) : null}
-
-        {morePosts.length > 0 ? <MoreStories posts={morePosts} /> : null}
+        <div className="writing-cta">
+          <Link href="/writing" className="button button-secondary">
+            Browse all writing <ArrowRight aria-hidden="true" />
+          </Link>
+        </div>
       </section>
 
       <section className="about-preview page-shell">

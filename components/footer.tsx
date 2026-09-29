@@ -7,10 +7,11 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 const footerLinks = [
-  { href: "/#services", label: "Services" },
-  { href: "/#insights", label: "Engineering journal" },
-  { href: "/about-me", label: "About Justin" },
-  { href: "/pdf-to-speech", label: "PDF to Speech" },
+  { href: "/", label: "Home" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about-me", label: "About Me" },
+  { href: "/tooling", label: "Tooling" },
+  { href: "/tooling/pdf-to-speech", label: "PDF to Speech" },
 ];
 
 const socialLinks = [

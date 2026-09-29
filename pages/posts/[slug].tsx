@@ -100,7 +100,7 @@ export default function Post({ post, morePosts, preview }: Props) {
                   }}
                 />
               </Head>
-              <Link href="/#insights" className="article-back">
+              <Link href="/writing" className="article-back">
                 <ArrowLeft aria-hidden="true" /> Back to the journal
               </Link>
               <PostHeader

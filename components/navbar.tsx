@@ -13,10 +13,10 @@ import { toast } from "sonner";
 import { usePostContext } from "../context/PostContext";
 
 const primaryLinks = [
-  { href: "/#services", label: "Services" },
-  { href: "/#insights", label: "Insights" },
-  { href: "/about-me", label: "About" },
-  { href: "/pdf-to-speech", label: "PDF Reader" },
+  { href: "/", label: "Home" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about-me", label: "About Me" },
+  { href: "/tooling", label: "Tooling" },
 ];
 
 const socialLinks = [
@@ -101,7 +101,13 @@ export const Navbar = () => {
 
         <nav className="site-nav-links" aria-label="Primary navigation">
           {primaryLinks.map((item) => {
-            const isActive = router.pathname === item.href;
+            const isActive =
+              item.href === "/"
+                ? router.pathname === "/"
+                : router.pathname === item.href ||
+                  router.pathname.startsWith(`${item.href}/`) ||
+                  (item.href === "/writing" &&
+                    router.pathname.startsWith("/posts/"));
 
             return (
               <Link

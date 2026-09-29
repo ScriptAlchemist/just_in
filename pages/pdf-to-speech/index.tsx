@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Buffer } from "buffer";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import PageMeta from "../../components/page-meta";
 import { Slider } from "../../components/ui/slider";
 
@@ -872,11 +874,14 @@ const PdfToSpeech = () => {
       <PageMeta
         title="PDF to Speech | Some(Scripting)"
         description="Convert PDF documents to speech in your browser for more accessible reading."
-        path="/pdf-to-speech"
+        path="/tooling/pdf-to-speech"
       />
 
       <div className="reader-page page-shell">
         <div className="reader-shell">
+          <Link href="/tooling" className="tool-back">
+            <ArrowLeft aria-hidden="true" /> Back to tooling
+          </Link>
           <div className="reader-header">
             <p className="eyebrow">Accessibility utility</p>
             <div className="reader-title-row">
