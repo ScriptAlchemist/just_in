@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 56" role="img" aria-labelledby="title description">
+  <title id="title">Some(Scripting) logo</title>
+  <desc id="description">The word Some followed by parentheses containing a terminal prompt and cursor.</desc>
+  <defs>
+    <linearGradient id="surface" x1="8" y1="4" x2="168" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17345B"/>
+      <stop offset="0.55" stop-color="#0D203A"/>
+      <stop offset="1" stop-color="#081527"/>
+    </linearGradient>
+    <linearGradient id="brackets" x1="92" y1="10" x2="161" y2="47" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#68B6FF"/>
+      <stop offset="1" stop-color="#407DDC"/>
+    </linearGradient>
+    <linearGradient id="cursor" x1="121" y1="21" x2="145" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFCA69"/>
+      <stop offset="1" stop-color="#FF9F43"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="174" height="54" rx="14" fill="url(#surface)"/>
+  <rect x="1.75" y="1.75" width="172.5" height="52.5" rx="13.25" fill="none" stroke="#6AAEFF" stroke-opacity="0.3" stroke-width="1.5"/>
+
+  <text x="15" y="37" fill="#DCE6F1" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="27" font-weight="760" letter-spacing="-1.6">Some</text>
+  <text x="88" y="38" fill="url(#brackets)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="30" font-weight="700">(</text>
+  <path d="M111 21.5L123 28L111 34.5" fill="none" stroke="url(#cursor)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="127" y="35" width="12" height="3.8" rx="1.9" fill="#6FC8FF"/>
+  <text x="142" y="38" fill="url(#brackets)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="30" font-weight="700">)</text>
+</svg>

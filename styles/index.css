@@ -264,46 +264,25 @@
   color: hsl(var(--foreground));
 }
 
-.site-brand-monogram {
-  display: grid;
-  width: 2.65rem;
-  height: 2.65rem;
+.site-brand-logo {
+  display: block;
+  overflow: hidden;
+  width: 9.4rem;
+  height: 3rem;
   flex: 0 0 auto;
-  place-items: center;
-  border-radius: 0.45rem;
-  background: hsl(var(--foreground));
-  color: hsl(var(--background));
-  font-size: 0.83rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
+  border-radius: 0.75rem;
+  background: transparent;
+  box-shadow: 0 9px 24px hsl(215 70% 8% / 0.18);
 }
 
-.dark .site-brand-monogram,
+.site-brand-logo img {
+  width: 100%;
+  height: 100%;
+}
+
 .dark .site-nav-cta {
   background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
-}
-
-.site-brand-name,
-.site-brand-role {
-  display: block;
-}
-
-.site-brand-name {
-  font-size: 0.94rem;
-  font-weight: 850;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.site-brand-role {
-  overflow: hidden;
-  max-width: 11rem;
-  color: hsl(var(--muted-foreground));
-  font-size: 0.72rem;
-  line-height: 1.3;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .site-nav-links {

@@ -83,12 +83,13 @@ export const Navbar = () => {
           onClick={() => setIsMenuOpen(false)}
           aria-label="Some(Scripting), home"
         >
-          <span className="site-brand-monogram">S</span>
-          <span>
-            <span className="site-brand-name">Some(Scripting)</span>
-            <span className="site-brand-role">
-              Product engineering + journal
-            </span>
+          <span className="site-brand-logo" aria-hidden="true">
+            <img
+              src="/assets/brand/some-scripting-mark.svg"
+              alt=""
+              width="176"
+              height="56"
+            />
           </span>
         </Link>
 
