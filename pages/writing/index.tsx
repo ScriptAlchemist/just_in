@@ -21,7 +21,7 @@ export default function Writing({ allPosts }: Props) {
         image={latestPost?.ogImage?.url || latestPost?.coverImage}
         imageAlt={latestPost ? `Cover image for ${latestPost.title}` : undefined}
       />
-      <main className="writing-page page-shell">
+      <div className="writing-page page-shell">
         <header className="directory-header">
           <p className="eyebrow">Some(Scripting) journal</p>
           <h1>Writing from the workbench.</h1>
@@ -45,7 +45,7 @@ export default function Writing({ allPosts }: Props) {
         {archivePosts.length > 0 ? (
           <MoreStories posts={archivePosts} />
         ) : null}
-      </main>
+      </div>
     </>
   );
 }

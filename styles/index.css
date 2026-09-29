@@ -438,7 +438,7 @@
 .home-hero {
   display: grid;
   gap: 2.5rem;
-  padding-block: clamp(3rem, 7vw, 5.5rem);
+  padding-block: clamp(2.75rem, 5vw, 4.5rem);
 }
 
 .hero-copy h1 {
@@ -611,7 +611,7 @@
 .services-section,
 .insights-section,
 .about-preview {
-  padding-block: clamp(3.25rem, 6vw, 5.5rem);
+  padding-block: clamp(2.75rem, 4.5vw, 3.75rem);
 }
 
 .services-section,
@@ -696,7 +696,7 @@
 }
 
 .principles-section {
-  padding-bottom: clamp(3.25rem, 6vw, 5.5rem);
+  padding-bottom: clamp(2.75rem, 4.5vw, 3.75rem);
 }
 
 .principles-panel {
@@ -819,7 +819,7 @@
 }
 
 .journal-archive {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 .archive-heading-row {
@@ -1172,7 +1172,7 @@
 /* Writing and tooling directories */
 .writing-page,
 .tooling-page {
-  padding-block: clamp(2.75rem, 6vw, 5rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
 .directory-header {
@@ -1249,12 +1249,12 @@
 
 /* About and experience */
 .about-page {
-  padding-block: clamp(2.5rem, 6vw, 5rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
 .about-content {
   display: grid;
-  gap: clamp(3rem, 6vw, 5rem);
+  gap: clamp(2.5rem, 5vw, 3.75rem);
 }
 
 .about-hero {
@@ -1527,7 +1527,7 @@
 
 /* PDF reader */
 .reader-page {
-  padding-block: clamp(2.5rem, 6vw, 5rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
 .reader-shell {
@@ -1686,7 +1686,7 @@
 
 /* Article pages */
 .article-page {
-  padding-block: clamp(2rem, 5vw, 4.5rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem);
 }
 
 .article-shell {
@@ -1806,7 +1806,7 @@
 
 /* Footer */
 .site-footer {
-  margin-top: clamp(2rem, 5vw, 4.5rem);
+  margin-top: clamp(2rem, 4vw, 3.25rem);
   background: hsl(var(--inverse));
   color: hsl(var(--inverse-foreground));
 }
@@ -1936,6 +1936,9 @@
     flex-direction: row;
   }
 
+}
+
+@media (min-width: 760px) {
   .site-nav-cta {
     display: inline-flex;
   }
@@ -2068,22 +2071,6 @@
 }
 
 @media (min-width: 980px) {
-  .site-nav-wrap {
-    grid-template-columns: minmax(14rem, 1fr) auto minmax(14rem, 1fr);
-  }
-
-  .site-nav-links {
-    display: flex;
-  }
-
-  .site-menu-button {
-    display: none;
-  }
-
-  .mobile-site-nav[data-open="true"] {
-    display: none;
-  }
-
   .home-hero {
     grid-template-columns: minmax(0, 1.35fr) minmax(21rem, 0.65fr);
     gap: clamp(2.5rem, 5vw, 4.5rem);
@@ -2127,6 +2114,24 @@
 
   .footer-bottom {
     grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1180px) {
+  .site-nav-wrap {
+    grid-template-columns: minmax(18rem, 1fr) auto minmax(18rem, 1fr);
+  }
+
+  .site-nav-links {
+    display: flex;
+  }
+
+  .site-menu-button {
+    display: none;
+  }
+
+  .mobile-site-nav[data-open="true"] {
+    display: none;
   }
 }
 

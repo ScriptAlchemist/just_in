@@ -10,7 +10,7 @@ export default function Tooling() {
         description="Practical browser tools built by Justin Bender, including an accessible PDF-to-speech reader."
         path="/tooling"
       />
-      <main className="tooling-page page-shell">
+      <div className="tooling-page page-shell">
         <header className="directory-header">
           <p className="eyebrow">Useful software</p>
           <h1>Tools for real work.</h1>
@@ -39,7 +39,7 @@ export default function Tooling() {
             </Link>
           </article>
         </section>
-      </main>
+      </div>
     </>
   );
 }

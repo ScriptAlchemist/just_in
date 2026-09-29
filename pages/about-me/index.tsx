@@ -27,9 +27,9 @@ export default function AboutMe() {
         image="/assets/blog/authors/skydiver_justin.jpeg"
         imageAlt="Justin Bender skydiving"
       />
-      <main className="about-page page-shell">
+      <div className="about-page page-shell">
         <AboutMeInfo />
-      </main>
+      </div>
     </>
   );
 }
