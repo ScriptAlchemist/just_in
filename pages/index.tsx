@@ -9,10 +9,8 @@ import {
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 import HeroPost from "../components/hero-post";
 import MoreStories from "../components/more-stories";
-import { usePostContext } from "../context/PostContext";
 import Post from "../interfaces/post";
 import { getAllPosts } from "../lib/api";
 import JustinImg from "../public/assets/blog/authors/skydiver_justin.jpeg";
@@ -48,20 +46,11 @@ const services = [
 export default function Index({ allPosts }: Props) {
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
-  const { setRecentPost } = usePostContext();
-
-  useEffect(() => {
-    if (heroPost?.title && heroPost?.slug) {
-      setRecentPost({ title: heroPost.title, slug: heroPost.slug });
-    } else {
-      setRecentPost(null);
-    }
-  }, [heroPost, setRecentPost]);
 
   return (
     <>
       <Head>
-        <title>Justin Bender — Product Engineering Consultant</title>
+        <title>Some(Scripting) — Product Engineering &amp; Journal</title>
         <meta
           name="description"
           content="Independent product engineering for teams building ambitious web products, frontend systems, and practical AI workflows."

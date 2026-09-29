@@ -4,6 +4,7 @@ import { CMS_NAME, HOME_OG_IMAGE_URL } from "../lib/constants";
 const Meta = () => {
   return (
     <Head>
+      <title>{CMS_NAME}</title>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
@@ -36,6 +37,7 @@ const Meta = () => {
         name="description"
         content={`Product engineering consulting and the ${CMS_NAME} engineering journal by Justin Bender.`}
       />
+      <meta property="og:site_name" content={CMS_NAME} />
       <meta property="og:image" content={HOME_OG_IMAGE_URL} />
     </Head>
   );

@@ -41,7 +41,7 @@ export const Navbar = () => {
   const router = useRouter();
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentPost, recentPost } = usePostContext();
+  const { currentPost } = usePostContext();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -63,9 +63,9 @@ export const Navbar = () => {
     localStorage.setItem("theme", nextTheme ? "dark" : "light");
   };
 
-  const postToShow = currentPost || recentPost;
-  const postUrl = postToShow?.slug
-    ? `https://somescripting.com/posts/${postToShow.slug}`
+  const isArticlePage = router.pathname === "/posts/[slug]";
+  const postUrl = isArticlePage && currentPost?.slug
+    ? `https://somescripting.com/posts/${currentPost.slug}`
     : null;
 
   const handleCopyClick = () => {
@@ -81,13 +81,13 @@ export const Navbar = () => {
           href="/"
           className="site-brand"
           onClick={() => setIsMenuOpen(false)}
-          aria-label="Justin Bender, home"
+          aria-label="Some(Scripting), home"
         >
-          <span className="site-brand-monogram">JB</span>
+          <span className="site-brand-monogram">S</span>
           <span>
-            <span className="site-brand-name">Justin Bender</span>
+            <span className="site-brand-name">Some(Scripting)</span>
             <span className="site-brand-role">
-              Product engineering consultant
+              Product engineering + journal
             </span>
           </span>
         </Link>

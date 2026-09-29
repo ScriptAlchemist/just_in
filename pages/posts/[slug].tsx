@@ -23,7 +23,7 @@ type Props = {
 export default function Post({ post, morePosts, preview }: Props) {
   const { scrollYProgress } = useScroll();
   const router = useRouter();
-  const title = `${post.title} | Justin Bender post on ${CMS_NAME}`;
+  const title = `${post.title} | ${CMS_NAME}`;
   const { setCurrentPost } = usePostContext();
 
   useEffect(() => {
@@ -32,6 +32,8 @@ export default function Post({ post, morePosts, preview }: Props) {
     } else {
       setCurrentPost(null);
     }
+
+    return () => setCurrentPost(null);
   }, [post, setCurrentPost]);
 
   if (!router.isFallback && !post?.slug) {

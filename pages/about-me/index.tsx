@@ -21,7 +21,7 @@ export default function AboutMe() {
   return (
     <>
       <Head>
-        <title>About Justin Bender — Product Engineering Consultant</title>
+        <title>About Justin Bender | Some(Scripting)</title>
         <meta
           name="description"
           content="Software engineering experience across product development, frontend systems, AI workflows, performance, and emerging technology."

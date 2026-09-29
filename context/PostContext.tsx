@@ -8,20 +8,15 @@ export type PostInfo = {
 type PostContextType = {
   currentPost: PostInfo;
   setCurrentPost: (post: PostInfo) => void;
-  recentPost: PostInfo;
-  setRecentPost: (post: PostInfo) => void;
 };
 
 const PostContext = createContext<PostContextType | undefined>(undefined);
 
 export const PostProvider = ({ children }: { children: ReactNode }) => {
   const [currentPost, setCurrentPost] = useState<PostInfo>(null);
-  const [recentPost, setRecentPost] = useState<PostInfo>(null);
 
   return (
-    <PostContext.Provider
-      value={{ currentPost, setCurrentPost, recentPost, setRecentPost }}
-    >
+    <PostContext.Provider value={{ currentPost, setCurrentPost }}>
       {children}
     </PostContext.Provider>
   );

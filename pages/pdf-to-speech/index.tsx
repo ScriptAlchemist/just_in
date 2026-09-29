@@ -870,7 +870,7 @@ const PdfToSpeech = () => {
   return (
     <>
       <Head>
-        <title>PDF to Speech - Accessible Document Reader</title>
+        <title>PDF to Speech | Some(Scripting)</title>
         <meta
           name="description"
           content="Convert PDF documents to speech for accessible reading"
