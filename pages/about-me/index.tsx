@@ -100,11 +100,13 @@ function AboutMeInfo() {
         </div>
         <div className="experience-list">
           <ExperienceItem
-            title="Prompt Engineer"
-            company="Paperstac"
+            title="Software Engineering Consultant"
+            company="Some(Scripting)"
             date="Apr 2025 - Present"
             description={[
-              "Designed agentic development prompts that produce reviewable work, with human oversight and correction built into the workflow.",
+              "Advised Paperstac on agentic software development workflows and designed prompts that produce reviewable work with human oversight and correction built in.",
+              "Optimized CI/CD pipelines and automated workflows to improve development efficiency and reduce manual intervention.",
+              "Designed and implemented project blueprints for rebuilding existing applications from scratch.",
             ]}
           />
           <ExperienceItem
