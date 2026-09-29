@@ -48,10 +48,10 @@ const impactStories = [
   {
     icon: Gauge,
     number: "01",
-    label: "Performance turnaround",
-    metric: "12s → 1 to 3s",
-    title: "A slow path made fast.",
-    copy: "Reduced a client site's load time by about 90% by finding the real bottlenecks and rebuilding the critical path.",
+    label: "CI/CD performance",
+    metric: "2 min → ~1.1s",
+    title: "Storybook builds in seconds.",
+    copy: "Reworked the Storybook CI/CD pipeline, reducing manager builds to 1.06 seconds and preview builds to 1.15 seconds from roughly two minutes.",
     visual: "performance",
   },
   {
