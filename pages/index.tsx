@@ -83,6 +83,11 @@ export default function Index({ allPosts }: Props) {
         title="Some(Scripting) | Product Engineering and Journal"
         description="Independent product engineering for teams that need clear technical decisions, hands-on delivery, and software built to keep evolving."
         path="/"
+        image="/og.png"
+        imageAlt="Some(Scripting) product engineering homepage preview"
+        imageWidth={1200}
+        imageHeight={630}
+        imageType="image/png"
       />
 
       <div className="home-page">

@@ -12,6 +12,9 @@ type PageMetaProps = {
   path: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
   type?: "website" | "article";
   publishedTime?: string;
 };
@@ -27,6 +30,9 @@ export default function PageMeta({
   path,
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
+  imageType,
   type = "website",
   publishedTime,
 }: PageMetaProps) {
@@ -73,10 +79,36 @@ export default function PageMeta({
         <>
           <meta key="og-image" property="og:image" content={imageUrl} />
           <meta
+            key="og-image-secure-url"
+            property="og:image:secure_url"
+            content={imageUrl}
+          />
+          <meta
             key="og-image-alt"
             property="og:image:alt"
             content={imageAlt || title}
           />
+          {imageWidth ? (
+            <meta
+              key="og-image-width"
+              property="og:image:width"
+              content={String(imageWidth)}
+            />
+          ) : null}
+          {imageHeight ? (
+            <meta
+              key="og-image-height"
+              property="og:image:height"
+              content={String(imageHeight)}
+            />
+          ) : null}
+          {imageType ? (
+            <meta
+              key="og-image-type"
+              property="og:image:type"
+              content={imageType}
+            />
+          ) : null}
           <meta
             key="twitter-image"
             name="twitter:image"
